@@ -1,0 +1,574 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Basic Python</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>1 标准输出</h1>
+<blockquote>
+<p>#!/usr/bin/python  <br/>
+#-<em>-coding:utf-8-</em>-<br/>
+'''<br/>
+Created on 2016年12月3日<br/></p>
+<p>@author: Administrator<br/>
+'''<br/>
+print(&quot;Hello World&quot;)<br/>
+print(&quot;This is a Python program&quot;)<br/></p>
+</blockquote>
+<p>在Python对话框中标准输出：<br/>
+<img src="./images/1.jpg" alt="./images/1.jpg" /><br/>
+【注】Python的py文件的第一行以#!开头，称为组织行。告诉系统程序运行时采用哪种编译器<br></p>
+<h1>2 Python的数据类型</h1>
+<p>Python的基本数据类型有数、字符串</p>
+<h2>2.1 数字</h2>
+<p>Python有四种类型的数：整数、长整数、浮点数、复数</p>
+<h2>2.2 字符串</h2>
+<p>1）使用单引号（'）的字符串，其中的空格、制表符照原样保留<br>
+2）使用双引号（&quot;）的字符串，与单引号完全相同<br>
+3）使用三引号（'''）或（&quot;&quot;&quot;）指示一个多行字符串。可以在三引号中自由使用单引号、双引号<br>
+■转义字符    </p>
+<p>1）要在字符串中使用单引号，可以使用【\'】转义，也可以使用双引号，在双引号的字符串中自由使用单引号<br>
+trans_single_quotes.py  </p>
+<blockquote>
+<p>#!/usr/bin/python     <br />
+#-<em>-coding:utf-8-</em>-   <br />
+'''<br />
+Created on 2016年12月3日<br />
+@author: Administrator<br />
+'''<br />
+print(&quot;What's your name?&quot;)  <br />
+print('What\'s your name?')      
+</p>
+</blockquote>
+<p>输出结果：<br />
+<img src="images\2.png" />   </p>
+<p>2）如果需要转义反斜杠（\），无论是单引号、双引号，都需要用【\】进行转义<br />
+trans_backslash.py<br />
+	#!/usr/bin/python<br />
+	#-<em>-coding:utf-8-</em>-<br />
+	 '''<br>
+	Created on 2016年12月3日<br />
+	@author: Administrator<br />
+	'''<br />
+	print(&quot;I want to output a backslash -&gt; \\&quot;)<br />
+	print('I want to output a backslash -&gt; \\')<br />
+输出结果：<br />
+<img src="images\3.png" />  </p>
+<p>3）反斜杠作为行尾延续符号，支持字符串在py文件中换行。打印出来的仍然是一行<br />
+trans_end_of_line.py  </p>
+<blockquote>
+<p>#!/usr/bin/python
+#-<em>-coding:utf-8-</em>-  <br />
+'''<br />
+Created on 2016年12月3日<br />
+@author: Administrator<br />
+'''<br />
+print(&quot;This is the first sentence\<br />
+&nbsp;&nbsp;&nbsp;&nbsp;This is the second sentence&quot;)</p>
+</blockquote>
+<p>输出结果：<br />
+<img src="./images/4.png" /></p>
+<p>■自然字符串<br />
+如果字符串不需要转义处理，需要指定一个自然字符串<br />
+normal_str.py  </p>
+<blockquote>
+<p>#!/usr/bin/python<br />
+#-<em>-coding:utf-8-</em>-<br />
+'''<br />
+Created on 2016年12月3日<br />
+@author: Administrator<br />
+'''<br />
+print(r'Normal String to deal with \n')  
+</p>
+</blockquote>
+<p>输出结果：<br />
+<img src="./images/5.png" /></p>
+<p>■Unicode字符串<br />
+使用u/U表示Unicode字符串，在处理文件时要注意，当文件中含有非英文需要使用unicode字符串<br />
+unicode_str.py  </p>
+<blockquote>
+<p>#!/usr/bin/python <br />
+#-<em>-coding:utf-8-</em>-<br />
+'''<br />
+Created on 2016年12月3日<br />
+@author: Administrator<br />
+'''<br />
+print(u&quot;这是一个中文Unicode字符串&quot;)  
+</p>
+</blockquote>
+<p>输出结果：<br />
+<img src="./images/6.png" /></p>
+<p>■字符串不能修改<br />
+■相邻放置的字符串Python会自动连接<br />
+automatic_join.py  </p>
+<blockquote>
+<p>#!/usr/bin/python<br />
+#-<em>-coding:utf-8-</em>-<br />
+'''<br />
+Created on 2016年12月3日<br />
+@author: Administrator<br />
+'''<br />
+print('This is a String' ' which will be join automaticly by Python')   
+</p>
+</blockquote>
+<p>输出结果：<br />
+<img src="./images/7.png" />  </p>
+<p>■在处理正则表达式时，需要注意使用自然字符串，否则需要使用很多的反斜杠（backslash） ，因为正则表达式中大量使用反斜杠（backslash），以'\l'为例，如果采用自然字符串只需写成r'\l'  </p>
+<h1>3 变量</h1>
+<p>■变量标识符规则：
+1）标识符的第一个字符必须是大小写字母或下划线
+2）标识符其他部分由大小写字母、下划线、数字组成
+3）标识符大小写敏感
+4）减号不能出现在标识符中</p>
+<h1>4 物理行逻辑行</h1>
+<p>正常的程序物理行可以通过反斜杠（\）组合成一个逻辑行<br />
+execable.py  </p>
+<blockquote>
+<p>s = 'This is a String \<br />
+This continues the String.'<br />
+print s</p>
+</blockquote>
+<p>输出：  </p>
+<blockquote>
+<p>This is a String This continues the String.</p>
+</blockquote>
+<h1>5 空白</h1>
+<p>同一层次的语句必须有相同的缩进。这样的一组语句称为块。</p>
+<h1>6 运算符</h1>
+<h2>6.1 + 加</h2>
+<p>字符串相加，相当于字符串连接<br />
+string_plus.py  </p>
+<blockquote>
+<p>#!/usr/bin/python  <br />
+#-<em>-coding:utf-8-</em>-<br />
+'''<br />
+@author: Administrator<br />
+'''<br />
+print 'a' + 'b'  
+</p>
+</blockquote>
+<p>输出<br />
+<img src="./images/8.png" />  </p>
+<h2>6.2 - 减：表示负数，或相减。不支持字符串相减</h2>
+<h2>6.3 * 乘：乘法运算；字符串乘法，相当于字符串重复若干次</h2>
+<p>string_multiple.py  </p>
+<blockquote>
+<p>#!/usr/bin/python<br />
+#-<em>-coding:utf-8-</em>-<br />
+'''<br />
+@author: Administrator<br />
+'''<br />
+print 'la'*3 </p>
+</blockquote>
+<p>输出<br />
+<img src="./images/9.png" /> </p>
+<p>4）** 幂：返回x的y次幂
+5） / 除：x除以y。整数与整数相除，返回整数；浮点数相除，返回浮点数 
+division.py</p>
+<h1>!/usr/bin/python</h1>
+<h1>-<em>-coding:utf-8-</em>-</h1>
+<p>'''
+Created on 2016年12月17日</p>
+<p>@author: Administrator
+'''
+print 4/3
+print 4.0/3
+print 4/3.0
+输出</p>
+<p>6）// 取整除：返回整数部分
+       % 取余
+7）&lt;&lt; 左移：把一个数的比特向左移一定数目（每个数在内存中都表示为二进制数）
+8）&gt;&gt; 右移：把一个数的比特向右移一定数目
+bit_shifting.py</p>
+<h1>!/usr/bin/python</h1>
+<h1>-<em>-coding:utf-8-</em>-</h1>
+<p>'''
+Created on 2016年12月17日</p>
+<p>@author: Administrator
+'''
+print 2&lt;&lt;1
+print 2&gt;&gt;1
+输出</p>
+<p>9）&amp; 按位与：数的按位与
+      | 按位或：数的按位或
+      ^按位异或：数的按位异或
+      ~按位取反：x的按位取反-(x+1)
+bit_manipulation.py</p>
+<h1>!/usr/bin/python</h1>
+<h1>-<em>-coding:utf-8-</em>-</h1>
+<p>'''
+Created on 2016年12月17日</p>
+<p>@author: Administrator
+'''
+print 5 &amp; 3
+print 5 | 3
+print 5 ^ 3
+print ~5
+输出</p>
+<p>10） &lt; 小于
+          &gt; 大于  返回特殊变量true、false（1,0）
+          &lt;=小于等于
+          &gt;=大于等于
+          ==等于，在比较字符串时，比较字符串内容
+          != 不等于
+logic_compare.py</p>
+<h1>!/usr/bin/python</h1>
+<h1>-<em>-coding:utf-8-</em>-</h1>
+<p>'''
+Created on 2016年12月17日</p>
+<p>@author: Administrator
+'''
+print '5&gt;3:'
+ print 5&gt;3
+print '5&lt;3:'
+ print 5&lt;3
+print '5&gt;=3:'
+ print 5&gt;=3
+print '5&lt;=3:'
+print 5&lt;=3
+print '5 == 5:'
+print 5 == 5
+a = 'str'
+b = 'stR'
+print &quot;a(str)==b(stR):&quot;
+print a == b
+print &quot;a(str)!=b(str):&quot;
+print a != b
+print 'a(str)==b(str)'
+b = 'str'
+print a == b
+输出</p>
+<p>11）not 布尔非
+         and 布尔与
+         or 布尔或
+logic.py</p>
+<h1>!/usr/bin/python</h1>
+<h1>-<em>-coding:utf-8-</em>-</h1>
+<p>'''
+Created on 2016年12月17日</p>
+<p>@author: Administrator
+'''
+x = True
+print 'logic not:',not x
+y = False
+print 'logic x and y:', x and y
+print 'logic x or y:', x or y
+输出</p>
+<p>7 运算优先级
+优先级由低到高：
+1）lambda表达式
+2）or 布尔或
+3）and 布尔与
+4）not 布尔非
+5）in，not in 成员测试
+6）is，is not 同一性测试
+7）&lt;. &lt;=, &gt;,&gt;=, ==, != 比较
+8）| 按位或
+9）^ 按位异或
+10）&amp; 按位与
+11）&lt;&lt;, &gt;&gt; 移位
+12）+，- 加法、减法
+13）<em>，/，% 乘法、除法、取余
+14）+x, -x 正负号
+15）~x 按位取反
+16）</em>* 指数
+17）x.attribute 属性参考
+18）x[index] 下标
+19）x[index:index] 寻址段
+20）f(arguments ...) 函数调用
+21）(expression...) 绑定或元祖显示
+22）[expression...] 列表显示
+23）{key:datum} 字典显示
+24） ‘expression’ 字符串转换
+建议使用括号确保正确的运算优先级</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
