@@ -47,7 +47,7 @@ gpg:               imported: 1  (RSA: 1)
 `sudo docker ps -ls`  
 ![](./images/3.png)  
 
-##2 Docker操作
+##2 镜像
 ###2.1 镜像获取
 执行命令：  
 `sudo docker pull ubuntu:12.04`  
@@ -245,11 +245,58 @@ olympus是新镜像名称，名称只能用小写字母和数字命名
 导入后  
 ![](./images/32.png)  
 ###2.5 镜像上传服务器
+docker默认情况下会将容器提交到DockerHub上  
 1）首先需要在docker hub上注册用户  
 https://hub.docker.com/  
 ![](./images/33.png)  
 注册并验证邮箱后，就可以看到自己的镜像库  
 ![](./images/34.png)  
+2)需要先登录dockerHub  
+`sudo docker login`  
+![](./images/35.png)  
+如果不先登录直接push docker镜像将会报以下错误:  
+![](./images/36.png)  
+3)提交镜像  
+`sudo docker push <REPOSITORY:TAG>`  
+eg:  
+`sudo docker push wuji1626/hello-world:lastest`  
+![](./images/37.png)  
+4)登录docker hub查看docker镜像提交情况  
+![](./images/38.png)  
+##3 容器
+容器是镜像的一个运行实例,与镜像不同,容器带有可写文件层。Docker容器是独立运行的一组应用以及必需的运行环境  
+###3.1 创建容器
+1）新建容器  
+`sudo docker create -it ubuntu:latest`  
+![](./images/39.png)  
+创建容器后可以通过如下命令查看容器状态  
+`sudo docker ps -a`  
+![](./images/40.png)  
+create命令创建的容器处于停止状态，可以使用docker start启动  
+![](./images/41.png)  
+2）创建容器并启动  
+docker run命令相当于先create再start  
+run命令执行时，docker后台执行如下操作：
+■检查本地是否存在指定镜像，如不存在从公有仓库下载  
+■利用镜像创建并启动一个容器  
+■分配一个文件系统，并在只读的镜像层外面挂着一个可读写层  
+■从宿主机配置的网桥接口中桥接一个虚拟接口到容器中去  
+■从地址池配置一个IP地址给容器  
+■执行用户指定的应用程序  
+■执行完毕后容器被终止
+3）启动容器后并执行应用  
+如下命令在启动容器后执行一个应用程序/bin/bash  
+`sudo docker run -t -i ubuntu:14.04 /bin/bash`  
+选项：  
+-t：让Docker分配一个为终端（pseudo-tty）并绑定到容器标准输入上  
+-i：让容器的标准输入保持打开  
+如下图所示，容器运行后，进入bash控制台  
+![](./images/42.png)  
+
+
+
+
+
 
 
 
