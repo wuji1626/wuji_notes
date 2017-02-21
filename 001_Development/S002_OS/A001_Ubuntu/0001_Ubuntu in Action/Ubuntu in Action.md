@@ -35,17 +35,18 @@ sudo vi /etc/NetworkManager/NetworkManager.conf
 sudo service network-manager restart  
 即可解决问题。
 【问题2】在网卡配置好后，当系统重启之后，报出“connection activation failed”。
-【问题原因】由于Ubuntu Desktop版中，在/etc/network/interfaces来进行配置以外，还可以使用network-manager进行可视化配置。默认情况下Desktop版Ubuntu会有network-manager接管网络配置。如果在两处同时配置了IP信息，会产生冲突，产生“connection activation failed”。Server版应该没有这个问题。
+【问题原因】由于Ubuntu Desktop版中，在/etc/network/interfaces来进行配置以外，还可以使用network-manager进行可视化配置。默认情况下Desktop版Ubuntu会用network-manager接管网络配置。如果在两处同时配置了IP信息，会产生冲突，产生“connection activation failed”。Server版应该没有这个问题。
 【解决方法】删除:  
 1）停止服务network-manager  
-`sudo servicenetwork-manager stop`  
+`sudo service network-manager stop`  
 2）移除nm 的状态文件  
-`sudo rm/var/lib/NetworkManager/NetworkManager.state`  
+`sudo rm /var/lib/NetworkManager/NetworkManager.state`  
 3）编辑NetManager.conf配置文件  
 `sudo vi /etc/NetworkManager/NetworkManager.conf`    
-将“managed=false”修改为“managed=true”
+将“managed=false”修改为“managed=true”  
 4）重启network-manager 
 `sudo service network-manager restart`  
+另一种解决方案，就是在Network-Manager中设置IP，而不在/etc/network/interfaces中进行管理  
 [问题3]Ubuntu在运行过程中经常出现wifi掉线的问题,在网上寻找到一个解决方案  
 [问题解决]在终端输入命令：sudo nano /etc/modprobe.d/blacklist.conf  
 打开配置文件，在最后一行加入：blacklist acer-wmi  
@@ -153,6 +154,29 @@ lnav工具是在终端界面看日志的神器
 `sudo apt-get install unrar `  
 装上之后就可以用命令解压缩rar文件了。使用如下命令解压缩文件到当前目录。  
 `unrar x test.rar`  
+
+###7 Git使用
+由于Ubuntu上没有找到比较适宜的客户端,完全可以使用git命令行完成  
+1)设置用户名和邮箱  
+设置用户名： sudo git config user.name [username]  
+设置用户邮箱：sudo git config user.email [email address]  
+查看配置状态   
+`sudo git config --list`  
+2)创建一个本地repository  
+`sudo git init [PJ Name]`  
+提交整个工程  
+`sudo git add [PJ Name]`  
+会递归的将目录下所有文件都提交  
+3)提交工程  
+`sudo git commit -m "new commit"`  
+4)添加远端工程库  
+使用下面的命令，将本地的repository提交到GitHub：  
+`sudo remote add origin https://github.com/[username]/[PJ Name].git`  
+推送文件  
+`git push origin master`  
+5)前往github首页查看  
+![](./images/011.png)  
+
 
 
 
