@@ -154,8 +154,24 @@ lnav工具是在终端界面看日志的神器
 `sudo apt-get install unrar `  
 装上之后就可以用命令解压缩rar文件了。使用如下命令解压缩文件到当前目录。  
 `unrar x test.rar`  
-
-###7 Git使用
+12）aira2  
+Ubuntu环境的下载工具aira2，相当于迅雷，需要与多线程下载工具uget组合使用  
+uget下载  
+`sudo add-apt-repository ppa:plushuang-tw/uget-stable `  
+`sudo apt-get update `  
+`sudo apt-get install uget`  
+aira2下载  
+`sudo add-apt-repository ppa:t-tujikawa/ppa`   
+`sudo apt-get update `  
+`sudo apt-get install aria2`   
+主界面及版本  
+![](./images/20130612105251093)  
+启用aria2插件  
+![](images/20130612105336468)  
+设置下载任务的属性（同时下载几个任务、多少个服务器、保存位置等）  
+![](./images/20130612105408843)  
+![](./images/20130612105426343)  
+###8 Git使用
 由于Ubuntu上没有找到比较适宜的客户端,完全可以使用git命令行完成  
 1)设置用户名和邮箱  
 设置用户名： sudo git config user.name [username]  
@@ -176,6 +192,8 @@ lnav工具是在终端界面看日志的神器
 `git push origin master`  
 5)前往github首页查看  
 ![](./images/011.png)  
+6）获取服务器端最新代码  
+`sudo git fetch origin master`  
 
 
 
