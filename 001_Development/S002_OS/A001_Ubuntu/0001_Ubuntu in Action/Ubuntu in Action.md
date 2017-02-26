@@ -194,6 +194,24 @@ aira2下载
 ![](./images/011.png)  
 6）获取服务器端最新代码  
 `sudo git fetch origin master`  
+`sudo git pull origin master`  
+###9 开发环境
+####9.1 Maven
+1）下载maven最新版本  apache-maven-3.3.9-bin.tar.gz  
+2）在/dev下解压maven  
+tar -xvf apache-maven-3.3.9-bin.tar.gz  
+3）设置环境变量  
+`vi ~/.bashrc`  
+在文件最后追加：  
+`\# set maven environment`  
+`export M2_HOME=/home/zhangwh/dev/apache-maven-3.3.9`  
+`export PATH=$M2_HOME/bin:$PATH`  
+使环境变量生效：  
+`source ~/.bashrc`  
+4）验证maven配置是否成功  
+`mvn --version`  
+![](./images/dev001.png)  
+
 
 
 
