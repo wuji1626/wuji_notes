@@ -44,4 +44,5 @@
 >    and t.command_type in (2,3,6,7)  
 >    and h.tm_delta_cpu_time is not null  
 >    order by h.TIME_WAITED/1000000 desc  
-> 
+
+
