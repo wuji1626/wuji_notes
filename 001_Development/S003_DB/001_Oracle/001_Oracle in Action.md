@@ -45,4 +45,42 @@
 >    and h.tm_delta_cpu_time is not null  
 >    order by h.TIME_WAITED/1000000 desc  
 
+#2 各种AWR工具的使用
+1.生成**单实例 AWR 报告**：  
+@$ORACLE_HOME/rdbms/admin/awrrpt.sql
 
+
+2.生成**Oracle RAC AWR 报告**：  
+@$ORACLE_HOME/rdbms/admin/awrgrpt.sql
+
+
+3.生成**RAC环境中特定数据库实例的AWR报告**:  
+@$ORACLE_HOME/rdbms/admin/awrrpti.sql
+
+
+4.生成**Oracle RAC环境中多个数据库实例的 AWR 报告**的方法：
+@$ORACLE_HOME/rdbms/admin/awrgrpti.sql
+
+
+5.生成 **SQL 语句的 AWR 报告**：
+@$ORACLE_HOME/rdbms/admin/awrsqrpt.sql
+
+
+6.生成**特定数据库实例上某个 SQL 语句的 AWR 报告**：
+@$ORACLE_HOME/rdbms/admin/awrsqrpi.sql
+--生成 AWR 时段对比报告
+
+7.生成**单实例 AWR 时段对比报告**：
+@$ORACLE_HOME/rdbms/admin/awrddrpt.sql
+
+
+8.生成**Oracle RAC AWR 时段对比报告**:
+@$ORACLE_HOME/rdbms/admin/awrgdrpt.sql
+
+
+9.生成**特定数据库实例的 AWR 时段对比报告**:
+@$ORACLE_HOME/rdbms/admin/awrddrpi.sql
+
+
+10.生成**Oracle RAC 环境下特定（多个）数据库实例的 AWR 时段对比报告**：
+@$ORACLE_HOME/rdbms/admin/awrgdrpi.sql

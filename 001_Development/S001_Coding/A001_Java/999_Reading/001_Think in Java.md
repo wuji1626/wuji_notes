@@ -103,7 +103,8 @@ Java的GC启动时机及运行时间未知
 ##Persistence（持久化） 
 Java提供轻量级persistence支持，可以将对象保存到磁盘，随时可以恢复使用  
 ##Java和Internet
-
+Java Applet可以操作本地文件，一般的安全做法是通过签名  
+Java在互联网应用中主要体现在服务器端编程  
   
 
   
