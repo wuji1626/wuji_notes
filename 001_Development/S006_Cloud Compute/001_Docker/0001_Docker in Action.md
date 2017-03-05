@@ -351,7 +351,49 @@ nsenter工具在util-linux包2.23版本后包含。需要手动进行安装
 `curl https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz | tar -zxf-; cd util-linux-2.24;`  
 `./configure --without-ncurses`  
 `make nsenter && sudo cp nsenter /usr/local/bin`  
+nsenter安装成功后，需要使用容器的进程ID（PID），获取docker进程的ID的方法如下：  
+`PID=$(docker inspect --format "{{ .State.Pid }}" <container>)`  
+eg.  
+`PID=$(sudo docker inspect -f '{{.State.Pid}}' 6690d5b0df83)`  
+通过PID可以连接到容器  
+`nsenter --target $PID --mount --uts --ipc --net --pid`  
+![](./images/53.png)  
+进入容器后，可以查看容器中运行的进程ps -ef
+![](./images/54.png)  
+进入另一个容器后，可以看到容器中运行的运行进程  
+![](./images/55.png)   
+可以看到pid为1的循环进程  
 
+###3.4 删除容器
+使用docker rm命令删除处于终止状态的容器，格式如下：  
+`docker rm [OPTIONS] cONTAINER [CONTAINER...]`  
+选项：  
+■-f, --force=false强行终止并删除一个运行中的容器  
+■-l,--link=false删除容器的连接，但保留容器  
+■-v,--volumes=false删除容器挂载的数据卷  
+删除容器前，要查看处于终止状态的容器详情：  
+`sudo docker ps -a`  
+![](./images/56.png)  
+删除容器：  
+`sudo docker rm a610c6ee652b`  
+![](./images/57.png)  
+删除运行的容器时，如果不加选项会报错，需要通过-f选项强行删除  
+`sudo docker rm -f 3c8d3f2bd15d`  
+![](./images/59.png)   
+
+###3.5 导入导出容器
+1）导出  
+使用docker export命令可以导出容器  
+`sudo docker export CONTAINER`  
+eg.  
+`sudo docker export 3c8d3f2bd15d`  
+![](./images/58.png)  
+2）导入  
+通过docker import命令导入容器快照  
+`cat test_for_run.tar | sudo docker import - ubuntu:circulation`  
+![](./images/60.png)  
+通过import命令导入的容器快照，实际上导入到本地镜像库，而docker load命令是导入一个镜像文件  
+两者区别在于，容器镜像快照将忽略历史记录及元数据信息，而镜像存储文件将完整记录历史和元数据，因此体积要大。容器快照在导入时可以重新指定镜像标签等元数据信息  
 
 
 
