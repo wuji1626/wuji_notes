@@ -266,6 +266,8 @@ eg:
 ##3 容器
 容器是镜像的一个运行实例,与镜像不同,容器带有可写文件层。Docker容器是独立运行的一组应用以及必需的运行环境  
 ###3.1 创建容器
+
+
 1）新建容器  
 `sudo docker create -it ubuntu:latest`  
 ![](./images/39.png)  
@@ -292,6 +294,64 @@ run命令执行时，docker后台执行如下操作：
 -i：让容器的标准输入保持打开  
 如下图所示，容器运行后，进入bash控制台  
 ![](./images/42.png)  
+
+
+2）守护态运行  
+守护态（Daemonized）：后台运行的容器   
+-d：让容器以守护进程状态运行  
+`sudo docker run -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"`
+![](./images/43.png)  
+容器启动后可以通过ps命令查看容器信息  
+`sudo docker ps`  
+![](./images/44.png)  
+获取容器的输出信息，可以使用logs命令  
+`sudo docker logs 3c8d`  
+![](./images/45.png)  
+
+###3.2 终止容器
+使用docker stop命令终止容器  
+1）容器终止  
+docker stop [-t|---time[=10]] 先想容器发送SIGTERM信号，等待一段时间后（默认10秒），再发送SiGKiLL信号终止容器  
+`sudo docker stop 3c8d`  
+![](./images/46.png)  
+docker kill命令会直接发送SIGKILL信号强制终止容器  
+2）查看终止状态的容器  
+docker ps -a -q可以查看处于终止状态的容器ID   
+`docker ps -a -q`  
+![](./images/47.png)   
+3）启动容器  
+`sudo docker start 3c8d`  
+![](./images/48.png)  
+4）容器重启  
+`sudo docker restart 3c8d`  
+![](./images/49.png)  
+
+
+###3.3 进入容器
+首先启动一个容器  
+`sudo docker run -idt ubuntu`
+从图上看到，新启动的容器名“6690d5b0df83 ”  
+![](./images/50.png)  
+
+
+1）attach命令  
+通过容器列表，查询到容器的名称为“lucid_snyder”  
+`sudo docker attach lucid_snyder`  
+![](./images/51.png)  
+使用attach命令attach到同一个容器时，所有窗口都会同步显示。当窗口因命令阻塞时，其他窗口也无法执行操作了  
+
+2）exec命令  
+docker1.3后增加了一个exec，可以直接在容器内运行命令
+`sudo docker exec -ti 6690d5b0df83 /bin/bash`
+![](./images/52.png)  
+
+3）nsenter工具  
+nsenter工具在util-linux包2.23版本后包含。需要手动进行安装  
+`cd /tmp`  
+`curl https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz | tar -zxf-; cd util-linux-2.24;`  
+`./configure --without-ncurses`  
+`make nsenter && sudo cp nsenter /usr/local/bin`  
+
 
 
 
