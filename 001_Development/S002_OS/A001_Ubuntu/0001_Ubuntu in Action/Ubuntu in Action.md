@@ -212,6 +212,10 @@ tar -xvf apache-maven-3.3.9-bin.tar.gz
 `mvn --version`  
 ![](./images/dev001.png)  
 
+###10 使用技巧
+1）显示目录中隐藏文件夹  
+ubuntu默认会隐藏以[.]开头的文件夹，点击ctrl+h即可显示  
+
 
 
 
