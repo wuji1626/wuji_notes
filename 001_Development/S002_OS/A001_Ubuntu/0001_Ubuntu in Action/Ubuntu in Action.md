@@ -214,6 +214,7 @@ tar -xvf apache-maven-3.3.9-bin.tar.gz
 4）验证maven配置是否成功  
 `mvn --version`  
 ![](./images/dev001.png)  
+
 ####9.2 JDK
 在Sun官网下载最新JDK Linux x64的tar.gz包  
 通过SSH上传服务器/tmp目录下  
@@ -243,6 +244,11 @@ export PATH=${JAVA_HOME}/bin:$PATH
 7）测试JDK  
 `java -version`  
 ![](./images/jvm01.png)  
+
+###10 使用技巧
+1）显示目录中隐藏文件夹  
+ubuntu默认会隐藏以[.]开头的文件夹，点击ctrl+h即可显示  
+
 
 
 
