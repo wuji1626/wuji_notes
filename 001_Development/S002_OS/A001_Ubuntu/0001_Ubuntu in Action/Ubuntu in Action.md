@@ -211,6 +211,26 @@ tar -xvf apache-maven-3.3.9-bin.tar.gz
 4）验证maven配置是否成功  
 `mvn --version`  
 ![](./images/dev001.png)  
+####9.2 Python
+1）安装Python发布版本及build依赖包  
+`sudo apt-get install python2.7 python2.7-dev`  
+`sudo apt-get install build-essential libssl-dev libevent-dev libjpeg-dev libxml2-dev libxslt-dev`  
+2）安装 pip 和 virtualenv  
+pip 是 Python 的包管理工具，建议 Python 的包都用 pip 进行管理。virtualenv是 Python 多版本管理的利器，不同版本的开发调试全靠它了。
+`sudo apt-get install python-pip`  
+
+- 安装 python2.7 virtualenv  
+`virtualenv --no-site-packages -p /usr/bin/python2.7 ~/.venv/python2.7`  
+- 安装 python3.2 virtualenv  
+`virtualenv --no-site-packages -p /usr/bin/python3.2 ~/.venv/python3.2`  
+
+####9.3 Subversion
+1）安装Subversion客户端  
+`sudo apt-get install subversion`  
+2）安装带有客户端的repidsvn  
+`sudo apt-get install rapidsvn`  
+
+
 
 ###10 使用技巧
 1）显示目录中隐藏文件夹  
