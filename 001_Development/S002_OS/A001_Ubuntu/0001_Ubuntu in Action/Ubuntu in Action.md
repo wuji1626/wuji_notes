@@ -174,6 +174,9 @@ aira2下载
 设置下载任务的属性（同时下载几个任务、多少个服务器、保存位置等）  
 ![](./images/20130612105408843)  
 ![](./images/20130612105426343)  
+13）gnome司令官安装
+apt-get install gnome-commander 
+
 ###8 Git使用
 由于Ubuntu上没有找到比较适宜的客户端,完全可以使用git命令行完成  
 1)设置用户名和邮箱  
@@ -233,9 +236,7 @@ pip 是 Python 的包管理工具，建议 Python 的包都用 pip 进行管理�
 2）安装带有客户端的repidsvn  
 `sudo apt-get install rapidsvn`  
 
-
-
-####9.2 JDK
+####9.4 JDK
 在Sun官网下载最新JDK Linux x64的tar.gz包  
 通过SSH上传服务器/tmp目录下  
 1）在/usr目录下创建jvm目录  
@@ -265,39 +266,33 @@ export PATH=${JAVA_HOME}/bin:$PATH
 `java -version`  
 ![](./images/jvm01.png)  
 
-####9.2 JDK
-在Sun官网下载最新JDK Linux x64的tar.gz包  
-通过SSH上传服务器/tmp目录下  
-1）在/usr目录下创建jvm目录  
-`sudo mkdir -R /usr/lib/jvm`  
-2）将jdk安装文件拷贝到jvm目录下  
-`sudo mv /tmp/jdk-8u121-linux-x64.tar.gz /usr/lib/jvm`  
-3）解压gz包  
-`cd /usr/lib/jvm`  
-`sudo tar -zxvf jdk-8u121-linux-x64.tar.gz`  
-4）修改环境变量配置  
-`sudo vi /etc/profile`  
-在文件末尾追加如下代码：  
-~~~  
-#set java environment  
-export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_121  
-export JRE_HOME=${JAVA_HOME}/jre  
-export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
-export PATH=${JAVA_HOME}/bin:$PATH  
-~~~  
-5）将环境变量配置生效  
-`source /etc/profile`
-6）配置软连接  
-`sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.8.0_121/bin/java 300`   
-`sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.8.0_121/bin/javac 300`   
-配置软连接的目的：软连接相当于windows系统中的快捷键，部分软件可能会从/usr/bin目录下查找Java，因此添加该软连接是以防万一。  
-7）测试JDK  
-`java -version`  
-![](./images/jvm01.png)  
+####9.5 MySQL客户端
+通过官网上的deb安装mysql-workbench的步骤 
+1）wget https://launchpad.net/ubuntu/+archive/primary/+files/libzip1_0.9.3-1_amd64.deb   
+2）sudo dpkg -i libzip1_0.9.3-1_amd64.deb/   
+3）wget http://launchpadlibrarian.net/94808408/libmysqlclient16_5.1.58-1ubuntu5_amd64.deb   
+4）sudo dpkg -i libmysqlclient16_5.1.58-1ubuntu5_amd64.deb   
+5）sudo apt-get -f install   
+6）sudo apt-get -f install python-paramiko libzip2 libmysqlclient18 mysql-client mysql-common python-pysqlite2 libdbi-perl libdbd-mysql-perl libplrpc-perl libnet-daemon-perl mysql-client   
+7）sudo dpkg -i mysql-{common,community-client,client,community-server,server}_*.deb  
 
 ###10 使用技巧
-1）显示目录中隐藏文件夹  
+####10.1 显示目录中隐藏文件夹  
 ubuntu默认会隐藏以[.]开头的文件夹，点击ctrl+h即可显示  
+####10.2 解决libzip4依赖问题
+http://packages.ubuntu.com/zh-cn/xenial/amd64/libzip4/download中搜索并下载需要下载的依赖包，并用sudo dpkg -i来手工安装  
+
+###11 CAJViewer使用  
+CAJViewer是在Windows下运行，在Ubuntu下运行需要利用Wine1.6安装方法如下：
+1）执行wine1.6的下载命令
+`sudo apt-get install wine1.6  wine1.6-i386 fonts-droid-fallback libgphoto2-6:i386  libxml2:i386 libsane:i386 libtiff5:i386 libxslt1.1:i386 libgd3:i386 libjbig0:i386`  
+2）完成wine1.6的配置。实际什么都不需要配置什么，只需指定程序的Windows版本为Windows XP  
+![](./images/2.png)  
+3）下载绿色版CAJViewer解压，将CAJViewer.exe赋予执行权限  
+在cajviewer所在目录下执行执行命令：   
+`wine CAJViewer.exe`  
+在打开的cajviewer中点击打开，有两个磁盘，C盘，Z盘。C盘相当于是一个虚拟磁盘。而Z盘则是Ubuntu的地址  
+
 
 
 
