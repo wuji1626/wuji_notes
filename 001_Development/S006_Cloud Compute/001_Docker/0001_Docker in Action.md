@@ -1,4 +1,8 @@
 #Docker实操
+
+[TOC]
+
+
 ##1 Docker安装
 ###1.1 Ubuntu 16.04环境下安装Docker的先决条件
 ####1 Ubuntu更新
@@ -395,6 +399,120 @@ eg.
 通过import命令导入的容器快照，实际上导入到本地镜像库，而docker load命令是导入一个镜像文件  
 两者区别在于，容器镜像快照将忽略历史记录及元数据信息，而镜像存储文件将完整记录历史和元数据，因此体积要大。容器快照在导入时可以重新指定镜像标签等元数据信息  
 
+#4 仓库（Repository）
+仓库：集中存放镜像的地方  
+注册服务器（Registry）存放仓库的具体服务器，每个服务器上可以有多个仓库，每个仓库下有多个镜像  
+eg：
+dl.dockerpool.com/ubuntu  
+其中dl.dockerpool.com是注册服务器地址，ubuntu是仓库名  
+##4.1 Docker Hub
+Docker官网维护的公共仓库https://hub.docker.com  
+■Docker官网镜像的分类：  
+- 基础镜像，如CentOS这样的镜像  
+- 用户自定义镜像  如：user_name/image_name  
+
+查找通过-s N参数可以指定仅显示评价为N星以上的镜像
+
+##4.2 Docker Pool
+Docker Pool时国内专业Docker社区
+■镜像下载
+`sudo docker pull dl.dockerpool.com:5000/ubuntu:12.04`  
+
+##4.3 创建和使用私有仓库
+###1 使用registry镜像创建私有仓库
+`sudo docker run -d -p 5000:5000 registry`  
+自动下载并启动一个registry容器，创建本地私有仓库服务。默认情况下，会将仓库创建在容器的/tmp/resitry目录下，可以通过-v参数将镜像文件存放在本地指定路径上  
+`sudo docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry`  
+启动的私有仓库服务，监听端口为5000  
+本地docker image如下：  
+![](./images/61.png)  
+将标记改为10.0.2.2:5000/test
+`sudo docker tag ubuntu:test 192.168.119.132:5000/test`  
+![](./images/62.png)  
+上传标记的镜像  
+`sudo docker push 192.168.119.132:5000/test `  
+
+###2 问题对应
+在上传镜像时出现：  
+![](./images/63.png)  
+
+这个问题是由于客户端采用https，docker registry未采用https服务所致。一种处理方式是把客户对地址“192.168.119.132:5000”请求改为http  
+在”/etc/docker/“目录下，创建”daemon.json“文件。在文件中写入：  
+`{ "insecure-registries":["192.168.119.132:5000"] }`  
+重启docker服务  
+`systemctl restart docker.service`  
+
+再次上传
+![](./images/64.png)  
+
+###3 镜像下载
+将本地仓库删除  
+`sudo docker rmi 10.0.2.2:5000/test`
+`sudo docker rmi 192.168.119.132:5000/test:latest`
+`sudo docker rmi ubuntu:12.04 `
+`sudo docker rmi ubuntu:test`
+从本地仓库pull镜像  
+`sudo docker pull 192.168.119.132:5000/test`   
+
+![](./images/65.png)  
+
+#5 数据管理
+Docker管理数据的两种方式：  
+■数据卷（Data Volumnes）  
+■数据卷容器（Data Volumne Dontainers）  
+##5.1 数据卷
+数据卷是一个可供容器使用的特殊目录，它绕过文件系统。具有如下特性：
+■数据卷可以在容器间共享重用  
+■对数据卷的修改立即生效  
+■对数据卷的更新，不会影响镜像  
+■卷会一直存在，直到没有容器使用  
+容器卷类似Linux对目录进行mount操作  
+###1 在容器内创建数据卷
+`sudo docker run -d -P --name web -v /webapp ubuntu:12.04 python app.py`
+参数：  
+--name:创建容器名，例Web  
+-v：创建一个数据卷挂载到容器的/webapp目录  
+-P：允许外部访问容器需要暴露的端口  
+###2 挂载一个主机目录作为数据卷
+`sudo docker run -d -P --name web -v /src/webapp:/opt/webapp ubuntu:12.04 python app.py`
+-v /src/webapp:/opt/webapp：加载主机的/src/webapp目录到容器的/opt/webapp目录  
+默认情况，挂载的数据卷为读写权限（wr），可以指定为ro  
+`sudo docker run -d -P --name web -v /src/webapp:/opt/webapp:ro ubuntu:12.04 python app.py`
+###3 挂载一个本地主机文件作为数据卷
+-v也可以从主机挂载单个文件到容器作为数据卷  
+`sudo docker run --rm -it -v ~/.bash_history:/.bash_history ubtuntu /bin/bash`  
+上述命令在主机中可以记录在docker上执行的命令历史  
+
+##5.2 数据卷容器
+如果用户需要在容器间共享一些持续更新的数据，最简单的方式是使用数据卷容器。数据卷容器其实就是一个普通容器，专门用它提供数据卷供其他容器挂载
+1）创建一个数据卷容器dbdata
+`sudo docker run -it -v /dbdata --name dbdata ubuntu:12.04`  
+
+![](./images/66.png)  
+2）其他容器使用--volumes-from来挂载dbdata容器中的数据卷
+`sudo docker run -it --volumes-from dbdata --name db1 ubuntu:12.04`
+3）在db1容器内创建文件test、hello.txt  
+4）进入dbdata容器
+`sudo docker exec -it bd1210a3cd0a /bin/bash`  
+查看dbdata目录下，也存在test、hello.txt两个文件  
+![](./images/67.png)  
+**【注】**  
+1）使用--volumes-from参数所挂载数据卷的容器自身不需要保持运行状态  
+2）如果删除挂载的容器，数据卷不会被自动删除。需要显式使用docker rm -V命令指定同时删除关联的容器  
+##5.3 数据卷容器备份与还原
+1）备份  
+`sudo docker run --volumes-from dbdata -v $(pwd):/backup --name db2 ubuntu:12.04 tar cvf /backup/backup.tar /dbdata`  
+创建一个db2容器，使用--volumes-from dbdata参数来让db2挂载dbdata容器的数据卷，使用-v $(pwd):/backup参数来挂载本地当前目录到db2容器的/backup目录。  
+db2容器启动后，使用了tar cvf /backup/backup.tar /dbdata命令来将dbdata下内容备份为容器内的/backup/backup.tar，宿主机当前目录下的backup.tar  
+![](./images/68.png)  
+![](./images/69.png)  
+2）还原  
+·创建一个数据卷容器dbdata2  
+`sudo docker run -v /dbdata --name dbdata2 ubuntu:12.04 /bin/bash`  
+·创建新容器，挂载dbdata2容器，解压备份文件  
+`sudo docker run --volumes-from dbdata2 -v $(pwd):/backup ubuntu:12.04 tar xvf /backup/backup.tar`  
+
+#6 网络配置
 
 
 
@@ -410,3 +528,7 @@ eg.
 
 
 
+
+
+
+  
