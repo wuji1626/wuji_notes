@@ -175,7 +175,12 @@ aira2下载
 ![](./images/20130612105408843)  
 ![](./images/20130612105426343)  
 13）gnome司令官安装
-apt-get install gnome-commander 
+`apt-get install gnome-commander `  
+GNOME-COMMANDER中点击设置→选项，选择【程序】选项卡  
+![](./images/11.png)  
+在其他喜爱程序中添加Remarkable  
+1[](./images/12.png)  
+在程序中点击右键，可以看到程序的快捷运行方式  
 
 ###8 Git使用
 由于Ubuntu上没有找到比较适宜的客户端,完全可以使用git命令行完成  
