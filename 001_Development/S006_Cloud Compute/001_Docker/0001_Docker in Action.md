@@ -513,6 +513,28 @@ db2容器启动后，使用了tar cvf /backup/backup.tar /dbdata命令来将dbda
 `sudo docker run --volumes-from dbdata2 -v $(pwd):/backup ubuntu:12.04 tar xvf /backup/backup.tar`  
 
 #6 网络配置
+Docker提供映射容器端口到宿主机和容器互联机制来为容器提供网络服务  
+##6.1 端口映射实现访问容器
+###1 从外部访问容器应用
+启动容器时，不指定参数，在容器外部无法通过网络来访问容器内的网络应用和服务  
+使用-P或-p命令指定端口映射。当使用-P时，Docker随机映射一个30000~49900的主机端口至容器内部开发的网络端口  
+- 使用-P启动一个容器  
+`sudo docker run -d -P training/webapp python app.py`  
+查看当前运行的docker容器  
+`sudo docker ps`
+![](./images/70.png)  
+将主机端口32768映射给容器的5000端口  
+在浏览器中使用http:[主机地址]:32768/即可访问到docker中的web应用  
+![](./images/71.png)  
+- 使用-p可以指定要映射的端口，在一个指定端口上只可以绑定一个容器。支持的格式有：ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort
+
+###2 映射所有接口地址
+使用hostPort:contianerPort格式将本地的5000端口映射到容器的5000端口
+`sudo docker run -d -p 5000:5000 training/webapp python app.py`
+多次使用-p命令可以绑定多个端口  
+`sudo docker run -d -p 5000:5000 -p 3000:80 training/webapp python app.py`
+
+###3 
 
 
 
