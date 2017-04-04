@@ -281,11 +281,32 @@ export PATH=${JAVA_HOME}/bin:$PATH
 6）sudo apt-get -f install python-paramiko libzip2 libmysqlclient18 mysql-client mysql-common python-pysqlite2 libdbi-perl libdbd-mysql-perl libplrpc-perl libnet-daemon-perl mysql-client   
 7）sudo dpkg -i mysql-{common,community-client,client,community-server,server}_*.deb  
 
+####9.6 SSH命令
+ssh连接服务器时，需要使用如下格式命令：  
+`ssh username@host`   
+
+####9.7 R语言开发环境构建
+1）添加R语音仓库  
+在/etc/apt/sources.list文件中添加R语音安装包仓库  
+添加：  
+~~~  
+#R    
+deb https://cloud.r-project.org//bin/linux/ubuntu xenial/  
+deb http://cran.rstudio.com/bin/linux/ubuntu trusty/  
+~~~  
+
+2）添加R语音公钥到Ubuntu系统  
+`sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9`  
+
+3）安装最新版R语言  
+`sudo apt-get install r-base`
+
 ###10 使用技巧
 ####10.1 显示目录中隐藏文件夹  
 ubuntu默认会隐藏以[.]开头的文件夹，点击ctrl+h即可显示  
 ####10.2 解决libzip4依赖问题
-http://packages.ubuntu.com/zh-cn/xenial/amd64/libzip4/download中搜索并下载需要下载的依赖包，并用sudo dpkg -i来手工安装  
+http://packages.ubuntu.com/zh-cn/xenial/amd64/libzip4/download  
+搜索并下载需要下载的依赖包，并用sudo dpkg -i来手工安装  
 
 ###11 CAJViewer使用  
 CAJViewer是在Windows下运行，在Ubuntu下运行需要利用Wine1.6安装方法如下：
@@ -311,3 +332,4 @@ CAJViewer是在Windows下运行，在Ubuntu下运行需要利用Wine1.6安装方
 
 
 
+~~~~
