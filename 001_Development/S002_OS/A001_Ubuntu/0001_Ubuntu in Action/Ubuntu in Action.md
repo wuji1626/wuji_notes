@@ -53,10 +53,9 @@ sudo service network-manager restart
 [问题3]Ubuntu在运行过程中经常出现wifi掉线的问题,在网上寻找到一个解决方案  
 [问题解决]在终端输入命令：sudo nano /etc/modprobe.d/blacklist.conf  
 打开配置文件，在最后一行加入：blacklist acer-wmi  
-
 ###2 防火墙设置
 1）永久关闭防火墙<br>
-`ufw disable `<br>
+`ufw disable `
 ![](./images/UbuntuinAction01.png)
 
 ###3 配置Telnet

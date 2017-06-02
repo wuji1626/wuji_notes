@@ -399,13 +399,13 @@ eg.
 通过import命令导入的容器快照，实际上导入到本地镜像库，而docker load命令是导入一个镜像文件  
 两者区别在于，容器镜像快照将忽略历史记录及元数据信息，而镜像存储文件将完整记录历史和元数据，因此体积要大。容器快照在导入时可以重新指定镜像标签等元数据信息  
 
-#4 仓库（Repository）
+##4 仓库（Repository）
 仓库：集中存放镜像的地方  
 注册服务器（Registry）存放仓库的具体服务器，每个服务器上可以有多个仓库，每个仓库下有多个镜像  
 eg：
 dl.dockerpool.com/ubuntu  
 其中dl.dockerpool.com是注册服务器地址，ubuntu是仓库名  
-##4.1 Docker Hub
+###4.1 Docker Hub
 Docker官网维护的公共仓库https://hub.docker.com  
 ■Docker官网镜像的分类：  
 - 基础镜像，如CentOS这样的镜像  
@@ -413,13 +413,13 @@ Docker官网维护的公共仓库https://hub.docker.com
 
 查找通过-s N参数可以指定仅显示评价为N星以上的镜像
 
-##4.2 Docker Pool
+###4.2 Docker Pool
 Docker Pool时国内专业Docker社区
 ■镜像下载
 `sudo docker pull dl.dockerpool.com:5000/ubuntu:12.04`  
 
-##4.3 创建和使用私有仓库
-###1 使用registry镜像创建私有仓库
+###4.3 创建和使用私有仓库
+####1 使用registry镜像创建私有仓库
 `sudo docker run -d -p 5000:5000 registry`  
 自动下载并启动一个registry容器，创建本地私有仓库服务。默认情况下，会将仓库创建在容器的/tmp/resitry目录下，可以通过-v参数将镜像文件存放在本地指定路径上  
 `sudo docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry`  
@@ -432,7 +432,7 @@ Docker Pool时国内专业Docker社区
 上传标记的镜像  
 `sudo docker push 192.168.119.132:5000/test `  
 
-###2 问题对应
+####2 问题对应
 在上传镜像时出现：  
 ![](./images/63.png)  
 
@@ -445,7 +445,7 @@ Docker Pool时国内专业Docker社区
 再次上传
 ![](./images/64.png)  
 
-###3 镜像下载
+####3 镜像下载
 将本地仓库删除  
 `sudo docker rmi 10.0.2.2:5000/test`
 `sudo docker rmi 192.168.119.132:5000/test:latest`
@@ -456,34 +456,34 @@ Docker Pool时国内专业Docker社区
 
 ![](./images/65.png)  
 
-#5 数据管理
+##5 数据管理
 Docker管理数据的两种方式：  
 ■数据卷（Data Volumnes）  
 ■数据卷容器（Data Volumne Dontainers）  
-##5.1 数据卷
+###5.1 数据卷
 数据卷是一个可供容器使用的特殊目录，它绕过文件系统。具有如下特性：
 ■数据卷可以在容器间共享重用  
 ■对数据卷的修改立即生效  
 ■对数据卷的更新，不会影响镜像  
 ■卷会一直存在，直到没有容器使用  
 容器卷类似Linux对目录进行mount操作  
-###1 在容器内创建数据卷
+####1 在容器内创建数据卷
 `sudo docker run -d -P --name web -v /webapp ubuntu:12.04 python app.py`
 参数：  
 --name:创建容器名，例Web  
 -v：创建一个数据卷挂载到容器的/webapp目录  
 -P：允许外部访问容器需要暴露的端口  
-###2 挂载一个主机目录作为数据卷
+####2 挂载一个主机目录作为数据卷
 `sudo docker run -d -P --name web -v /src/webapp:/opt/webapp ubuntu:12.04 python app.py`
 -v /src/webapp:/opt/webapp：加载主机的/src/webapp目录到容器的/opt/webapp目录  
 默认情况，挂载的数据卷为读写权限（wr），可以指定为ro  
 `sudo docker run -d -P --name web -v /src/webapp:/opt/webapp:ro ubuntu:12.04 python app.py`
-###3 挂载一个本地主机文件作为数据卷
+####3 挂载一个本地主机文件作为数据卷
 -v也可以从主机挂载单个文件到容器作为数据卷  
 `sudo docker run --rm -it -v ~/.bash_history:/.bash_history ubtuntu /bin/bash`  
 上述命令在主机中可以记录在docker上执行的命令历史  
 
-##5.2 数据卷容器
+###5.2 数据卷容器
 如果用户需要在容器间共享一些持续更新的数据，最简单的方式是使用数据卷容器。数据卷容器其实就是一个普通容器，专门用它提供数据卷供其他容器挂载
 1）创建一个数据卷容器dbdata
 `sudo docker run -it -v /dbdata --name dbdata ubuntu:12.04`  
@@ -499,7 +499,7 @@ Docker管理数据的两种方式：
 **【注】**  
 1）使用--volumes-from参数所挂载数据卷的容器自身不需要保持运行状态  
 2）如果删除挂载的容器，数据卷不会被自动删除。需要显式使用docker rm -V命令指定同时删除关联的容器  
-##5.3 数据卷容器备份与还原
+###5.3 数据卷容器备份与还原
 1）备份  
 `sudo docker run --volumes-from dbdata -v $(pwd):/backup --name db2 ubuntu:12.04 tar cvf /backup/backup.tar /dbdata`  
 创建一个db2容器，使用--volumes-from dbdata参数来让db2挂载dbdata容器的数据卷，使用-v $(pwd):/backup参数来挂载本地当前目录到db2容器的/backup目录。  
@@ -512,10 +512,10 @@ db2容器启动后，使用了tar cvf /backup/backup.tar /dbdata命令来将dbda
 ·创建新容器，挂载dbdata2容器，解压备份文件  
 `sudo docker run --volumes-from dbdata2 -v $(pwd):/backup ubuntu:12.04 tar xvf /backup/backup.tar`  
 
-#6 网络配置
+##6 网络配置
 Docker提供映射容器端口到宿主机和容器互联机制来为容器提供网络服务  
-##6.1 端口映射实现访问容器
-###1 从外部访问容器应用
+###6.1 端口映射实现访问容器
+####1 从外部访问容器应用
 启动容器时，不指定参数，在容器外部无法通过网络来访问容器内的网络应用和服务  
 使用-P或-p命令指定端口映射。当使用-P时，Docker随机映射一个30000~49900的主机端口至容器内部开发的网络端口  
 - 使用-P启动一个容器  
@@ -528,27 +528,27 @@ Docker提供映射容器端口到宿主机和容器互联机制来为容器提�
 ![](./images/71.png)  
 - 使用-p可以指定要映射的端口，在一个指定端口上只可以绑定一个容器。支持的格式有：ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort
 
-###2 映射所有接口地址
+####2 映射所有接口地址
 使用hostPort:contianerPort格式将本地的5000端口映射到容器的5000端口
 `sudo docker run -d -p 5000:5000 training/webapp python app.py`
 多次使用-p命令可以绑定多个端口  
 `sudo docker run -d -p 5000:5000 -p 3000:80 training/webapp python app.py`
 
-###3 映射到指定地址的指定端口
+####3 映射到指定地址的指定端口
 使用ip:hostPort:contianerPort格式指定映射使用一个特定地址  
 `sudo docker run -d -p 127.0.0.1:5000:5000 training/webapp python app.py`  
 
-###4 映射到指定地址的任意端口
+####4 映射到指定地址的任意端口
 使用ip::containerPort绑定任意端口到5000端口，本地主机会自动分配一个端口  
 `sudo docker run -d -p 127.0.0.1::5000 training/webapp python app.py`  
 还可以用udp标记来指定udp端口  
 `sudo docker run -d -p 127.0.0.1::5000/udp training/webapp python app.py`  
-###5 查看docker端口  
+####5 查看docker端口  
 `sudo docker port [container_name] 5000`  
 
-##7.2 容器互联实现容器间通信
+###7.2 容器互联实现容器间通信
 容器的连接（linking）系统是除了端口映射外的另一种可以与容器中应用进行交互的方式。它可以在源与接收容器之间创建一个隧道，接收容器可以看到源容器指定的信息  
-###1 自动以容器命名
+####1 自动以容器命名
 为容器命名的优点：  
 ■自定义容器名便于记忆  
 ■要连接其他容器时，可作为有用的参考点  
@@ -560,7 +560,7 @@ Docker提供映射容器端口到宿主机和容器互联机制来为容器提�
 ![](./images/73.png)  
 也可安装之前提到的inspect命令查询容器名称  
 `sudo docker inspect -f "{{.Name}}" 4a88c6fec9c4`  
-###2 容器互联
+####2 容器互联
 使用--link参数可以让容器之间安全的进行交互  
 □先创建一个数据库容器  
 `sudo docker run -d --name db training/postgres`  
@@ -588,6 +588,144 @@ Docker提供映射容器端口到宿主机和容器互联机制来为容器提�
 ![](./images/78.png)  
 
 ##8 使用Dockerfile创建镜像
+###8.1 Dockerfile基本结构
+组成部分：基础镜像信息、维护者信息、镜像操作指令、容器启动时只需指令  
+
+###8.2 指令
+指令格式为：INSTRUCTION arguments
+####1 注释
+以“#”开头的行  
+####2 FROM
+第一行必须指定基础镜像：  
+FROM [image] 或 FROM [image:tag]  
+eg:  
+FROM ubuntu  
+####3 MAINTAINER
+维护者信息：  
+MAINTAINER [维护者信息]  
+eg：  
+MAINTANER docker_user docker_user@email.com  
+####4 镜像的操作指令  
+1）RUN <命令>  
+在shell终端中运行的命令，即/bin/sh -c
+2）RUN ["executable", "param1", "param2"]  
+指定使用其他终端，如：  
+RUN ["/bin/bash", "-c", "echo hello"]  
+每条RUN指令将在镜像基础上执行，并提交为新的镜像。如果命令行较长可以使用\换行  
+
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ raring main universe" >> /etc/apt/sources.list  
+RUN apt-get update && apt-get install -y nginx  
+RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf  
+####5 容器启动时执行指令  
+CMD [指令]  
+支持三种格式：  
+□CMD ["executable", "param1", "param2"] 使用exec执行，推荐方式  
+□CMD command param1 param2 在/bin/sh中执行，提供给需要交互的应用  
+□CMD ["param1", "param2"]提供给ENTRYPOINT的默认参数  
+指定容器时执行的命令，美工Dockerfile只有一条CMD命令。如果指定了多条命令，只有最后一条会被执行。如果用户启动容器时指定了运行的命令，则会覆盖掉CMD指定的命令  
+
+eg：  
+CMD /user/sbin/nginx  
+
+####6 EXPOSE
+格式EXPOSE <port> [<port> ...]  
+通知Docker服务端容器暴露的端口号，供通信使用。  
+-P：Docker主机会自动分配一个端口转发到指定端口  
+-p：可以具体指定哪个本地端口映射过来
+eg:  
+EXPOSE 22 80 8443  
+####7 ENV
+格式ENV <key> <value>  
+指定一个环境变量，会被RUN指令使用，并在容器运行时保持  
+eg：
+ENV PG_MAJOR 9.3  
+ENV PG_VERSION 9.3.4  
+RUN curl -SL http://example.com/postgres-$PG_VERSION.tar.xz  
+ENV PATH /usr/local/postgres-$PG_MAJOR/bin:$PATH  
+
+####8 ADD
+格式ADD <src> <dest>  
+复制指定的<src>到容器的<dest>。其中<src>可以是Dockerfile所在目录的一个相对路径，也可是一个URL，还可以是一个tar文件（自动解压为目录）  
+####9 COPY
+格式COPY <src> <dest>   
+复制本地主机的<src>（为Dockerfile所在目录的相对路径，文件或目录）为容器中的<dest>。目录路径不存在时，自动创建。使用本地目录为源目录时，推荐使用COPY  
+####10 ENTRYPOINT
+格式：  
+ENTRYPOINT ["executable", "param1", "param2"]  
+ENTRYPOINT command param1 param2  (shell中执行)  
+配置容器启动后执行的命令，并且不可被docker run提供的参数覆盖  
+美工Dockerfile中只能有一个ENTRYPPOINT，当指定多个ENTRYPOINT时，只有最后一个生效  
+####11 VOLUME
+格式 VOLUME ["/data"]  
+创建一个可以从本地主机或其他容器挂载的挂载点，一般用来存放数据库和需要保持的数据等  
+####12 USER
+格式 USER daemon  
+指定运行容器的用户名或UID，后续的RUN也会使用指定用户  
+当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户，如：RUN group -r postgres && useradd -r -g postgres postgres。要临时获取管理员权限可以使用gosu，不推荐sudo  
+####13 WORKDIR
+格式WORKDIR /path/to/workdir   
+为后续的RUN、CMD、ENTRYPOINT指令配置工作目录  
+可以使用多个WORKDIR指令，后续命令如果参数是相对路径，则会基于之前命令指定的路径。如：
+~~~
+WORKDIR /a
+WORKDIR b
+WORKDIR c
+RUN pwd
+返回路径为/a/b/c
+~~~
+####14 ONBUILD
+格式ONBUILD [InSTRUCTION]
+配置当前所创建的镜像作为其他创建镜像的基础镜像时，所执行的操作指令  
+
+###8.3 创建镜像
+编写玩Dockerfile后，通过docker build命令来创建镜像  
+基本格式为：docker build [选项] 路径  
+该命令将读取指定路径下（包括子目录）的Dockerfile，并将该路径下所有内容发送给Docker服务端，由服务端创建镜像  
+-t选项：指定镜像的标签信息  
+eg：  
+sudo docker bulid -t bulid/repo/first_image /tmp/docker_builder/  
+
+#实战案例
+
+##9 操作系统
+使用Docker只需一个命令就能得到Linux发行版的Docker镜像。虽然Docker镜像一般都很精简，但几乎可以实现所有的Linux服务器系统能实现的功能  
+###9.1 Busybox
+BusyBox集成一百多个最常用Linux命令和工具的软件工具箱，在单一可执行文件中提供精简的Unix工具集。BusyBox可运行于多款POSIX环境的操作系统中，如Linux（Android）、Hurd、FreeBSD等  
+■Docker的BusyBox镜像  
+输入如下命令，在DockerHub上可以搜索到busybox的镜像信息  
+`sudo docker search busybox  `  
+![](./images/OS1.png)  
+
+通过pull命令抓取busybox镜像  
+`sudo docker pull busybox`  
+启动容器  
+`sudo docker run -it busybox`  
+执行`grep`命令，会出现命令提示信息  
+执行`mount`命令，查看容器内的挂载信息  
+
+###9.2 Debian/Ubuntu  
+搜索debian：  
+`sudo docker search debian`  
+![](./images/OS2.png)  
+搜索Ubuntu:
+`sudo docker search -s 10 ubuntu `
+>其中-s参数：被收藏超过10次的镜像
+![](./images/OS3.png)  
+■运行Ubuntu镜像  
+1）运行镜像  
+`sudo docker run -ti ubuntu:12.04 /bin/bash`  
+此时本地的镜像列表为：  
+![](./images/OS4.png)  
+2）查看版本号  
+`lsb_release -a`
+3）更新ubuntu组件库
+`apt-get update`  
+4）安装curl
+`apt-get install curl`  
+curl安装完成  
+![](./images/OS5.png)  
+5）安装apache2
+`apt-get install apache2`  
 
 
 
@@ -602,4 +740,8 @@ Docker提供映射容器端口到宿主机和容器互联机制来为容器提�
 
 
 
-  
+
+
+
+
+    

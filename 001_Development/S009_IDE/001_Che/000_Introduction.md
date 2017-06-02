@@ -11,18 +11,18 @@ Che的workspace包括：
 Che的开发runtime作为workspace的依赖，runtime作为workspace的组成部分随时随地运行。与传统IDE不同，传统IDE的runtime是通过手动在workspace绑定运行环境  
 ![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting.png)  
 workspace相互独立同时管理包含其中的各组件的生命周期。通过Docker将不同的workspace定义成不同的机器<br/>
-![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(2).png)  
+![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting2.png)  
 一个workspace中，可以包含0..n个工程，每个工程可以包含0..1个统一版本库。每个工程被载入workspace，该工程在workspace和长期存储中皆有效。每个工程都有一个类型，如maven、Java等。选定一个工程类型后，适应工程类型的plugin特性将被切换。不同类型的工程，也有一些独特的模块以适应自己的类型和行为。  
-  ![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(4).png)  
+  ![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting4.png)  
 默认情况下，workspace被定义为SSH server。允许远程客户端或者桌面IDE通过SSH挂载到workspace。可以通过带工程和runtime并且包含Che的IDE如IntelliJ、Eclipse通过SSH挂载。workspace以Che服务器为宿主。Che服务器是一个轻量级workspace的管理器。一个Che服务器可以管理大量，服务器和workspace可以运行在相同服务器也可以分别运行，都在Docker的守护进程中进行管理。由于Workspace都包括自己的runtime，因此它们也可以分别运行。Che服务器默认也是一个Docker容器，甚至可以通过Swarm进行集群化配置。    
-![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(6).png)  
+![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting6.png)  
 workspace有独立的runtime，因此可以协作、共享。可以通过多用户同时访问同一个workspace。每个工作空间都有自己URL允许多用户访问。多用户访问时采用“最后写胜利”原则（last-write-win）。2016年末，Che通过操作转换完成了多光标编辑。工作空间通过JSON数据格式定义工程、runtime、IDE以及其他便于Che创建副本的必要信息。这种数据结构可以使工作空间顺利的迁移到其他的Che服务器，工作空间已经不在依赖电脑。工作空间包含自身的内部状态快照，这些快照存储在注册表中（此注册表非Windows注册表），这样通过原始的模板就可以创建工作空间的副本或者在用户开始使用workspace后所提交的参数修改。  
-![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(8).png)<br/>
+![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting8.png)<br/>
 每一个Che服务器都内嵌了RESTFul API接口。在用户面板中Web应用和浏览器IDE中都可以调用API接口可以完成各种操作。通过各种服务来完成各种炫酷的设置。服务器和各工作空间的API可以通过管理员和用户部署的插件动态改变。<br/>
-![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(1).png)<br/>
-![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(3).png)<br/>
-![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(5).png)<br/>
-![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting(7).png)<br/>
+![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting1.png)<br/>
+![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting3.png)<br/>
+![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting5.png)<br/>
+![Docker--CodenvyMeeting](./images/Docker--CodenvyMeeting7.png)<br/>
 <br/>
 ###1.1.2 用户
 Che有三种类型用户：<br/>
