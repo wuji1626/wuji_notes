@@ -710,6 +710,7 @@ BusyBox集成一百多个最常用Linux命令和工具的软件工具箱，在�
 搜索Ubuntu:
 `sudo docker search -s 10 ubuntu `
 >其中-s参数：被收藏超过10次的镜像
+
 ![](./images/OS3.png)  
 ■运行Ubuntu镜像  
 1）运行镜像  
@@ -726,6 +727,29 @@ curl安装完成
 ![](./images/OS5.png)  
 5）安装apache2
 `apt-get install apache2`  
+6）通过curl访问本地的http地址  
+`curl 127.0.0.1 `  
+![](./images/OS6.png)  
+###9.3 CentOS/Fedora
+CentOS和Fedora都是基于Redhat的Linux发行版。CentOS以兼容Redhat软件著称，CentOS是企业级服务器的常用选型，Fedora则是个人用户的选型  
+搜索CentOS  
+`sudo docker search -s 2 centos`  
+![](./images/OS7.png)  
+搜索Fedora  
+`sudo docker search -s 2 fedora`  
+![](./images/OS8.png)  
+###9.4 CoreOS
+CoreOS是基于Docker的Linux发行版，官方介绍了若干安装方法  
+■使用官方镜像  
+1）从官网上下载CoreOS镜像  
+目前官方只提供ova镜像（VirtualBox镜像）  
+2）下载vagrant
+下载地址：`https://www.vagrantup.com/downloads.html`  当前版本为vagrant-1.9.5.msi  
+
+2）下载coreos-vagrant   
+`git clone https://github.com/coreos/coreos-vagrant/`  
+`cd coreos-vagrant`  
+
 
 
 
