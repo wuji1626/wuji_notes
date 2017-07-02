@@ -48,5 +48,14 @@ HDFS使应用程序流式访问数据集。适合批处理，而不重视用户�
 - 通信协议
 建立在TCP/IP上。Client到NameNode，使用Client Protocal（客户端协议）；DataNode 到 NameNode，使用DataNode Protocal  
 
+###4.2 体系结构
+采用master/slave结构，一个HDFS集群由一个NameNode和若干DataNode组成。其中NameNode作为主服务器，管理文件系统的命名空间和客户端对文件的访问操作；DataNode管理存储的数据。HDFS存储用户的文件形式的数据。  
+![](./img/HDFS structure.png)
+HDFS内部，文件被分成若干个数据块，这些数据块分别存储在一组DataNode上。
+- NameNode执行文件系统的命名空间操作，如：打开、关闭、重命名文件或目录等，它也负责数据块到具体DataNode的映射。NameNode是所有HDFS元数据的管理者，用户数据永远不会经过NameNode  
+- DataNode负责处理文件系统客户端的文件读写请求，并在NameNode的统一调度下进行数据块的创建、删除、复制等工作  
+
+
+
 
 P40
