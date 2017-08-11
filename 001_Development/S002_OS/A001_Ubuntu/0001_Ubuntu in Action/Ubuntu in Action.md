@@ -67,7 +67,8 @@ FlashFXP配置客户端：
 SecureCRT配置客户端：  
 ![](./images/004.png)  
 
-###4 安装MySQL数据库（联网模式）
+###4 安装MySQL数据库
+####4.1 联网模式
 1）安装数据库文件，安装时mysql是5.7版   
 `sudo apt-get install mysql-server`  
 `sudo apt-get install mysql-client`  
@@ -94,6 +95,60 @@ SecureCRT配置客户端：
 `sudo /etc/init.d/mysql stop`  
 7）数据库客户端配置  
 ![](./images/006.png)  
+####4.2 离线模式
+1）下载mysql-server_5.7.19-1ubuntu16.04_amd64.deb-bundle.tar  
+2）解压  
+tar -xvf tar -xvf mysql-server_5.7.19-1ubuntu16.04_amd64.deb-bundle.tar  
+![](images/mysql001.png)  
+3）安装  
+sudo dpkg -i mysql-common_5.7.19-1ubuntu16.04_amd64.deb  
+![](images/mysql002.png)  
+sudo dpkg-preconfigure mysql-community-server_5.7.19-1ubuntu16.04_amd64.deb   
+需要设置root密码：  
+![](images/mysql003.png)  
+sudo dpkg -i  libmysqlclient20_5.7.19-1ubuntu16.04_amd64.deb   
+![](images/mysql004.png)  
+sudo dpkg -i  libmysqlclient-dev_5.7.19-1ubuntu16.04_amd64.deb   
+![](images/mysql005.png)  
+sudo dpkg -i   libmysqld-dev_5.7.19-1ubuntu16.04_amd64.deb   
+![](images/mysql006.png)  
+需要手动安装libaio之后安装mysql-community-client  
+sudo dpkg -i libaio1_0.3.110-3_amd64.deb  
+![](images/mysql007.png)  
+sudo dpkg -i mysql-community-client_5.7.19-1ubuntu16.04_amd64.deb   
+![](images/mysql008.png)  
+sudo dpkg -i   mysql-client_5.7.19-1ubuntu16.04_amd64.deb   
+![](images/mysql009.png)  
+sudo dpkg -i   mysql-common_5.7.19-1ubuntu16.04_amd64.deb  
+![](images/mysql010.png)  
+安装libmecab2_0.996-3.1_amd64之后安装mysql-community-server   
+sudo dpkg -i libmecab2_0.996-3.1_amd64.deb   
+![](images/mysql011.png)  
+sudo dpkg -i mysql-community-server_5.7.19-1ubuntu16.04_amd64.deb  
+![](images/mysql012.png)  
+4）查看mysql安装路径  
+whereis mysql  
+![](images/mysql013.png)  
+查看mysql版本  
+mysql --version  
+5）MySQL启动  
+sudo /etc/init.d/mysql restart  
+![](images/mysql014.png)  
+###4.3 问题对应
+1. 在使用Navicat连接MySQL时出现：2003 - Can't connect to MySQL server on ... 10061错误  
+![](images/mysql015.png)  
+编辑mysqld.cnf  
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf  
+将bind-address = 127.0.0.1注释掉  
+重启服务：/etc/init.d/mysql restart  
+2. 使用客户端连接速度慢  
+编辑mysqld.cnf  
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf  
+增加一行：skip-name-resolve  
+重启服务：/etc/init.d/mysql restart  
+3. 为远程通过root用户访问MySQL授权：  
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+
 
 ###5 安装搜狗拼音输入法并设置
 在搜狗拼音页面下载搜狗.deb文件并安装  
