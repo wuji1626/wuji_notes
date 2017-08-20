@@ -355,6 +355,55 @@ deb http://cran.rstudio.com/bin/linux/ubuntu trusty/
 3）安装最新版R语言  
 `sudo apt-get install r-base`
 
+####9.8 Memcached安装
+1. 下载libevent-2.0.22-stable.tar.gz  
+解压并安装：  
+`tar -zxvf libevent-2.0.22-stable.tar.gz `  
+`cd libevent-2.0.22-stable/  `  
+`./configure`  
+`make`  
+`sudo make install `  
+2. 现在memcached最新版本  
+http://memcached.org/latest  
+`tar -zxvf memcached-1.5.0.tar.gz `  
+`cd memcached-1.5.0/`  
+`./configure`  
+`make`  
+`sudo make install`  
+3. memcached启动  
+`sudo memcached -d -m 128 -p 11211 -u root  `  
+
+
+
+####9.9 Zookeeper安装
+1. Zookeeper下载  
+http://apache.fayea.com/zookeeper  
+2. 解压Zookeeper  
+`tar -zxvf /tmp/zookeeper-3.4.10.tar.gz`  
+3. 将zookeeper复制到指定目录下  
+`sudo mv zookeeper-3.4.10/ /etc/zookeeper`  
+4. 修改owner、group  
+`sudo chown -R root /etc/zookeeper/`  
+`sudo chgrp -R root /etc/zookeeper/`  
+5. 修改配置文件zoo.cfg  
+`sudo cp zoo_sample.cfg zoo.cfg`  
+修改zoo.cfg中内容：  
+将`dataDir=/tmp/zookeeper`改为`dataDir=/etc/zookeeper/data`  
+增加`server.1=192.168.211.133:2888:3888`  
+6. 修改环境变量  
+`sudo vi ~/.profile`  
+在尾部追加：  
+`export ZOOKEEPER_HOME=/etc/zookeeper`  
+`PATH=$PATH:ZOOKEEPER_HOME/bin`
+7. 运行  
+在zookeeper的bin目录下执行：
+`sudo ./zkServer.sh start`  
+>由于数据目录是root用户建立的，运行zookeeper时，不使用sudo，会出现没有权限访问数据库的问题  
+
+![](images/zookeeper01.png)  
+
+
+
 ###10 使用技巧
 ####10.1 显示目录中隐藏文件夹  
 ubuntu默认会隐藏以[.]开头的文件夹，点击ctrl+h即可显示  
