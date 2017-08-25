@@ -359,20 +359,55 @@ deb http://cran.rstudio.com/bin/linux/ubuntu trusty/
 1. 下载libevent-2.0.22-stable.tar.gz  
 解压并安装：  
 `tar -zxvf libevent-2.0.22-stable.tar.gz `  
+`sudo mv libevent-2.0.22-stable /usr/local`  
+`cd /usr/local`
+`sudo chown -R root libevent-2.0.22-stable/`  
+`sudo chgrp -R root libevent-2.0.22-stable`  
 `cd libevent-2.0.22-stable/  `  
-`./configure`  
-`make`  
+`sudo ./configure`  
+`sudo make`  
 `sudo make install `  
 2. 现在memcached最新版本  
 http://memcached.org/latest  
 `tar -zxvf memcached-1.5.0.tar.gz `  
-`cd memcached-1.5.0/`  
-`./configure`  
-`make`  
+`mv memcached-1.5.0/ /usr/local`
+`cd /usr/local/memcached-1.5.0/`  
+`sudo ./configure`  
+`sudo make`  
 `sudo make install`  
 3. memcached启动  
 `sudo memcached -d -m 128 -p 11211 -u root  `  
 
+####9.9 Nginx
+1. 下载安装pcre
+在http://www.pcre.org/上可以获取当前最新的版本  
+`tar -zxvf pcre-8.00.tar.gz`  
+`cd pcre-8.00/`  
+`./configure`  
+`make & make install`  
+默认安装目录：`/home/zhangwh/pcre-8.00`  
+2. 下载安装openssl  
+由于已经安装，安装过程略
+3. 下载安装zlib
+在http://www.zlib.net/下载最新版本zlib  
+`tar -zxvf zlib-1.2.11.tar.gz `  
+`cd zlib-1.2.11`  
+`./configure `  
+`sudo make`  
+`sudo make install`  
+4. 下载并安装nginx
+在http://nginx.org/en/download.html下载最新版本nginx  
+`tar -zxvf nginx-1.12.1.tar.gz `  
+`cd nginx-1.12.1/`  
+`./configure --with-pcre=/home/zhangwh/pcre-8.00 --with-openssl=/usr/lib/ssl`  
+`sudo make `  
+`sudo make install`  
+nginx默认的安装目录为：`/usr/local/nginx/`  
+启动脚本：`sudo /usr/local/nginx/sbin/nginx`
+启动检测：  
+![](images/nginx002.png)  
+停止脚本：  
+通过`ps -ef | grep nginx`找到master、worker线程，用kill -9 杀掉  
 
 
 ####9.9 Zookeeper安装
@@ -389,6 +424,7 @@ http://apache.fayea.com/zookeeper
 `sudo cp zoo_sample.cfg zoo.cfg`  
 修改zoo.cfg中内容：  
 将`dataDir=/tmp/zookeeper`改为`dataDir=/etc/zookeeper/data`  
+设定dataLogDir为`dataLogDir=/etc/zookeeper/data`  
 增加`server.1=192.168.211.133:2888:3888`  
 6. 修改环境变量  
 `sudo vi ~/.profile`  
@@ -401,7 +437,8 @@ http://apache.fayea.com/zookeeper
 >由于数据目录是root用户建立的，运行zookeeper时，不使用sudo，会出现没有权限访问数据库的问题  
 
 ![](images/zookeeper01.png)  
-
+验证zookeeper是否正常运行，需要通过jps命令查看zookeeper的main函数QuorumPeerMain运行
+![](images/zookeeper002.png)  
 
 
 ###10 使用技巧
