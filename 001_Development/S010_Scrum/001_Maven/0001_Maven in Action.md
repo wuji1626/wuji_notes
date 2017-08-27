@@ -121,7 +121,42 @@ mvn org.apache.maven.plugins(groupId):maven-archetype-plugin(artifectId):[versio
 
 
 ###3.2 POM
-####3.2.1 scope
-scope指明依赖的范围，如：test：表示只对测试有效，即：在测试代码中可以import JUnit，在主代码中import JUnit代码，就会报错  
+Maven中的依赖都需要一个坐标指定各组件的信息，是各组件被引入的秩序  
+- **groupId**：当前Maven项目所隶属的实际项目，Maven项目不一定与实际项目一一对应，一个实际项目可能对应多个Maven项目。  
+Maven项目实际上不应该只隶属于组织或公司，因为组织或公司会有很多实际项目，如果groupId定义到组织基本，后续的artifactId只能定义到Maven项目（模块）级别，实际项目的层次将难以定义  
+通常groupId与包名相似，与域名反向一一对应  
+- **artifactId**：Maven项目模块，通常推荐实际项目名作为前缀。如：nexus-indexer，nexus是实际项目前缀，indexer是模块  
+Maven默认情况下，会以artifactId为生成的构件名，为避免生成的组件命名重复都是core、util，最好加上实际项目前缀  
+- **version**：版本
+- **package**：Maven项目的打包方式。采用不同的打包方式会影响到使用不同的打包命令  
+packaging不定义时，默认使用jar包方式  
+- classifier：帮助定义构建输出的附属构件。如最终构件出nexus-indexeer-2.0.0.jar，附属的构件有：nexus-indexeer-2.0.0-javadoc.jar、nexus-indexeer-2.0.0-sources.jar等。不能直接定义  
+- type：依赖的类型，对应于项目坐标定义的packaging。大部分情况，不必声明，默认jar  
+- scope指明依赖的范围，如：test：表示只对测试有效，即：在测试代码中可以import JUnit，在主代码中import JUnit代码，就会报错  
+- optional：标记依赖是否可选  
+- exclusions：用来排除传递性依赖  
 
+构件的一般生成规则：**artifactId-version[-classifier].packaging**  
+
+####3.2.1 scope
+Maven编译的主代码和测试代码，分别有一套classpath。有些jar只需要在测试的classpath下，而有些jar只需要在实际运行的classpath下  
+Maven有三种依赖范围：  
+- compile：编译依赖范围，默认的依赖范围。对于编译、测试、运行三种classpath都有效
+- test：测试依赖范围，只对于测试classpath有效。在编译主代码或运行项目时无法使用此类依赖  
+- provided：已提供依赖范围。编译、测试classpath有效，在运行时无效。如：servlet-api，编译和测试项目时需要该依赖，运行项目时，由于容器已经提供，不需要Maven重复引入  
+- runtime：运行时依赖范围。测试运行classpath有效，在编译主代码时无效。如：jdbc驱动，主代码编译时只需提供JDK的jdbc接口，只有在执行测试或运行时才需要实现上述jdbc驱动  
+- system：系统依赖范围。与三种classpath的关系，和provided依赖范围完全一致。使用system范围的依赖必须通过systemPath显示指定依赖玩具的路径。此类依赖不是通过Maven仓库解析的，而且往往与本机系统绑定，可能造成构建不可移植，需要慎用。systemPath元素可以引用环境变量
+- import（Maven2.0.9以上）：导入依赖范围。不会对三种classpath产生影响
+![](img/M0004.png)  
     
+####3.2.2 传递性依赖
+如spring-core实际还依赖common-logging。有了依赖传递机制，就不需要考虑一个jar包还依赖了什么，也不用担心引入多余的依赖。
+依赖范围的传递性：  
+![](img/M0005.png)  
+>上表，左侧列为第一知己依赖范围，第一行表示第二直接依赖范围，中间交叉点表示传递依赖范围  
+
+当传递依赖的版本不一致时需要**依赖调解**（Dependency Mediation）。
+原则1：路径最近者优先  
+A→B→C→X（1.0），A→D→X（2.0），其中1.0长度3,2.0长度2  
+原则2：第一生命者优先  
+
