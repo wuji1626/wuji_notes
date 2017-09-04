@@ -12,23 +12,23 @@ Ubuntu 16.04的网卡已不再按照eth0命名网卡，而需要在如下目录�
 2）设置网卡信息  
 `sudo vi /etc/network/interfaces`    
 原始内容为：   
-`auto lo`<br/>
-`iface lo inet loopback`<br/>
-修改为：<br/>
-`auto lo`<br/>
-`iface lo inet loopback`<br/>
-`auto ens33`<br/>
-`iface ens33 inet static`<br/>
-`address 192.168.119.132`<br/>
-`netmask 255.255.255.0`<br/>
-`gateway 192.168.119.128`<br/>
-3）设置DNS信息<br/>
-`sudo vi /etc/resolv.conf`<br/>
-添加DNS服务器地址：<br/>
+`auto lo`  
+`iface lo inet loopback`  
+修改为： 
+`auto lo`  
+`iface lo inet loopback`  
+`auto ens33`  
+`iface ens33 inet static`  
+`address 192.168.119.132`  
+`netmask 255.255.255.0`  
+`gateway 192.168.119.128`  
+3）设置DNS信息  
+`sudo vi /etc/resolv.conf`  
+添加DNS服务器地址：  
 `nameserver 202.107.117.11`   
 `nameserver 202.96.134.133`    
 `nameserver 8.8.8.8`  
-3）重启网络服务<br/>
+3）重启网络服务  
 `sudo /etc/init.d/networking restart`  
 ###Ubuntu 16.04网卡设置问题对应
 【问题1】在配置好网络之后，当重启之后，会出现网络无法使用的情况，网络图标显示“device not managed”  
