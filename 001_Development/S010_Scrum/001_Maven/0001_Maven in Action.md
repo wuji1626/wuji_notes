@@ -12,7 +12,7 @@ Maven对项目目录结构、测试用例命名方式都有既定规则（约定
 IDE无法一键完成编译、测试、代码生成等工作  
 很难在各个项目中完成统一配置
 
-Maven不仅上构建工具，还是一个依赖管理工具和项目信息管理工具  
+Maven不仅是构建工具，还是一个依赖管理工具和项目信息管理工具  
 项目信息管理：将原本分散在项目各个角落的信息集中管理，包括：项目描述、开发者列表、版本控制系统地址、许可证、缺陷管理系统地址等。
 ##2 Maven的安装和配置
 在Maven的bin目录下有mvn和mvnDebug两个脚本，mvnDebug可以通过MAVEN_DEBUG_OPTION配置，开启debug模式，调试Maven本身  
@@ -159,4 +159,172 @@ Maven有三种依赖范围：
 原则1：路径最近者优先  
 A→B→C→X（1.0），A→D→X（2.0），其中1.0长度3,2.0长度2  
 原则2：第一生命者优先  
+####3.2.3 可选依赖
+B可选X，可选Y实现某些互斥特性，就需要可选依赖实现。如持久化层的隔离，有MySQL实现，PostgreSQL实现，在依赖时就可以使用`<opional>true</optional>`  
+~~~XML
+<dependencies>
+	<dependency>
+    	<groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.10</version>
+        <optional>true</optional>
+    </dependency>
+    <dependency>
+    	<groupId>postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>8.4-701.jdbc3</version>
+        <optional>true</optional>
+    </dependency>
+</dependencies>
+~~~
+如上述依赖关系，就是B的依赖。  
+可选依赖关系不能传递，如果A引用B，持久化层依赖MySQL、PostgreSQL都不能传递，需要显式再次依赖声明  
+一般可选依赖不提倡使用，根据单一职责原则，应该分别有两个版本，分别按照底层持久化层不同，开发两个版本  
+####3.2.4 排除依赖
+传递性依赖会给项目隐式引入很多依赖  
+exclusions可以包含一个或多个exclusion子元素，可以排除一个或多个传递性依赖。exclusion只需groupId、artifactId，不需要指定version元素，因为只需要定位一个依赖关系。Maven解析后的依赖中，不可能出现groupId、artifactId相同，但是version不同的两个依赖
+![](img/M0006.png)  
+####3.2.5 归类依赖
+~~~XML
+<properties>
+	<org.springframework.version>4.0.8.RELEASE</org.springframework.version>
+</properties>
+<dependencies>
+	    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-core</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-context</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-context-support</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency> 
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-jdbc</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-orm</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-oxm</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-web</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-webmvc</artifactId>  
+        <version>${org.springframework.version}</version>  
+    </dependency>
+</dependencies>
+~~~
+####3.2.6 优化依赖
+- 查看当前工程已解析依赖：`mvn dependency:list`  
+- 查看当前工程依赖树：`mvn dependency:tree`  
+- 分析当前工程的依赖情况：`mvn dependency:analyze`  
+使用该分析命令，输出的依赖报告中：
+Used undeclared dependencies，意为使用到的，但没有显示声明的依赖；
+Unused declared dependencies，项目中未使用，但显示声明。analyze只会分析主代码、测试代码需要的依赖，隐式的依赖不做分析
+
+###3.3 Repository
+仓库分类：本地仓库、远程仓库  
+![](img/M007.png)  
+####3.3.1 本地仓库
+Maven的settings中可以设定本地仓库的存放位置  
+~~~XML
+<settings>
+	<localRepository>D:\java\repository\</localRepository>
+</settings>
+~~~
+mvn clean install：改命令中，install插件的install目标将项目构建输出文件安装到本地仓库
+####3.3.2 远程仓库
+Maven必须知道至少一个可用的远程仓库，才能下载需要的构建。Maven的安装文件自带中央仓库配置，在$M2_HOME/lib/maven-model-builder-3.0.jar中的org/apache/maven/model/pom-4.0.0.xml中有如下配置：
+~~~XML
+<repositories>
+	<repository>  
+    	<id>central</id>  
+        <name>Maven Repository Switchboard</name>  
+        <url>http://repo1.maven.org/maven2</url>  
+        <snapshots>  
+                <enabled>false</enabled>  
+        </snapshots>  
+    </repository>
+</repositories>
+~~~
+所有Maven工程的pom都继承这个pom，其中id central是该仓库的唯一标识。snapshot为false，是从该仓库不下载快照版本的构件  
+Maven工程的pom.xml中可以显式设置repository，如果id指明central中央仓库将被覆盖  
+release、snapshot还有另外两个元素：  
+updatePolicy：用来配置Maven从远程仓库检查更新的频率，默认是daily，表示每天检查一次。其他选项：never、always（每次检查）、interval：X——每隔X分钟检查一次更新（X为任意整数）  
+checksumPolicy：检查检验和文件的策略。默认warn：构建时输出警告信息；fail：遇到教研和错误就让构建失败；ignore完全忽略校验和错误  
+■仓库认证  
+<settings>
+	...
+    <servers>
+    	<server>
+        	<id>my-proj</id>
+            <username>repo-user</username>
+            <password>repo-pwd</password>
+        </server>
+    </servers>
+    ...
+</settings>
+■部署至远程仓库
+Maven除能对项目进行编译、测试、打包外，还能将项目生成的构件部署到仓库中  
+<project>
+	...
+    <distributionManagement>
+    	<repository>
+        	<id>proj-release</id>
+            <name>Proj Release Repository</name>
+            <url>http://127.0.0.1/content/repositories/proj-release</url>
+        </repository>
+        <snapshotRepository>
+        	<id>proj-snapshots</id>
+            <name>Proj Snapshot Repository</name>
+            <url>http://127.0.0.1/content/repositories/proj-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    ...
+</project>
+distributionManagement包含repository、snapshotRepository子元素，分别表示发布版本构件仓库、快照版本仓库  
+远程库往往需要认证  
+`mvn clean deploy`将会将项目构建输出的构件部署到配置对应的远程仓库
+####3.3.3 镜像
+~~~XML
+<settings>
+	...
+    <mirrors>
+    	<mirror>
+        	<id>maven.net.cn</id>
+            <name>one of the central mirrors in China</name>
+            <url>http://maven.net.cn/content/groups/public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors
+    ...
+</settings>  
+~~~  
+mirrorOf值为central，表示配置为中央仓库的镜像，任何对于中央仓库的请求都会转至该镜像，用户也可以使用同样的方法配置其他仓库的镜像  
+mirrorOf值为*，表示该配置是所有Maven仓库的镜像，任何远程仓库都被转至该镜像地址  
+mirrorOf值为external:*，匹配所有远程仓库，使用localhost除外，使用file://协议除外  
+mirrorOf值为repo1，repo2，匹配仓库repo1，repo2，用逗号分隔多个远程参控股  
+mirrorOf值为*,!repo1，匹配所有远程仓库，repo1除外  
+
+###3.4 仓库搜索
+http://repository.sonatype.org/  
+http://mvnrepository.com/  
 

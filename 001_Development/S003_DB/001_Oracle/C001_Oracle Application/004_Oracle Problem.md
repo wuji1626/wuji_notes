@@ -120,10 +120,10 @@ Filesystem            Size  Used Avail Use% Mounted on
 tmpfs                 636M     0 636M   0% /dev/shm  
 
 这个文件的大小才是真正控制我们 AMM 的大小关键。找到了原因就好处理了。修改tmpfs 的大小，使其大于MEMORY_TARGET的大小就可以了。 
- 
+~~~
 # umount tmpfs
 # mount -t tmpfs shmfs -o size=3G /dev/shm
- 
+~~~
 让以后每次重启OS 都自动mount，修改文件 /etc/fstab 将tmpfs 修改成以下值：
  tmpfs            /dev/shm        tmpfs  defaults,size=3G        0 0
  
@@ -148,3 +148,5 @@ umount: /dev/shm: device is busy.
 # umount /dev/shm
 # mount /dev/shm
 ~~~
+
+
