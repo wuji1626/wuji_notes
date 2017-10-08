@@ -675,5 +675,263 @@ spring的事件，支持Bean与Bean之间消息通信，流程如下：
 1. 事件类
 DemoEvent.java
 ~~~java
-
+package com.wuji1626.spring.application_event.event;
+import org.springframework.context.ApplicationEvent;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+public class DemoEvent extends ApplicationEvent {
+    private static final long serialVersionUID = 1L;
+    private String msg;
+    /**
+     * Create a new ApplicationEvent.
+     *
+     * @param source the component that published the event (never {@code null})
+     */
+    public DemoEvent(Object source, String msg) {
+        super(source);
+        this.msg = msg;
+    }
+    public String getMsg() {
+        return msg;
+    }
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+}
 ~~~
+2. 监听类
+DemoListener.java  
+~~~java
+package com.wuji1626.spring.application_event.event;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+@Component
+public class DemoListener implements ApplicationListener<DemoEvent> {
+    public void onApplicationEvent(DemoEvent event) {
+        String msg = event.getMsg();
+        System.out.println("我（bean-demoListener）接收到了bean-demoPublisher发布的消息：" + msg);
+    }
+}
+~~~
+3. 事件发布类
+DemoPublisher.java
+~~~java
+package com.wuji1626.spring.application_event.event;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.stereotype.Component;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+@Component
+public class DemoPublisher {
+    @Autowired
+    ApplicationContext applicationContext;
+    public void publish(String msg){
+        applicationContext.publishEvent(new DemoEvent(this,msg));
+    }
+}
+~~~
+4. 配置类
+EventConfig.java  
+~~~java
+package com.wuji1626.spring.application_event.config;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+@Configuration
+@ComponentScan("com.wuji1626.spring.application_event")
+public class EventConfig {
+}
+~~~
+5. 运行类
+Main.java  
+~~~java
+package com.wuji1626.spring.application_event;
+import com.wuji1626.spring.application_event.config.EventConfig;
+import com.wuji1626.spring.application_event.event.DemoPublisher;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+public class Main {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(EventConfig.class);
+        DemoPublisher demoPublisher = context.getBean(DemoPublisher.class);
+        demoPublisher.publish("hello application event!");
+        context.close();
+    }
+}
+~~~
+6. 运行结果
+![](img/R008.png)  
+
+###1.8 Spring Aware
+为了使Bean能使用容器本身的资源，需要Bean意识到容器的存在（引入依赖注入和控制反转的目的就是为了让Java程序意识不到容器的存在，从而降低耦合度），这就是Spring Aware  
+Spring提供的Aware接口：  
+名称|说明
+---|---
+BeanNameAware|获得到容器中Bean的名称
+BeanFactoryAwre|获取档期bean factory，只有可以调用容器的服务
+ApplicationContextAware|当前的application context，这样可以调用容器的服务
+MessageSourceAware|获得message source，这样可以获得文本信息
+ApplicationEventPublisherAware|应用事件发布器，可以发布事件，如上面的DemoPublisher也可以实现这个借口来发布事件
+ResourceLoaderAware|获得资源加载器，可获得外部资源文件
+ApplicationContext接口继承了MessageSource、ApplicationEventPublisher、ResourceLoader接口，Bean一旦继承ApplicationContextAware即可获得Spring容器的所有服务，原则上还是用到什么接口，实现什么接口  
+
+案例：
+1. 资源
+spring_aware.txt
+~~~
+This words is from resources!
+~~~
+2. 服务类
+AwareService.java
+~~~java
+package com.wuji1626.spring.aware.service;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import java.io.IOException;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+@Service
+public class AwareService implements BeanNameAware,ResourceLoaderAware {
+    private String beanName;
+    private ResourceLoader loader;
+    public void setBeanName(String name) {
+        this.beanName = name;
+    }
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.loader = resourceLoader;
+    }
+    public void outputResult(){
+        System.out.println("Bean的名称为：" + beanName);
+        Resource resource = loader.getResource("classpath:spring_aware.txt");
+        try {
+            System.out.println("ResourceLoader加载文件内容为：" + IOUtils.toString(resource.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+~~~
+3. 配置类
+AwareConfig.java
+~~~java
+package com.wuji1626.spring.aware.config;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+@Configuration
+@ComponentScan("com.wuji1626.spring.aware")
+public class AwareConfig {
+}
+~~~
+4. 运行类
+Main.java
+~~~java
+package com.wuji1626.spring.aware;
+import com.wuji1626.spring.aware.config.AwareConfig;
+import com.wuji1626.spring.aware.service.AwareService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+public class Main {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AwareConfig.class);
+        AwareService awareService = context.getBean(AwareService.class);
+        awareService.outputResult();
+        context.close();
+    }
+}
+~~~
+5. 运行结果
+![](img/R009.png)  
+
+###1.9 多线程
+Spring通过TaskExecutor来实现多线程和并发编程。使用ThreadPoolTaskExecutor可实现一个基于线程池的TaskExecutor。任务一般是异步的，可以通过@EnableAsync开启对异步任务的支持，并通过在实际执行的Bean的方法中使用@Async注解来声明其是一个异步任务
+
+案例：  
+1. 配置类
+TaskExecutorConfig.java
+~~~java
+package com.wuji1626.spring.multi_thread.config;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import java.util.concurrent.Executor;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+@Component
+@ComponentScan("com.wuji1626.spring.multi_thread")
+@EnableAsync
+public class TaskExecutorConfig implements AsyncConfigurer {
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.setCorePoolSize(5);
+        taskExecutor.setMaxPoolSize(10);
+        taskExecutor.setQueueCapacity(25);
+        taskExecutor.initialize();
+        return taskExecutor;
+    }
+}
+~~~
+2. 任务执行类
+AsyncTaskService.java
+~~~java
+package com.wuji1626.spring.multi_thread.service;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+@Service
+public class AsynTaskService {
+    @Async
+    public void executeAsyncTask(Integer i){
+        System.out.println("执行异步任务：" + i);
+    }
+    @Async
+    public void executeAsyncTaskPlus(Integer i){
+        System.out.println("执行异步任务+1：" + (i + 1));
+    }
+}
+~~~
+3. 运行类
+Main.java
+~~~java
+package com.wuji1626.spring.multi_thread;
+import com.wuji1626.spring.multi_thread.config.TaskExecutorConfig;
+import com.wuji1626.spring.multi_thread.service.AsynTaskService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+/**
+ * Created by Administrator on 2017/10/8.
+ */
+public class Main {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TaskExecutorConfig.class);
+        AsynTaskService asynTaskService = context.getBean(AsynTaskService.class);
+        for (int i = 0 ; i < 10 ; i++){
+            asynTaskService.executeAsyncTask(i);
+            asynTaskService.executeAsyncTaskPlus(i);
+        }
+        context.close();
+    }
+}
+~~~
+4. 结果
+![](img/R010.png)  
