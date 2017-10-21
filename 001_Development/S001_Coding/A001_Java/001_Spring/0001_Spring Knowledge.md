@@ -21,4 +21,26 @@ Spring IoC容器（ApplicationContext）负责创建Bean，通过该容器（上
 - @Resource：JSR-250提供的注解
 以上注解可以注解在set方法或属性上，在属性上使用代码量会减少  
 
+##2 @Enable*的实现原理
+@Enable*来开启某功能，避免大量代码，降低使用难度  
+在@Enable*类中都含有一个@Import注解，用于导入配置类，这些自动开启的实现导入了一些自动配置的Bean，
+导入配置的方式有三种：  
+###2.1 直接导入配置类
+以@EnableScheduling为例，导入了SchedulingConfiguration.class  
+![](img/K001.png)  
+而SchedulingConfiguration的构造如下：  
+![](img/K002.png)  
+###2.2 条件选择配置类
+以@EnableAsync为例，导入了AsyncConfigurationSelector.class，通过条件选择导入配置类  
+![](img/K003.png)  
+###2.3 动态注册Bean
+以EnableAspectJAutoProxy为例，引入了AspectJAutoProxyRegistrar，实现了ImportBeanDefinitionRegistrar接口，在运行时可以自动添加Bean到已有的配置类。
+![](img/K004.png)  
+AnnotationMetadata：用来获取当前配置类上的注解  
+BeanDefinitionRegistry：用来注册Bean  
+
+##3 Spring MVC基础
+MVC：数据模型+视图+控制器（Model + View + Controller）  
+三层架构：展现层+应用层+数据访问层（Presentation tier + Application tier + Data tier）  
+
 

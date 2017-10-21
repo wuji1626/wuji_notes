@@ -935,3 +935,554 @@ public class Main {
 ~~~
 4. 结果
 ![](img/R010.png)  
+
+###1.10 计划任务
+@EnableScheduling：开启对计划任务的支持，在要执行计划任务的方法上注解@Scheduled，声明一个计划任务。可以支持多种类型的计划任务：cron、fixDelay、fixRat  
+
+案例：  
+1. 服务类
+服务类中指定计划计划任务的方法  @Scheduled  
+ScheduledTaskService.class  
+~~~java
+package com.wuji1626.spring.scheduled.service;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+@Service
+public class ScheduledTaskService {
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    @Scheduled(fixedRate = 5000)
+    public void reportCurrentTime(){
+        System.out.println("每隔5秒执行一次" + dateFormat.format(new Date()));
+    }
+    @Scheduled(cron = "0 0 11 ? * *")
+    public void fixTimeExcution(){
+        System.out.println("在指定时间" + dateFormat.format(new Date()) + "执行");
+    }
+}
+~~~
+2. 配置类
+配置类中开启计划任务选项  @EnableScheduling  
+TaskSchedulerConfig.class
+~~~java
+package com.wuji1626.spring.scheduled.config;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+@Configuration
+@ComponentScan("com.wuji1626.spring.scheduled")
+@EnableScheduling
+public class TaskSchedulerConfig {
+}
+~~~
+3. 运行类
+Main.java
+~~~java
+package com.wuji1626.spring.scheduled;
+import com.wuji1626.spring.scheduled.config.TaskSchedulerConfig;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public class Main {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TaskSchedulerConfig.class);
+    }
+}
+~~~
+
+###1.11 条件注解
+@Conditional：满足特定条件创建特定Bean，是Spring Boot的基础，Spring Boot大量使用条件注解  
+
+案例：  
+1. 条件类
+设定两个条件类的实现：  
+WindowsCondition.java
+~~~java
+package com.wuji1626.spring.condition.condition;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public class WindowsCondition implements Condition {
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        return context.getEnvironment().getProperty("os.name").contains("Windows");
+    }
+}
+~~~
+LinuxCondition.java
+~~~java
+package com.wuji1626.spring.condition.condition;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public class LinuxCondition implements Condition {
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        return context.getEnvironment().getProperty("os.name").contains("Linux");
+    }
+}
+~~~
+2. 服务类
+需要先定义一个
+~~~java
+package com.wuji1626.spring.condition.service;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public interface ListService {
+    public String showListed();
+}
+~~~
+实现类
+~~~java
+package com.wuji1626.spring.condition.service.impl;
+import com.wuji1626.spring.condition.service.ListService;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public class WindowsListService implements ListService {
+    public String showListed() {
+        return "dir";
+    }
+}
+~~~
+~~~java
+package com.wuji1626.spring.condition.service.impl;
+import com.wuji1626.spring.condition.service.ListService;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public class LinuxListService implements ListService {
+    public String showListed() {
+        return "ls";
+    }
+}
+~~~
+3. 配置类
+ConditionConfig.java
+~~~java
+package com.wuji1626.spring.condition.config;
+import com.wuji1626.spring.condition.condition.LinuxCondition;
+import com.wuji1626.spring.condition.condition.WindowsCondition;
+import com.wuji1626.spring.condition.service.ListService;
+import com.wuji1626.spring.condition.service.impl.LinuxListService;
+import com.wuji1626.spring.condition.service.impl.WindowsListService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Configuration;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+@Configuration
+@ComponentScan("com.wuji1626.spring.condition")
+public class ConditionConfig {
+    @Bean
+    @Conditional(WindowsCondition.class)
+    public ListService windowsListService(){
+        return new WindowsListService();
+    }
+    @Bean
+    @Conditional(LinuxCondition.class)
+    public ListService linuxListService(){
+        return new LinuxListService();
+    }
+}
+~~~
+4. 运行类
+~~~java
+package com.wuji1626.spring.condition;
+import com.wuji1626.spring.condition.config.ConditionConfig;
+import com.wuji1626.spring.condition.service.ListService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public class Main {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConditionConfig.class);
+        ListService listService = context.getBean(ListService.class);
+        System.out.println(context.getEnvironment().getProperty("os.name") + "系统下的列表命令为：" + listService.showListed());
+        context.close();
+    }
+}
+~~~
+5. 结果
+![](img/R012.png)  
+
+###1.12 组合注解、元注解
+元注解：可以注解到别的注解上的注解
+组合组件：被元注解注解的注解，组合注解具备元注解的功能。可以将多个注解组合成一个新注解，简化代码  
+
+案例：
+1. 组合注解类  
+WiselyConfiguration.java  
+在注解中直接使用包名`@WiselyConfiguration("com.wuji1626.spring.assembly_annotation")`始终报`org.springframework.beans.factory.NoSuchBeanDefinitionException`异常，可能是由于Spring4.0.8 Configuration、ComponentScan注解中都含有value()方法，有冲突。在组合注解定义时，添加basePackages()属性，在注解时指定该属性，异常解除  
+~~~java
+package com.wuji1626.spring.assembly_annotation.annotation;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import java.lang.annotation.*;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Configuration
+@ComponentScan
+public @interface WiselyConfiguration {
+    String[] value() default {};
+    String[] basePackages() default {};
+}
+~~~
+2. 服务类
+DemoService.java
+~~~java
+package com.wuji1626.spring.assembly_annotation.service;
+import org.springframework.stereotype.Service;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+@Service
+public class DemoService {
+    public void outputResult(){
+        System.out.println("仍然可以获得Bean");
+    }
+}
+~~~
+3. 配置类
+~~~java
+package com.wuji1626.spring.assembly_annotation.config;
+import com.wuji1626.spring.assembly_annotation.annotation.WiselyConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+@WiselyConfiguration(basePackages = "com.wuji1626.spring.assembly_annotation")
+public class AnnotationConfig {
+}
+~~~
+4. 运行类
+Main.java
+~~~java
+package com.wuji1626.spring.assembly_annotation;
+import com.wuji1626.spring.assembly_annotation.config.AnnotationConfig;
+import com.wuji1626.spring.assembly_annotation.service.DemoService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+/**
+ * Created by Administrator on 2017/10/10.
+ */
+public class Main {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+        DemoService demoService = context.getBean(DemoService.class);
+        demoService.outputResult();
+        context.close();
+    }
+}
+~~~
+5. 结果
+![](img/R013.png)  
+
+##2 Spring MVC配置
+1. pom.xml中添加必要的依赖  
+~~~xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.wuji1626</groupId>
+  <artifactId>play</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>play Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <java.version>1.8</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Spring -->
+    <org.springframework.version>4.1.5.RELEASE</org.springframework.version>
+    <quartz.version>1.8.6</quartz.version>
+    <!-- Web -->
+    <jsp.version>2.2</jsp.version>
+    <jstl.version>1.2</jstl.version>
+    <servlet.version>3.1.0</servlet.version>
+    <!-- Logging -->
+    <logback.version>1.0.13</logback.version>
+    <slf4j.version>1.7.5</slf4j.version>
+
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>8.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>${jstl.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>${jsp.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Spring Reference-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-oxm</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <!-- Spring and Transactions -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>jsr250-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.8.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.8.5</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <!-- LogBack and SLF4J -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.16</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-access</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+    <finalName>play</finalName>
+  </build>
+</project>
+~~~
+2. 对于logback日志文件的配置
+在resources目录下添加logback.xml  
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1 seconds">
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <jmxConfigurator />
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>logback: %d{HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="org.springframe.web" level="DEBUG" />
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+</configuration>
+~~~
+3. jsp页面
+在resources目录下添加views目录，在目录下添加index.jsp文件  
+~~~html
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Insert title here</title>
+    </head>
+    <body>
+        <pre>
+            Welcome to Spring MVC world!
+        </pre>
+    </body>
+</html>
+~~~
+4. SpringMVC配置类
+MyMvcConfig.java
+在配置类中指明ViewResolver的前缀和后缀，由于resources/views目录在编译后被存储在target/WEB-INF/classes/views/目录下，因此前缀指明`/WEB-INF/classes/views/`目录，后缀自然是.jsp  
+~~~java
+package com.wuji1626.spring.webmvc;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+/**
+ * Created by Administrator on 2017/10/18.
+ */
+@Configuration
+@EnableWebMvc
+@ComponentScan("com.wuji1626.spring.webmvc")
+public class MyMvcConfig {
+    @Bean
+    public InternalResourceViewResolver viewResolver(){
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/classes/views/");
+        viewResolver.setSuffix(".jsp");
+        viewResolver.setViewClass(JstlView.class);
+        return viewResolver;
+    }
+}
+~~~
+5. Web配置
+WebInitializer.java  
+~~~java
+package com.wuji1626.spring.webmvc;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+/**
+ * Created by Administrator on 2017/10/18.
+ */
+public class WebInitializer implements WebApplicationInitializer {
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        ctx.register(MyMvcConfig.class);
+        ctx.setServletContext(servletContext);
+
+        ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
+        servlet.addMapping("/");
+        servlet.setLoadOnStartup(1);
+
+    }
+}
+~~~
