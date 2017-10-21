@@ -129,6 +129,7 @@ shutdown [-cfFhknr (参数名称)] [-t 秒数] [时间] [警告信息]
 `shutdown +5` 在5分钟后关机  
 - 警告信息：要传给登录用户的信息  
 `shutdown +5 "System will shutdown in 5 minutes"`  
+
 ####3.5.2 halt命令
 halt命令也用来关闭系统，相当于shutdown -h  
 halt命令执行时，先杀死应用进程，执行sync系统调用，文件系统写操作完成后就会停止内核。halt先检测runlevel若返回为0\6，则关闭系统，否则调用shutdown  

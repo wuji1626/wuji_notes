@@ -51,6 +51,19 @@ gpg:               imported: 1  (RSA: 1)
 `sudo docker ps -ls`  
 ![](./images/3.png)  
 
+###1.3 在Win10上运行docker
+1. 先检查Windows运行Docker的先决条件  
+![](images/Win10Docker.png)  
+2. 在docker官网，下载Docker for Windows  
+[https://store.docker.com/editions/community/docker-ce-desktop-windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)  
+3. 完成安装后，运行docker for windows
+![](images/WindowsDockerRun.png)  
+4. 运行powershell  
+执行`docker version`  
+![](images/finishDockerInstall.png)  
+
+
+
 ##2 镜像
 ###2.1 镜像获取
 执行命令：  
