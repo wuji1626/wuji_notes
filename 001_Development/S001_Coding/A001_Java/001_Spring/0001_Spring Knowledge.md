@@ -42,5 +42,27 @@ BeanDefinitionRegistry：用来注册Bean
 ##3 Spring MVC基础
 MVC：数据模型+视图+控制器（Model + View + Controller）  
 三层架构：展现层+应用层+数据访问层（Presentation tier + Application tier + Data tier）  
+###3.1 SpringMVC常用注解
+1. @Controller
+在类上使用，表明是controller，是Spring的一个Bean，Dispatcher Servlet自动扫描注解此类，将Web请求映射到注解了@RequestMapping的方法上  
+2. @RequestMapping
+映射Web请求（访问路径和参数）、处理类和方法。@RequestMapping可以注解到类或者方法上。在方法上路径会继承注解在类上的路径。@RequestMapping支持Servlet的request、response作为参数，也支持对request和response的媒体类型进行配置  
+3. @ResponseBody
+将返回值放在response体内，而不是返回一个页面。在基于Ajax请求时，可以以此注解返回数据而不是页面。该注解放置在返回值前或方法上  
+4. @RequestBody
+运行request参数在request体中，而不是在直接链接在地址后面。该注解放置在参数前  
+5. @PathVariable
+用来接收路径参数，如/news/001，可接收001作为参数，该注解放置在参数前  
+6. @RestController
+组合注解，组合@Controller、@ResponseBody，当只开发一个和页面交互数据的控制时，需要使用该注解，否则需要使用@Controller和@ResponseBody。定义了@RestController在返回值中就不需要定义@ResponseBody注解  
+
+###3.2 控制器建言（@ControlloerAdvice）
+通过@ControllerAdvice将对于控制器的全局配置放置在同一个位置，@Controller类可以使用@ExceptionHandler、@InitBinder、@ModelAttribute注解方法，以上这三个注解对于@RequestMapping的控制器的方法有效  
+- @ExceptionHandler：用于全局处理控制器里的异常
+- @InitBinder：设置WebDataBinder，WebDataBinder用来自动绑定前台请求参数到Model中
+- @ModelAttribute：@ModelAttribute本来的作用是绑定键值对到Model里，此处是让全局的@RequestMapping都能获得在@ControllerAdvice中设置的键值对  
+
+
+
 
 

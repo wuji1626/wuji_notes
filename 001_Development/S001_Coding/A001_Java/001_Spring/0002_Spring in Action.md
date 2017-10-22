@@ -1199,6 +1199,7 @@ public class Main {
 ![](img/R013.png)  
 
 ##2 Spring MVC配置
+###2.1 基本样例
 1. pom.xml中添加必要的依赖  
 ~~~xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1486,3 +1487,279 @@ public class WebInitializer implements WebApplicationInitializer {
     }
 }
 ~~~
+
+###2.2 SpringMVC注解样例
+1. 创建一个Demo对象
+DemoObj.java  
+~~~java
+package com.wuji1626.spring.webmvc.domain;
+/**
+ * Created by Administrator on 2017/10/21.
+ */
+public class DemoObj {
+    private Long id;
+    private String name;
+
+    public DemoObj() {
+        super();
+    }
+
+    public DemoObj(Long id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+~~~
+2. 注解Controller
+DemoAnnController.class  
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import com.wuji1626.spring.profile.bean.DemoBean;
+import com.wuji1626.spring.webmvc.domain.DemoObj;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
+/**
+ * Created by Administrator on 2017/10/21.
+ */
+@Controller
+@RequestMapping("anno")
+public class DemoAnnController {
+    // 未备注路径，使用继承的/anno，produces定制返回response的媒体类型和字符集，若需返回json，则使用application/json
+    @RequestMapping(produces = "text/plain;charset=UTF-8")
+    public @ResponseBody String index(HttpServletRequest request){
+        return "url:" + request.getRequestURI() + " can access";
+    }
+    // 接收路径参数，方法前需指定@PathVariable注解，访问路径/anno/pathvar/xxx
+    @RequestMapping(value = "/pathvar/{str}", produces = "text/plain;charset=UTF-8")
+    public @ResponseBody String demoPathVar(@PathVariable String str, HttpServletRequest request){
+        return "url:" + request.getRequestURI() + " can access str, str: " + str;
+    }
+    // 接收常规参数，访问路径/anno/requestParam?id=1
+    @RequestMapping(value = "requestParam", produces = "text/plain;charset=UTF-8")
+    public @ResponseBody String passRequestParam(Long id, HttpServletRequest request){
+        return "url:" + request.getRequestURI() + "can access, id: " +id;
+    }
+    // 接收参数到对象，访问路径/anno/obj?id=1&name=xxx
+    @RequestMapping(value = "/obj", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String passObj(DemoObj obj, HttpServletRequest request){
+        return "url:" + request.getRequestURI() + "can access, obj id: " + obj.getId() + ", obj name:" + obj.getName();
+    }
+    // 映射不同路径到相同方法，访问路径/anno/name1或/anno/name2
+    @RequestMapping(value = {"/name1", "/name2"}, produces = "text/plain;charset=UTF-8")
+    public @ResponseBody String remove(HttpServletRequest request){
+        return "url:" + request.getRequestURI() + " can access";
+    }
+}
+~~~
+结果  
+/anno  
+![](img/R016.png)  
+/anno/pathvar/xxx  
+![](img/R017.png)  
+/anno/requestParam?id=1  
+![](img/R018.png)  
+/anno/obj?id=1&name=zhangwh  
+![](img/R019.png)  
+3. Rest型Controller
+DemoRestController.class  
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import com.wuji1626.spring.webmvc.domain.DemoObj;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+/**
+ * Created by Administrator on 2017/10/22.
+ */
+@RestController
+@RequestMapping("rest")
+public class DemoRestController {
+    @RequestMapping(value = "/getjson", produces = {"application/json;charset=UTF-8"})
+    public DemoObj getJson(DemoObj obj){
+        return new DemoObj(obj.getId()+1, obj.getName()+"yy");
+    }
+    @RequestMapping(value = "getxml", produces = {"application/xml;charset=UTF-8"})
+    public DemoObj getXml(DemoObj obj){
+        return new DemoObj(obj.getId()+1, obj.getName()+"yy");
+    }
+}
+~~~
+结果
+/rest/getjson?id=1&name=zhangwh  
+![](img/R020.png)  
+/rest/getxml?id=1&name=zhangwh  
+![](img/R021.png)  
+
+###2.3 静态资源映射
+1. 添加静态资源，在resources目录下添加assets/js，将jquery.js文件拷贝到该目录  
+![](img/R022.png)  
+2. MyMvcConfigzho添加addResourceHandlers()方法  
+~~~java
+package com.wuji1626.spring.webmvc;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+/**
+ * Created by Administrator on 2017/10/18.
+ */
+@Configuration
+@EnableWebMvc
+@ComponentScan("com.wuji1626.spring.webmvc")
+public class MyMvcConfig  extends WebMvcConfigurerAdapter{
+    @Bean
+    public InternalResourceViewResolver viewResolver(){
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/classes/views/");
+        viewResolver.setSuffix(".jsp");
+        viewResolver.setViewClass(JstlView.class);
+        return viewResolver;
+    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
+    }
+}
+~~~
+结果
+![](img/R023.png)  
+
+###2.4 拦截器
+拦截器类似Servlet的filter  
+1. 创建拦截器
+~~~java
+package com.wuji1626.spring.webmvc.interceptor;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ * Created by Administrator on 2017/10/22.
+ */
+public class DemoInterceptor extends HandlerInterceptorAdapter{
+    @Override
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response, Object handler) throws Exception{
+        Long startTime = System.currentTimeMillis();
+        request.setAttribute("startTime", startTime);
+        return true;
+    }
+    @Override
+    public void postHandle(HttpServletRequest request,
+                              HttpServletResponse response, Object handler,
+                              ModelAndView modelAndView) throws Exception{
+        Long startTime = (Long)request.getAttribute("startTime");
+        request.removeAttribute("startTime");
+        Long endTime = System.currentTimeMillis();
+        System.out.println("本次请求处理时间为：" + new Long(endTime - startTime) + "ms");
+        request.setAttribute("handlingTime" ,endTime - startTime);
+    }
+}
+~~~
+2. 在配置中增加配置
+addPathPatterns（）方法可以过滤请求的模式  
+~~~java
+    @Bean
+    public DemoInterceptor demoInterceptor(){
+        return new DemoInterceptor();
+    }
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(demoInterceptor()).addPathPatterns("/anno/**");
+    }
+~~~
+3. 结果
+在路径中输入http://localhost:8080/play/anno/  
+日志输出  
+![](img/R024.png)  
+
+###2.4 控制器建言
+使用@ExceptionHandler处理全局异常，更人性化的将异常输出给用户  
+1. 创建控制器建言类
+~~~java
+package com.wuji1626.spring.webmvc.advice;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
+/**
+ * Created by Administrator on 2017/10/22.
+ */
+@ControllerAdvice
+public class ExceptionHandlerAdice {
+    @ExceptionHandler(value = Exception.class)
+    public ModelAndView exception(Exception exception, WebRequest request){
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("errorMessage", exception.getMessage());
+        return modelAndView;
+    }
+    @ModelAttribute
+    public void addAttributes(Model model){
+        model.addAttribute("msg", "额外信息");
+    }
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder){
+        webDataBinder.setDisallowedFields("id");
+    }
+}
+~~~
+2. Controller使用类
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import com.wuji1626.spring.webmvc.domain.DemoObj;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+/**
+ * Created by Administrator on 2017/10/22.
+ */
+@Controller
+public class AdviceController {
+    @RequestMapping("advice")
+    public String getSomething(@ModelAttribute("msg") String msg, DemoObj obj){
+        throw new IllegalArgumentException("非常抱歉，参数有误/" + "来自@ModelAttribute：" + msg);
+    }
+}
+~~~
+3. 结果
+在InitBinder中设置了setDisallowedFields()忽略了id字段
+![](img/R025.png)  
+web.xml中配置的web-app的dtd的版本为2.3。
+![](img/R026.png)  
+在2.3版本中，isELIgnored默认时true，只有在2.4或以上版本默认才是false。需要在jsp中将该配置设置为false，否则就会在jsp页面中直接输出${errorMessage}  
+![](img/R027.png)  
+添加isELIgnored=false后，页面显示正常  
+![](img/R028.png)  
+![](img/R029.png)  
+
+
+
