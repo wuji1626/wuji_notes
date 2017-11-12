@@ -1760,6 +1760,459 @@ web.xml中配置的web-app的dtd的版本为2.3。
 添加isELIgnored=false后，页面显示正常  
 ![](img/R028.png)  
 ![](img/R029.png)  
+###2.5 ViewController
+在很多情况下，在Controller中只需要一个页面跳转，就需要在Controller中定义一个方法：
+~~~java
+@RequestMapping("/viewController")
+public String viewController(){
+	return "/viewController";
+}
+~~~
+实际上在SpringMVC的配置类中可以重载addViewControllers()方法实现  
+在MyMvcConfig.java中增加如下代码：  
+~~~java
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry){
+        registry.addViewController("/viewController").setViewName("/viewController");
+    }
+~~~
+一行代码也实现了上面Controller中定义RequestMapping的效果：  
+![](img/R030.png)  
 
+###2.6 路径匹配参数配置
+如果在url中想要带“.”，默认情况下，“.”后面的内容将被忽略掉  
+![](img/R031.png)  
+如果想要接受“.”后的内容，需要在configurePathMath()进行配置  
+~~~java
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer){
+        configurer.setUseSuffixPatternMatch(false);
+    }
+~~~
+![](img/R032.png)  
 
+###2.7 文件上传
+1. 先在pom中引用commons-upload、commons-io
+~~~xml
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.3.1</version>
+    </dependency>
+~~~
+2. 上传页面
+~~~jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>upload page</title>
+</head>
+<body>
+<div class="upload">
+    <form action="upload" enctype="multipart/form-data" method="post">
+        <input type="file" name="file" />
+        <input type="submit" value="上传" />
+    </form>
+</div>
+</body>
+</html>
+~~~
+3. 在MyMvcConfig中添加页面跳转toUpload
+~~~java
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry){
+        registry.addViewController("/viewController").setViewName("/viewController");
+        registry.addViewController("toUpload").setViewName("upload");
+    }
+~~~
+4. MultipartResolver配置
+在MyMvcConfig中，添加Multipart配置，控制上传文件大小  
+~~~java
+    @Bean
+    public MultipartResolver multipartResolver(){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1000000);
+        return multipartResolver;
+    }
+~~~
+5. 控制器
+UploadController.java  
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.IOException;
+/**
+ * Created by Administrator on 2017/10/26.
+ */
+@Controller
+public class UploadController {
+    @RequestMapping(value="/upload", method = RequestMethod.POST)
+    public @ResponseBody String upload(MultipartFile file){
+        try {
+            FileUtils.writeByteArrayToFile(new File("D:/data/" + file.getOriginalFilename()), file.getBytes());
+            return "ok";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+}
+~~~
+6. 结果
+发现上传文件已经存放到D:/data目录下  
 
+###2.8 自定义HttpMessageConverter
+HttpMessageConverter用来处理request、response中的数据。Spring内置多种HttpMessageConverter实现：MappingJackson2HttpMessageConverter、StringHttpMessageConverter等
+
+实例：  
+1. 自定义HttpMessageConverter
+MyMessageConverter.java  
+其中readInternal()方法处理请求数据，writeInternal()处理响应数据  
+在构造函数中定义一个心的自定义类型x-wuji1626，在客户端发送的请求中如果contentType是x-wuji1626，将交由自定义HttpMessageConverter处理  
+~~~java
+package com.wuji1626.spring.webmvc.utils;
+import com.wuji1626.spring.webmvc.domain.DemoObj;
+import org.springframework.http.HttpInputMessage;
+import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.AbstractHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.util.StreamUtils;
+import java.io.IOException;
+import java.nio.charset.Charset;
+/**
+ * Created by Administrator on 2017/10/29.
+ */
+public class MyMessageConverter extends AbstractHttpMessageConverter<DemoObj> {
+    public MyMessageConverter(){
+        super(new MediaType("application", "x-wuji1626", Charset.forName("UTF-8")));
+    }
+    @Override
+    protected boolean supports(Class<?> aClass) {
+        return DemoObj.class.isAssignableFrom(aClass);
+    }
+    @Override
+    protected DemoObj readInternal(Class<? extends DemoObj> aClass, HttpInputMessage httpInputMessage)
+            throws IOException, HttpMessageNotReadableException {
+        String temp = StreamUtils.copyToString(httpInputMessage.getBody(),Charset.forName("UTF-8"));
+        String[] tempAttr = temp.split("-");
+        return new DemoObj( new Long(tempAttr[0]),tempAttr[1]);
+    }
+    @Override
+    protected void writeInternal(DemoObj obj, HttpOutputMessage httpOutputMessage) throws IOException, HttpMessageNotWritableException {
+        String out = "hello:" + obj.getId() + " - " + obj.getName();
+        httpOutputMessage.getBody().write(out.getBytes());
+    }
+}
+~~~
+2. MyMvcConfig中创建访问页面
+~~~java
+registry.addViewController("converter").setViewName("converter");
+~~~
+3. 注册自定义MessageConverter
+在MyMvcConfig中注册自定义的Bean到Converter列表中  
+~~~java
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converterList){
+        converterList.add(converter());
+    }
+    @Bean
+    public MyMessageConverter converter(){
+        return  new MyMessageConverter();
+    }
+~~~
+4. 控制器
+ConverterController.java  
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import com.wuji1626.spring.webmvc.domain.DemoObj;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+/**
+ * Created by Administrator on 2017/10/29.
+ */
+@Controller
+public class ConverterController {
+    @RequestMapping(value = "/convert", produces = {"application/x-wuji1626"})
+    public @ResponseBody DemoObj convert(@RequestBody DemoObj demoObj){
+        return demoObj;
+    }
+}
+~~~
+5. jsp页面  
+converter.jsp  
+主要需要注意：js引用jquery的方法，由于之前在addResourceHandlers()知道你了一个映射地点将`/assets/**`请求映射到classpath下的/assets/目录下，因此在页面中直接指定/assets/js/jquery.js目录下，系统将自动到classpath目录下的assets寻找  
+~~~html
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>HttpMessageConverter Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div id="resp"></div><input type="button" onClick="req();" value="请求" />
+<script src="assets/js/jquery.js" type="text/javascript"></script>
+<script>
+    function req(){
+        $.ajax({
+            url:"convert",
+            data:"1-zhangwh",
+            type:"POST",
+            contentType:"application/x-wuji1626",
+            success: function(data){
+                $("#resp").html(data);
+            }
+        })
+    }
+</script>
+</body>
+</html>
+~~~
+6. 运行结果
+![](img/R033.png)  
+![](img/R034.png)  
+![](img/R035.png)  
+
+###2.9 服务器端推送
+Server端将客户端的请求保持，并在事件发生时，将消息推送给客户端，客户端收到消息后，再与服务端交互。相比轮询的策略，降低了服务器端请求的数量，降低服务器轮询的压力。该方案基于SSE（Server Send Event服务端发送事件）+Servlet3.0+的异步方法特性实现。
+
+□SSE案例  
+1. 创建控制器
+SseController.java  
+先创建控制器，每5秒向客户端发送消息  
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.Random;
+/**
+ * Created by Administrator on 2017/10/29.
+ */
+@Controller
+public class SseController {
+    @RequestMapping(value = "/push", produces = "text/event-stream")
+    public @ResponseBody String push(){
+        Random r = new Random();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "data:Testing 1,2,3" + r.nextInt() + "\n\n";
+     }
+}
+~~~
+2. 定义sse页面跳转
+~~~java
+registry.addViewController("sse").setViewName("sse");
+~~~
+3. jsp页面
+sse.jsp
+~~~html
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>@SSE Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+    <div id="msgFromPush"></div>
+    <script type="text/javascript" src="assets/js/jquery.js"></script>
+    <script>
+        if(!!window.EventSource){
+            var source  = new EventSource('push');
+            s = '';
+            source.addEventListener('message', function (e) {
+                s+=e.data+"<br/>";
+                $("#msgFromPush").html(s);
+            });
+            source.addEventListener('open', function (e) {
+                console.log("连接打开。");
+            }, false);
+            source.addEventListener('error', function(e){
+                if(e.readyState == EventSource.CLOSED){
+                    console.log("连接关闭。")
+                }else{
+                    console.info(e);
+                    console.info(e.readyState);
+                }
+            }, false);
+        }else{
+            console.log("您的浏览器不支持SSE");
+        }
+    </script>
+</body>
+</html>
+~~~
+4. 结果
+![](img/R036.png)  
+
+###2.10 SpringMVC测试
+1. 增加JUnit、Spring-test依赖  
+~~~xml
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${org.springframework.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+~~~
+2. 编写服务类
+TestDemoService.java  
+~~~java
+package com.wuji1626.spring.webmvc.service;
+import org.springframework.stereotype.Service;
+/**
+ * Created by Administrator on 2017/11/4.
+ */
+@Service
+public class TestDemoService {
+    public String saySomething(){
+        return "hello";
+    }
+}
+~~~
+3. 测试用例
+TestControllerIntegrationTests.java  
+~~~java
+package com.wuji1626.spring.testdemo;
+import com.wuji1626.spring.webmvc.MyMvcConfig;
+import com.wuji1626.spring.webmvc.service.TestDemoService;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+/**
+ * Created by Administrator on 2017/11/4.
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {MyMvcConfig.class})
+@WebAppConfiguration("src/main/resources")
+public class TestControllerIntegrationTests {
+    private MockMvc mockMvc;
+    @Autowired
+    private TestDemoService demoService;
+    @Autowired
+    WebApplicationContext wac;
+    @Autowired
+    MockHttpSession session;
+    @Autowired
+    MockHttpServletRequest request;
+    @Before
+    public void setup(){
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
+    @Test
+    public void testNormalController() throws Exception {
+        mockMvc.perform(get("/normal"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("page"))
+                .andExpect(forwardedUrl("/WEB-INF/classes/views/page.jsp"))
+                .andExpect(model().attribute("msg", demoService.saySomething()));
+    }
+    @Test
+    public void testRestController() throws Exception {
+        mockMvc.perform(get("testRest"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/plain;charset=UTF-8"))
+                .andExpect(content().string(demoService.saySomething()));
+    }
+}
+~~~
+■@WebAppConfiguration：指定用于指定加载的ApplicationContext是一个WebApplicationContext，可以指定上下文配置的地址，默认"src/main/webapp"  
+■MockMvc：模拟MVC对象，通过MockMvcBuilders.webAppContextSetup(this.wac).build();初始化  
+■可以模拟：session、request  
+■@Before在测试开始前进行初始化工作  
+■mockMvc.perform()：发起模拟请求  
+■andExpect()方法判断返回值  
+■status().isOk()：返回状态  
+■view().name()：预期view名称  
+■forwardedUrl()：预期跳转的真正路径  
+■model().attribute([key],[value])：model中的值  
+■content()获取页面上下文信息  
+此时运行测试用例，结果为404：  
+![](img/R037.png)  
+4. Controller
+NormalController.java  
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import com.wuji1626.spring.webmvc.service.TestDemoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+/**
+ * Created by Administrator on 2017/11/4.
+ */
+@Controller
+public class NormalController {
+    @Autowired
+    TestDemoService service;
+    @RequestMapping("normal")
+    public String testPage(Model model) {
+        model.addAttribute("msg", service.saySomething());
+        return "page";
+    }
+}
+~~~
+MyRestController.java  
+~~~java
+package com.wuji1626.spring.webmvc.controller;
+import com.wuji1626.spring.webmvc.service.TestDemoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController
+/**
+ * Created by Administrator on 2017/11/4.
+ */
+@RestController
+public class MyRestController {
+    @Autowired
+    TestDemoService service;
+    @RequestMapping(value = "testRest", produces = "text/plain;charset=UTF-8")
+    public @ResponseBody String testRest(){
+        return service.saySomething();
+    }
+~~~
+5. 运行测试用例
+![](img/R038.png)  
