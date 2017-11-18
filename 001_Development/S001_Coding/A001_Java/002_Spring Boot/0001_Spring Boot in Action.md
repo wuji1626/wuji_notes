@@ -497,6 +497,11 @@ compile("org.springframework.boot:spring-boot-starter-log4j2")
 </configuration>
 ~~~
 
+##5 Spring Boot核心技术
+###5.1 基本配置
+####5.1.1 入口类和@SpringBootApplication
+SpringBoot都包含一个*Application的入口类，其中包括main方法  
+@SpringBootApplication是SpringBoot核心注解。组合了@Configuration、@EnableAutoConfiguration、@ComponentScan。
 
 
 
