@@ -15,6 +15,7 @@ Spring Boot CLI是Spring Boot非必要组成部分
 ■应用程序取到的环境变量、系统属性、配置属性和命令行参数  
 ■应用程序里线程的当前状态  
 ■应用程序最近处理过的HTTP请求的追踪情况  
+
 ##2 Spring Boot实操入门
 ###2.1 Spring Boot CLI
 在【http://repo.spring.io/snapshot/org/springframework/boot/spring-boot-cli】可以下载到各个版本的Spring Boot CLI  
@@ -55,6 +56,7 @@ Spring Boot CLI的init命令可以创建项目基线：
 ■spring init -dweb,jpa,security --build gradle -p jar -x：最后一个参数说明要将羡慕解压到当前目录，-x可以替换为--extract  
 ■spring help init：查看init命令的参数  
 ■spring init -l：查看init命令的可选项，-l可替换成--list
+
 ##3 应用开发
 ###3.1 创建一个样例工程framework
 1. 依赖：web、jpa、H2、thymeleaf，采用gradle构建  
@@ -503,6 +505,246 @@ compile("org.springframework.boot:spring-boot-starter-log4j2")
 SpringBoot都包含一个*Application的入口类，其中包括main方法  
 @SpringBootApplication是SpringBoot核心注解。组合了@Configuration、@EnableAutoConfiguration、@ComponentScan。
 
+@EnableAutoConfiguration注解负责开启自动配置。通过exclude选项关闭自动配置
+eg:@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 
+####5.1.2 替换Spring Logo
+默认SpringBoot启动时，控制台会显示Spring默认的Logo
+![](img/SB005.png)  
+将自定义的Logo存储为Banner.txt文本，将文本拷贝到resources目录下，运行SpringBoot查看结果：
+![](img/SB006.png)  
 
+####5.1.3 关闭Banner
+SpringBoot1.5.3
+~~~java
+SpringApplication app = new SpringApplication(SpringbootplayApplication.class);
+app.setShowBanner(false);
+app.run(args);
+~~~
+SpringBoot1.5.8
+~~~java
+SpringApplication app = new SpringApplication(SpringbootplayApplication.class);
+app.setBannerMode(Banner.Mode.OFF);
+app.run(args);
+~~~
+
+####5.1.4 starter pom
+名称|描述
+---|---
+spring-boot-starter|Spring Boot核心starter，包含自动配置、日志、yaml配置文件的支持
+spring-boot-starter-actuator|准生产特性，用来监控和管理应用
+spring-boot-starter-remote-shell|提供基于ssh协议的监控和管理
+spring-boot-starter-amqp|使用spring-rabbit来支持AMQP
+spring-boot-starter-aop|使用spring-aop和AspectJ支持面向切面编程
+spring-boot-starter-batch|对Spring Batch的支持
+spring-boot-starter-cache|对Spring Cache抽象的支持
+spring-boot-starter-cloud-connectors|对云平台Cloud Foundry、Heroku提供服务提供简化的连接方式
+spring-boot-starter-data-elasticsearch|通过spring-data-elasticsearch对Elasticsearch支持
+spring-boot-starter-data-gemfire|通过spring-data-gemfire对分布式存储GemFire支持
+spring-boot-starter-data-jpa|对JPA支持，包含spring-data-jpa、spring-orm、Hibernate
+spring-boot-starter-data-mongodb|通过spring-data-mongodb对MongoDB进行支持
+spring-boot-starter-data-rest|通过spring-data-rest-webmvc将Spring Data repository暴露为REST形式服务
+spring-boot-starter-data-solr|通过spring-data-solr对Apache Solr数据检索平台支持
+Spring-boot-starter-freemarker|对FreeMarker模板引擎支持
+spring-boot-starter-groovy-templates|对Groovy模板引擎支持
+spring-boot-starter-hateoas|通过spring-hateoas对基于HATEOAS的REST形式的网络服务的支持
+spring-boot-starter-hornetq|通过HornetQ对JMS支持
+spring-boot-starter-integration|对系统集成框架spring-integration支持
+spring-boot-starter-jdbc|对JDBC数据库支持
+spring-boot-starter-jersey|对Jersey REST形式的网络服务的支持
+spring-boot-starter-atomikos|通过Atomilos对分布式事物的支持
+spring-boot-starter-jta-bitronix|通过Bitronix对分布式事物的支持
+spring-boot-starter-mail|对javax.mail支持
+spring-boot-starter-mobile|对spring-mobile支持
+spring-boot-starter-mustache|对Mustache模板引擎支持
+spring-boot-starter-redis|对Redis支持，包含spring-redis
+spring-boot-starter-security|对spring-security支持
+spring-boot-starter-social-facebook|通过spring-social-facebook对Facebook支持
+spring-boot-starter-social-linkedin|通过spring-social-linkedin对LinkedIn支持
+spring-boot-starter-social-twitter|通过spring-social-twitter对Twitter支持
+spring-boot-starter-test|对常用的测试框架JUnit、Hamcrest和Mockito的支持，包含spring-test模块
+spring-boot-starter-thymeleaf|对Thymeleaf模板引擎的支持，包含于Spring整合的配置
+spring-boot-starter-velocity|对Velocity模板引擎支持
+spring-boot-starter-web|对Web项目开发的支持，包含Tomcat和spring-webmvc
+spring-boot-starter-Tomcat|Spring Boot默认的Servlet容器Tomcat
+spring-boot-starter-undertow|使用Undertow作为Servlet容器替换Tomcat
+spring-boot-starter-logging|Spring Boot默认的日志框架Logback
+spring-boot-starter-log4j|支持使用Log4j日志框架
+spring-boot-starter-websocket|对WebSocket开发的支持
+spring-boot-starter-ws|对Spring Web Services支持
+
+第三方starter pom
+名称|地址
+---|---
+Handlebars|https://github.com/allegro/handlebars-spring-boot-starter
+Vaadin|https://github.com/vaadin/spring/tree/master/vaadin-spring-boot-starter
+Apache Camel|https://github.com/apache/camel/tree/master/components/camel-spring-boot
+WRO4j|https://github.com/sbuettner/spring-boot-autoconfigure-wro4j
+Spring Batch高级用法|https://github.com/codecentric/spring-boot-starter-batch-web
+HDIV|https://github.com/hdiv/spring-boot-starter-hdiv
+Jade Templates(Jade4j)|https://github.com/domix/spring-boot-starter-jade4j
+
+####5.1.5 加载xml配置
+@ImportResource({"classpath:some-context.xml","classpath:another-context.xml"})
+
+###5.2 外部配置
+####5.2.1 命令行配置
+java -jar xxx.jar  
+java -jar xxx.jar --server.port=9090  
+
+####5.2.2 常规属性配置
+在application.properties中配置属性
+~~~
+book.author=zhangwh
+book.name=Spring Boot
+~~~
+入口类
+~~~java
+package com.wuji1626;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.Banner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@SpringBootApplication
+public class SpringbootplayApplication {
+
+    @Value("${book.author}")
+    private String bookAuthor;
+    @Value("${book.name}")
+    private String bookName;
+
+    @RequestMapping("/")
+    public String index(){
+        return "Book name is: " + bookName + " and book author is: " + bookAuthor;
+    }
+	public static void main(String[] args) {
+		SpringApplication app = new SpringApplication(SpringbootplayApplication.class);
+		app.setBannerMode(Banner.Mode.OFF);
+		app.run(args);
+//		SpringApplication.run(SpringbootplayApplication.class, args);
+	}
+}
+~~~
+【注意】在配置spring-boot-starter-tomcat时，需要将默认生成的`<scope>provided</scope>`删掉，否则tomcat容器将不会启动  
+
+####5.2.3 类型安全配置
+样例工程名：typesafeconfig
+在application.properties中增加：
+~~~
+author.name=zhangwh
+author.age=36
+~~~
+
+实体类
+~~~java
+package com.wuji1626.entity;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+/**
+ * Created by Administrator on 2017/11/20.
+ */
+@Component
+@ConfigurationProperties(prefix = "author")
+public class AuthorSettings {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getAge() {
+        return age;
+    }
+
+    public void setAge(Long age) {
+        this.age = age;
+    }
+
+    private String name;
+    private Long age;
+
+}
+
+~~~
+如果在自定义properties中增加属性，需要在@ConfigurationProperties中增加location的配置如：
+~~~
+@ConfigurationProperties(prefix = "author", locations={"classpath:config/author.properties"})
+~~~
+入口
+~~~java
+package com.wuji1626;
+
+import com.wuji1626.entity.AuthorSettings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@SpringBootApplication
+public class TypesafeconfigApplication {
+
+	@Autowired
+	private AuthorSettings authorSettings;
+	@RequestMapping("/")
+	public String index(){
+		return "auther name is " + authorSettings.getName() + " and author age is " + authorSettings.getAge();
+	}
+	public static void main(String[] args) {
+		SpringApplication.run(TypesafeconfigApplication.class, args);
+	}
+}
+
+~~~
+
+####5.2.4 日志配置
+Spring Boot支持Java Util Logging、Log4j、Log4j2、Logback框架，默认支持Logback  
+- 配置日志存储位置：logging.file=D:/mylog/log.log
+- 配置日志级别：logging.level.org.springframework.web=DEBUG
+
+样例名称：logconfig  
+在Spring Boot工程的application.properties文件下，添加日志的相关配置：
+~~~
+logging.file=D:/mylog/log.log
+logging.level.org.springframework.web=DEBUG
+~~~
+
+####5.2.5 运行模式配置
+可以在配置中对工程模式进行配置。
+
+样例名称：devmodeconfig
+在创建工程时，需要注意选择Web模块  
+![](img/SB007.png)  
+分别创建application.properties、application-prod.properties、application-dev.properties  
+application-prod.properties内容：  
+~~~
+server.port=80
+~~~
+
+application-dev.properties内容：
+~~~
+server.port=8888
+~~~
+
+application.properties
+~~~
+spring.profiles.active=dev
+~~~
+结果：  
+在spring.profiles.active=dev时，  
+![](img/SB009.png)  
+![](img/SB008.png)  
+在spring.profiles.active=prod时，  
+![](img/SB010.png)  
+![](img/SB011.png)  
 
