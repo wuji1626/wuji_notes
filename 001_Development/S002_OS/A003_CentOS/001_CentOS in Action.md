@@ -1,7 +1,7 @@
 #CentOS实操
 [TOC]
-
-##1 安装Telnet
+##CentOS6.5
+###1 安装Telnet
 1）首先判断是否已经有telnet服务
     `rpm –qa |grep telnet`
 2）在安装光盘中，Package目录下
@@ -62,7 +62,7 @@ service xinetd start
 4. 现在可以安装我们需要的rpm包了
 rpm -ivh telnet-server-0.17-35.i386.rpm  
 
-##2 FTP服务
+###2 FTP服务
 1. yum install vsftpd
 2. 重启vsftpd： 
 `service vsftpd restart`
@@ -125,7 +125,7 @@ tftp_anon_write --> off
 ~~~
 c）再通过ftp客户端即可访问
 
-##3 安装JDK
+###3 安装JDK
 1）下载
 `http://www.oracle.com/technetwork/cn/java/javase/downloads/jdk7-downloads-1880260-zhs.html`
 2）解压并拷贝至/opt目录下
@@ -151,7 +151,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 23.7-b01, mixed mode)
 ~~~
 5）令profile生效：`source /etc/profile`  
 
-##4 设置固定IP
+###4 设置固定IP
 编辑网卡：
 vi /etc/sysconfig/network-scripts/ifcfg-eth0
 
@@ -236,3 +236,41 @@ proxy_password=
 `setenforce 0`
 `visudo`
 `hadoop ALL=(ALL) NOPASSWD: ALL`
+
+
+##CentOS7.0
+###1 安装SSH
+1）安装 telnet 避免 ssh 无法登录  
+`yum -y install xinetd telnet telnet-server`  
+2）允许 root 账号登陆
+`vi /etc/securetty`  
+末尾添加
+`pts/0`  
+`pts/1`  
+3）关闭firewalld
+`systemctl disable firewalld`  
+`systemctl stop firewalld`  
+4）关闭iptables
+如果安装iptables可以将iptables关闭  
+`systemctl disable iptables`  
+5）注册并启动相关服务：
+`systemctl enable telnet.socket`  
+`systemctl start telnet.socket`  
+`systemctl enable xinetd`  
+`systemctl start xinetd`  
+开启telnet、xinetd服务后，即可通过ssh客户端访问服务器  
+
+###2 安装iptables
+CentOS7.0操作系统默认的防火墙为firewalld，如果想使用iptables，需要手动安装，并且关闭firewalld  
+关闭firewalld：  
+`systemctl disable firewalld`  
+`systemctl stop firewalld`  
+手动安装iptables：
+`yum install iptables-services`  
+注册iptables服务：  
+`systemctl enable iptables`  
+启停iptables服务：  
+`systemctl stop iptables`  
+`systemctl start iptables`  
+`systemctl restart iptables`  
+`systemctl reload iptables`  
