@@ -1,29 +1,30 @@
 
 #1 标准输出
->\#!/usr/bin/python  <br/>
->\#-*-coding:utf-8-*-<br/>
- '''<br/>
->Created on 2016年12月3日<br/>
+>\#!/usr/bin/python  
+>\#-*-coding:utf-8-*-
+ '''
+>Created on 2016年12月3日
 
->@author: Administrator<br/>
->'''<br/>
->print("Hello World")<br/>
->print("This is a Python program")<br/>
+>@author: Administrator
+>'''
+>print("Hello World")
+>print("This is a Python program")
 
-在Python对话框中标准输出：<br/>
-![./images/1.jpg](./images/1.jpg)<br/>
-【注】Python的py文件的第一行以#!开头，称为组织行。告诉系统程序运行时采用哪种编译器<br>
+在Python对话框中标准输出：  
+![./images/1.jpg](./images/1.jpg)
+【注】Python的py文件的第一行以#!开头，称为组织行。告诉系统程序运行时采用哪种编译器
+
 #2 Python的数据类型
 Python的基本数据类型有数、字符串
 ##2.1 数字
 Python有四种类型的数：整数、长整数、浮点数、复数
 ##2.2 字符串
-1）使用单引号（'）的字符串，其中的空格、制表符照原样保留<br>
-2）使用双引号（"）的字符串，与单引号完全相同<br>
-3）使用三引号（'''）或（"""）指示一个多行字符串。可以在三引号中自由使用单引号、双引号<br>
-■转义字符    
+1）使用单引号（'）的字符串，其中的空格、制表符照原样保留  
+2）使用双引号（"）的字符串，与单引号完全相同  
+3）使用三引号（'''）或（"""）指示一个多行字符串。可以在三引号中自由使用单引号、双引号  
 
-1）要在字符串中使用单引号，可以使用【\'】转义，也可以使用双引号，在双引号的字符串中自由使用单引号<br>
+■转义字符  
+1）要在字符串中使用单引号，可以使用【\'】转义，也可以使用双引号，在双引号的字符串中自由使用单引号  
 trans_single_quotes.py  
 >\#!/usr/bin/python       
 >\#-*-coding:utf-8-*-     
