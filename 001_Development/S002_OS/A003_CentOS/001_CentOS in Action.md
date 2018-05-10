@@ -1,5 +1,10 @@
 #CentOS实操
 [TOC]
+##CentOS通用
+###1 查看操作系统版本
+cat /etc/redhat-release
+![](img/version.png)  
+
 ##CentOS6.5
 ###1 安装Telnet
 1）首先判断是否已经有telnet服务
@@ -274,3 +279,5 @@ CentOS7.0操作系统默认的防火墙为firewalld，如果想使用iptables，
 `systemctl start iptables`  
 `systemctl restart iptables`  
 `systemctl reload iptables`  
+
+###3 安装MySQL
