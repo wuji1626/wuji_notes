@@ -300,7 +300,7 @@ Large Pool的大小是通过参数LARGE_POOL_SIZE来决定的。它所存储的�
 它是一种类似共享池的SGA缓冲池，和共享池不同的是，只有少量类型的对象可以在Large Pool中创建。Large Pool的空间不在共享池中分配，是在数据库启动的时候另外分配的。Oracle数据库也可以不配置Large Pool。它用来存放临时性的，有生命周期的信息，信息用过之后被释放掉。不用LRU是它和SHARED POOL一个显著的区别。 如果Large Pool空间不足，会出现ORA-4031错误。  
 
 Oracle为什么引入LARGE POOL这个概念呢？当出现象RMAN BACKUP AND RECOVERY等需要大块内存请求（频繁的申请内存块，释放内存块过程）时，将对SHARED POOL造成一定的性能影响，而LARGE POOL是起着这种功能隔离作用的一块区域。例如在SHARED SERVER中增加LARGE POOL可以降低SHARED POOL的活动性使其更有效（当然如果你的系统不涉及使用LARGE POOL的除外）。就是说，这个池会对文件操作产生的I/O有一定的影响。  
-#2.8 Java Pool
+###2.8 Java Pool
 ![](./images/K06.png)  
 Java Pool的大小是通过参数JAVA_POOL_SIZE来决定的。它是用来存储内存中所有在JVM内的JAVA代码和数据。
 
@@ -308,7 +308,7 @@ Shared pool被用来存储JVM中的class loader。这个class loader在每个cla
 
 Java Pool被用来存储OracleJVM分配的所有运行时执行的JAVA状态，包含JAVA方法和类的定义，JAVA对象的调用等。
 
-#2.9 进程结构
+###2.9 进程结构
 ![](./images/K07.png)  
 用户进程（User process）：它开始于用户请进连接一个Oracle数据库的时候，它运行于客户端，它并不和Oracle Server直接交互，而是通过Server Process和Oracle Server进行交互。  
 
@@ -316,7 +316,7 @@ Java Pool被用来存储OracleJVM分配的所有运行时执行的JAVA状态，�
 
 后台进程（Background process）开始于一个Oracle实例的启动。
 
-#2.10 后台进程
+###2.10 后台进程
 ![](./images/K08.png)  
 一个Oracle database server包括一个Oracle database和一个Oracle instance。一个Oracle实例包括了内存结构，System Global Area (SGA)和后台进程。这些共公的后台进程包括：
 System Monitor(SMON)：负责数据库崩溃之后的恢复工作，用于维护数据的一致性。他主要完成以下工作：
