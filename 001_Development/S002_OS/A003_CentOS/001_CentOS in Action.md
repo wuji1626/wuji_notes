@@ -281,3 +281,32 @@ CentOS7.0操作系统默认的防火墙为firewalld，如果想使用iptables，
 `systemctl reload iptables`  
 
 ###3 安装MySQL
+1. 添加MySQL的yum源
+`yum localinstall http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm`  
+2. 安装MySQL5.7
+之后就开始安装MySQL服务器:  
+`yum install mysql-community-server -y`  
+3. 数据库配置
+完成安装步骤之后，首先配置MySQL的开机自动启动，在这里使用systemctl命令。
+`systemctl enable mysqld.service`  
+启动mysql服务命令为：  
+`systemctl start  mysqld.service`  
+停止mysql服务命令为：    
+`systemctl stop mysqld.service`  
+4. 修改MySQL默认密码  
+修改 /etc/my.cnf，在 [mysqld] 小节下添加一行：skip-grant-tables=1  
+`vi /etc/my.cnf`  
+重启 mysqld 服务：systemctl restart mysqld  
+使用 root 用户登录到 mysql：mysql -u root   
+切换到mysql数据库，更新 user 表：`use mysql`  
+执行如下命令：  
+update user set authentication_string = password('root'), password_expired = 'N', password_last_changed = now() where user = 'root';  
+在之前的版本中，密码字段的字段名是 password，5.7版本改为了 authentication_string  
+退出 mysql，编辑 /etc/my.cnf 文件，删除 skip-grant-tables=1 的内容  
+重启 mysqld 服务，再用新密码登录即可  
+5. 开启MySQL远程访问权限  
+在本机登录mysql切换到mysql数据库  
+执行SQL：`update user set host = '%' where user = 'root'`;  
+FLUSH PRIVILEGES; 回车使刚才的修改生效，再次远程连接数据库成功  
+
+ 
