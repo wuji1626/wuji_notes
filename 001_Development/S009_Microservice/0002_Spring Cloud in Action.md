@@ -1,37 +1,119 @@
 #Spring Cloud实操
 
 ##1 Eureka实操
-1. 构建Maven工程
-![](img/EurekaPJ.png)  
-2. 编辑项目坐标
-![](img/EurekaCoordinate.png)  
-该样例工程的坐标信息：  
-GroupId：com.wuji1626  
-ArtifactId：WujiEurekaRegistry  
-Version：1.0-SNAPSHOT  
-3. 文件存储
-![](img/EurekaPJLocation.png)  
-4. 工程结构
-![](img/EurekaPJStructure.png)  
-5. 添加依赖配置
-	- 设置工程spring boot版本为1.5.15
-	~~~xml
-    <parent>
-    	<groupId>org.springframework.boot</groupId>
-    	<artifactId>spring-boot-starter-parent</artifactId>
-    	<version>1.5.15.RELEASE</version>
+1. 创建工程
+利用Spring Initializr创建一个Spring Cloud Eureka工程
+![](img/EurekaServerPJSpringInitializrPJ.png)  
+由于Initializr的工程模板从https://start.spring.io获取，点击下一步后，需要从网络获取工程模板  
+![](img/EurekaServerPJGetPJTemplate.png)  
+填写工程信息如下，在指定Group、Artifact信息后，部分信息自动生成：
+Group id：com.wuji1626
+Artifact id：wuji-eureka-server
+![](img/EurekaServerPJPJConfig.png)  
+选择项目依赖，首先选择Spring Boot版本，这里选择当前默认的2.0.5，在依赖中选择：Cloud Discovery（服务发现），在服务发现中选择Eureka Server组件
+选择工程生成目录：  
+![](img/EurekaServerPJLocation.png)  
+之后直接生成工程，过程目录结构及依赖关系如下：  
+![](img/EurekaServerPJStructure.png)  
+所有POM文件内容皆由工程模板直接生成：
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.wuji1626</groupId>
+	<artifactId>wuji-eureka-server</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>wuji-eureka-server</name>
+	<description>Microservice Service Registry Center which based Spring Cloud Eureka</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-    ~~~
-	- 环境变量设置
-	设置编码类型为UTF-8，java版本为1.8，Spring Cloud的版本为Edgware.SR3
-    ~~~xml
-    <properties>
-    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    	<java.version>1.8</java.version>
-    	<spring-cloud.version>Edgware.SR3</spring-cloud.version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
 	</properties>
-    ~~~
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+~~~
+2. 工程运行
+在随模板默认生成的WujiEurekaServerApplication.java中，需要手动添加@EnableEurekaServer，配置EurekaServer默认配置选项。
+~~~java
+package com.wuji1626;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+@SpringBootApplication
+@EnableEurekaServer
+public class WujiEurekaServerApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(WujiEurekaServerApplication.class, args);
+	}
+}
+~~~
+在随模板生成的application.properties文件中添加如下配置：
+~~~
+server.port=8081
+spring.application.name=wuji-service
+eureka.instance.hostname=localhost
+eureka.client.registerWithEureka=false
+eureka.client.fetchRegistry=false
+eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${server.port}/eureka/
+~~~
+eureka.client.registerWithEureka ：表示是否将自己注册到Eureka Server，默认为true。由于当前这个应用就是Eureka Server，故而设为false  
+eureka.client.fetchRegistry ：表示是否从Eureka Server获取注册信息，默认为true。因为这是一个单点的Eureka Server，不需要同步其他的Eureka Server节点的数据，故而设为false。  
+3. 在IDE中运行，以如下ULR进行访问，即可看到Eureka的页面：  
+`http://localhost:8081/`  
+![](img/EurekaServerHomePage.png)  
+4. 通过如下maven命令，将Spring Cloud工程生成jar包
+`mvn clean`  
+`mvn package`  
+生成的jar默认会在target目录下。通过java -jar命令运行jar包  
+`java -jar D:\workspace\SpringCloud\wuji-eureka-server\target\wuji-eureka-server-0.0.1-SNAPSHOT.jar`
+
 
 ##2 Zuul实操
 1. 构建Maven工程

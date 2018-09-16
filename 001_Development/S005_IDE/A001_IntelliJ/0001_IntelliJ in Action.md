@@ -44,4 +44,12 @@ gradle连接maven repository失败后，需要重新刷新。在Intellij中可�
 在视图中选择![](img/014.png)刷新Maven依赖  
 ![](img/013.png)  
 
-
+##5 工程导出jar包
+![](img/IDEAProjectStructure.png)  
+![](img/IDEAArtifacts.png)  
+![](img/IDEAArtifactsJar.png)  
+![](img/IDEAJarModules.png)  
+![](img/IDEAJarExportPath.png)  
+![](img/IDEABuildArtifact.png)  
+![](img/IDEABuild.png)  
+![](img/IDEABuilt.png)  
