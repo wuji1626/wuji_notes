@@ -1,6 +1,7 @@
 #Spring Cloud实操
 
 ##1 Eureka实操
+###1.1 创建Eureka服务端
 1. 创建工程
 利用Spring Initializr创建一个Spring Cloud Eureka工程
 ![](img/EurekaServerPJSpringInitializrPJ.png)  
@@ -114,6 +115,143 @@ eureka.client.fetchRegistry ：表示是否从Eureka Server获取注册信息，
 生成的jar默认会在target目录下。通过java -jar命令运行jar包  
 `java -jar D:\workspace\SpringCloud\wuji-eureka-server\target\wuji-eureka-server-0.0.1-SNAPSHOT.jar`
 
+###1.2 通过Eureka体系管理的微服务构建
+1. 仍使用Spring Initializr创建新Spring Cloud工程
+![](img/EurekaProviderSpringInitializr.png)  
+2. 配置工程的坐标信息  
+Group Id：com.wuji1626  
+Artifact Id：wuji-eureka-provider-hello  
+![](img/EurekaProviderPJConfig.png)  
+3. 在工程模板中选择Eureka Discovery为微服务客户端  
+![](img/EurekaProviderPJTemplate.png)  
+4. 选择工程的位置，完成工程的创建  
+![](img/EurekaProviderPJLocation.png)  
+5. 工程的结构如下：  
+![](img/EurekaProviderPJStructure.png)  
+6. 在maven的pom依赖中增加：
+~~~xml
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+~~~
+工程的全部依赖为：
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.wuji1626</groupId>
+	<artifactId>wuji-eureka-provider-hello</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>wuji-eureka-provider-hello</name>
+	<description>Microservice Hello</description>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+~~~
+7. 修改生成的WujiEurekaProviderHelloApplication.java  
+在工程中增加@EnableDiscoveryClient注解，将该服务注册到Eureka注册中心  
+~~~java
+@SpringBootApplication
+@EnableDiscoveryClient
+public class WujiEurekaProviderHelloApplication {
+
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(WujiEurekaProviderHelloApplication.class).web(WebApplicationType.SERVLET).run();
+	}
+}
+~~~
+8. 修改Application.properties
+spring.application.name用于指定服务名称  
+server.port该服务的端口  
+eureka.client.serviceUrl.defaultZone指定eureka注册中心地址  
+~~~
+spring.application.name=eureka-provider-hello
+server.port=8082
+eureka.client.serviceUrl.defaultZone=http://localhost:8081/eureka/
+~~~
+9. 在工程下创建Controller类  
+~~~java
+@RestController
+public class HelloController {
+    private final Logger logger = Logger.getLogger("Hello Service");
+
+    @Value("${server.port}")
+    private String port;
+
+    @RequestMapping(value="hello", method = RequestMethod.GET)
+    public String index(){
+        logger.info("/hello is called, port: " + port);
+        return "hello world! Port:" + port;
+    }
+}
+~~~
+10. 同样通过maven命令将工程打包
+`mvn clean`  
+`mvn package -Dmaven.test.skip=true`  
+`java -jar D:\workspace\SpringCloud\wuji-eureka-provider-hello\target\wuji-eureka-provider-hello-0.0.1-SNAPSHOT.jar`  
+![](img/EurekaProviderRegistLog.png)  
+11. 在Eureka注册页面查看服务的注册状态  
+![](img/EurekaProviderServiceRegisted.png)  
+通过localhost:8082/hello可以访问到该服务  
+![](img/EurekaProviderServiceCalling.png)  
+12. 注意事项
+	■ 如果服务在启动时报Cannot execute request on any known server，说明Eureka Server没有启动，在启用@EnableDiscoveryClient或者@EnableEurekaClient该客户端会自动去寻找Eureka Server，如果找不到就会报这个错
+    ![](img/EurekaProviderError01.png)
 
 ##2 Zuul实操
 1. 构建Maven工程
