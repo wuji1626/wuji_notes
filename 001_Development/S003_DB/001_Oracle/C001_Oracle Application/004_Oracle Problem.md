@@ -149,4 +149,24 @@ umount: /dev/shm: device is busy.
 # mount /dev/shm
 ~~~
 
+##7 ORA-00376: 此时无法读取文件
+问题描述：
+ORA-00376: 此时无法读取文件 4
+ORA-01110: 数据文件 4: 'D:\APP\WJ\ORADATA\ORCL11G\USERS01.DBF'
+
+解决方案：
+1. 管理员通过以下SQL判断数据文件状态
+`select file#,name,status from v$datafile;`
+查看该文件是否处于：OFFLINE状态、或RECOVER状态
+2. 如果问题数据文件处于离线状态（OFFLINE），则尝试将文件上线
+`alter database datafile 4 online;`
+3. 如果问题数据处于恢复状态（RECOVER）状态，则需要恢复该文件
+4. 通过下述命令进行RMAN
+`rman target /`
+5. 尝试recover datafile No;
+其中No为问题数据文件的编号
+6. 恢复成功后，手动触发检查点更新
+`alter system checkpoint GLOBAL;`
+7. 再执行步骤2，将文件进行上线处理
+
 
