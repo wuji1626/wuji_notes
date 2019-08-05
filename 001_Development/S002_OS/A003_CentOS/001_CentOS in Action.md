@@ -1,12 +1,12 @@
-#CentOS实操  
+# CentOS实操  
 [TOC]  
-##CentOS通用  
-###1 查看操作系统版本  
+## CentOS通用  
+### 1 查看操作系统版本  
 cat /etc/redhat-release  
 ![](img/version.png)  
 
-##CentOS6.5
-###1 安装Telnet
+##CentOS6.5  
+###1 安装Telnet 
 1）首先判断是否已经有telnet服务
     `rpm –qa |grep telnet`
 2）在安装光盘中，Package目录下
