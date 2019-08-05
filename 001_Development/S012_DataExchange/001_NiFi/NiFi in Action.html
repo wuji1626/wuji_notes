@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>NiFi in Action.html</title>
+  <meta name="generator" content="Haroopad 0.13.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>div.oembedall-githubrepos{border:1px solid #DDD;border-radius:4px;list-style-type:none;margin:0 0 10px;padding:8px 10px 0;font:13.34px/1.4 helvetica,arial,freesans,clean,sans-serif;width:452px;background-color:#fff}div.oembedall-githubrepos .oembedall-body{background:-moz-linear-gradient(center top,#FAFAFA,#EFEFEF);background:-webkit-gradient(linear,left top,left bottom,from(#FAFAFA),to(#EFEFEF));border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-top:1px solid #EEE;margin-left:-10px;margin-top:8px;padding:5px 10px;width:100%}div.oembedall-githubrepos h3{font-size:14px;margin:0;padding-left:18px;white-space:nowrap}div.oembedall-githubrepos p.oembedall-description{color:#444;font-size:12px;margin:0 0 3px}div.oembedall-githubrepos p.oembedall-updated-at{color:#888;font-size:11px;margin:0}div.oembedall-githubrepos ul.oembedall-repo-stats{border:none;float:right;font-size:11px;font-weight:700;padding-left:15px;position:relative;z-index:5;margin:0}div.oembedall-githubrepos ul.oembedall-repo-stats li{border:none;color:#666;display:inline-block;list-style-type:none;margin:0!important}div.oembedall-githubrepos ul.oembedall-repo-stats li a{background-color:transparent;border:none;color:#666!important;background-position:5px -2px;background-repeat:no-repeat;border-left:1px solid #DDD;display:inline-block;height:21px;line-height:21px;padding:0 5px 0 23px}div.oembedall-githubrepos ul.oembedall-repo-stats li:first-child a{border-left:medium none;margin-right:-3px}div.oembedall-githubrepos ul.oembedall-repo-stats li a:hover{background:5px -27px no-repeat #4183C4;color:#FFF!important;text-decoration:none}div.oembedall-githubrepos ul.oembedall-repo-stats li:first-child a:hover{border-bottom-left-radius:3px;border-top-left-radius:3px}ul.oembedall-repo-stats li:last-child a:hover{border-bottom-right-radius:3px;border-top-right-radius:3px}span.oembedall-closehide{background-color:#aaa;border-radius:2px;cursor:pointer;margin-right:3px}div.oembedall-container{margin-top:5px;text-align:left}.oembedall-ljuser{font-weight:700}.oembedall-ljuser img{vertical-align:bottom;border:0;padding-right:1px}.oembedall-stoqembed{border-bottom:1px dotted #999;float:left;overflow:hidden;width:730px;line-height:1;background:#FFF;color:#000;font-family:Arial,Liberation Sans,DejaVu Sans,sans-serif;font-size:80%;text-align:left;margin:0;padding:0}.oembedall-stoqembed a{color:#07C;text-decoration:none;margin:0;padding:0}.oembedall-stoqembed a:hover{text-decoration:underline}.oembedall-stoqembed a:visited{color:#4A6B82}.oembedall-stoqembed h3{font-family:Trebuchet MS,Liberation Sans,DejaVu Sans,sans-serif;font-size:130%;font-weight:700;margin:0;padding:0}.oembedall-stoqembed .oembedall-reputation-score{color:#444;font-size:120%;font-weight:700;margin-right:2px}.oembedall-stoqembed .oembedall-user-info{height:35px;width:185px}.oembedall-stoqembed .oembedall-user-info .oembedall-user-gravatar32{float:left;height:32px;width:32px}.oembedall-stoqembed .oembedall-user-info .oembedall-user-details{float:left;margin-left:5px;overflow:hidden;white-space:nowrap;width:145px}.oembedall-stoqembed .oembedall-question-hyperlink{font-weight:700}.oembedall-stoqembed .oembedall-stats{background:#EEE;margin:0 0 0 7px;padding:4px 7px 6px;width:58px}.oembedall-stoqembed .oembedall-statscontainer{float:left;margin-right:8px;width:86px}.oembedall-stoqembed .oembedall-votes{color:#555;padding:0 0 7px;text-align:center}.oembedall-stoqembed .oembedall-vote-count-post{font-size:240%;color:#808185;display:block;font-weight:700}.oembedall-stoqembed .oembedall-views{color:#999;padding-top:4px;text-align:center}.oembedall-stoqembed .oembedall-status{margin-top:-3px;padding:4px 0;text-align:center;background:#75845C;color:#FFF}.oembedall-stoqembed .oembedall-status strong{color:#FFF;display:block;font-size:140%}.oembedall-stoqembed .oembedall-summary{float:left;width:635px}.oembedall-stoqembed .oembedall-excerpt{line-height:1.2;margin:0;padding:0 0 5px}.oembedall-stoqembed .oembedall-tags{float:left;line-height:18px}.oembedall-stoqembed .oembedall-tags a:hover{text-decoration:none}.oembedall-stoqembed .oembedall-post-tag{background-color:#E0EAF1;border-bottom:1px solid #3E6D8E;border-right:1px solid #7F9FB6;color:#3E6D8E;font-size:90%;line-height:2.4;margin:2px 2px 2px 0;padding:3px 4px;text-decoration:none;white-space:nowrap}.oembedall-stoqembed .oembedall-post-tag:hover{background-color:#3E6D8E;border-bottom:1px solid #37607D;border-right:1px solid #37607D;color:#E0EAF1}.oembedall-stoqembed .oembedall-fr{float:right}.oembedall-stoqembed .oembedall-statsarrow{background-image:url(http://cdn.sstatic.net/stackoverflow/img/sprites.png?v=3);background-repeat:no-repeat;overflow:hidden;background-position:0 -435px;float:right;height:13px;margin-top:12px;width:7px}.oembedall-facebook1{border:1px solid #1A3C6C;padding:0;font:13.34px/1.4 verdana;width:500px}.oembedall-facebook2{background-color:#627add}.oembedall-facebook2 a{color:#e8e8e8;text-decoration:none}.oembedall-facebookBody{background-color:#fff;vertical-align:top;padding:5px}.oembedall-facebookBody .contents{display:inline-block;width:100%}.oembedall-facebookBody div img{float:left;margin-right:5px}div.oembedall-lanyard{-webkit-box-shadow:none;-webkit-transition-delay:0s;-webkit-transition-duration:.4000000059604645s;-webkit-transition-property:width;-webkit-transition-timing-function:cubic-bezier(0.42,0,.58,1);background-attachment:scroll;background-clip:border-box;background-color:transparent;background-image:none;background-origin:padding-box;border-width:0;box-shadow:none;color:#112644;display:block;float:left;font-family:'Trebuchet MS',Trebuchet,sans-serif;font-size:16px;height:253px;line-height:19px;margin:0;max-width:none;min-height:0;outline:#112644 0;overflow-x:visible;overflow-y:visible;padding:0;position:relative;text-align:left;vertical-align:baseline;width:804px}div.oembedall-lanyard .tagline{font-size:1.5em}div.oembedall-lanyard .wrapper{overflow:hidden;clear:both}div.oembedall-lanyard .split{float:left;display:inline}div.oembedall-lanyard .prominent-place .flag:active,div.oembedall-lanyard .prominent-place .flag:focus,div.oembedall-lanyard .prominent-place .flag:hover,div.oembedall-lanyard .prominent-place .flag:link,div.oembedall-lanyard .prominent-place .flag:visited{float:left;display:block;width:48px;height:48px;position:relative;top:-5px;margin-right:10px}div.oembedall-lanyard .place-context{font-size:.889em}div.oembedall-lanyard .prominent-place .sub-place{display:block}div.oembedall-lanyard .prominent-place{font-size:1.125em;line-height:1.1em;font-weight:400}div.oembedall-lanyard .main-date{color:#8CB4E0;font-weight:700;line-height:1.1}div.oembedall-lanyard .first{width:48.57%;margin:0 0 0 2.857%}.mermaid .label{color:#333}.node circle,.node polygon,.node rect{fill:#cde498;stroke:#13540c;stroke-width:1px}.edgePath .path{stroke:green;stroke-width:1.5px}.cluster rect{fill:#cdffb2;rx:40;stroke:#6eaa49;stroke-width:1px}.cluster text{fill:#333}.actor{stroke:#13540c;fill:#cde498}text.actor{fill:#000;stroke:none}.actor-line{stroke:grey}.messageLine0{stroke-width:1.5;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#333}.messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#arrowhead{fill:#333}#crosshead path{fill:#333!important;stroke:#333!important}.messageText{fill:#333;stroke:none}.labelBox{stroke:#326932;fill:#cde498}.labelText,.loopText{fill:#000;stroke:none}.loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#326932}.note{stroke:#6eaa49;fill:#fff5ad}.noteText{fill:#000;stroke:none;font-family:'trebuchet ms',verdana,arial;font-size:14px}.section{stroke:none;opacity:.2}.section0,.section2{fill:#6eaa49}.section1,.section3{fill:#fff;opacity:.2}.sectionTitle0,.sectionTitle1,.sectionTitle2,.sectionTitle3{fill:#333}.sectionTitle{text-anchor:start;font-size:11px;text-height:14px}.grid .tick{stroke:lightgrey;opacity:.3;shape-rendering:crispEdges}.grid path{stroke-width:0}.today{fill:none;stroke:red;stroke-width:2px}.task{stroke-width:2}.taskText{text-anchor:middle;font-size:11px}.taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}.taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}.taskText0,.taskText1,.taskText2,.taskText3{fill:#fff}.task0,.task1,.task2,.task3{fill:#487e3a;stroke:#13540c}.taskTextOutside0,.taskTextOutside1,.taskTextOutside2,.taskTextOutside3{fill:#000}.active0,.active1,.active2,.active3{fill:#cde498;stroke:#13540c}.activeText0,.activeText1,.activeText2,.activeText3{fill:#000!important}.done0,.done1,.done2,.done3{stroke:grey;fill:lightgrey;stroke-width:2}.doneText0,.doneText1,.doneText2,.doneText3{fill:#000!important}.crit0,.crit1,.crit2,.crit3{stroke:#f88;fill:red;stroke-width:2}.activeCrit0,.activeCrit1,.activeCrit2,.activeCrit3{stroke:#f88;fill:#cde498;stroke-width:2}.doneCrit0,.doneCrit1,.doneCrit2,.doneCrit3{stroke:#f88;fill:lightgrey;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}.activeCritText0,.activeCritText1,.activeCritText2,.activeCritText3,.doneCritText0,.doneCritText1,.doneCritText2,.doneCritText3{fill:#000!important}.titleText{text-anchor:middle;font-size:18px;fill:#000}text{font-family:'trebuchet ms',verdana,arial;font-size:14px}html{height:100%}body{margin:0!important;padding:5px 20px 26px!important;background-color:#fff;font-family:"Lucida Grande","Segoe UI","Apple SD Gothic Neo","Malgun Gothic","Lucida Sans Unicode",Helvetica,Arial,sans-serif;font-size:.9em;overflow-x:hidden;overflow-y:auto}br,h1,h2,h3,h4,h5,h6{clear:both}hr.page{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x;border:0;height:3px;padding:0}hr.underscore{border-top-style:dashed!important}body >:first-child{margin-top:0!important}img.plugin{box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius:3px}iframe{border:0}figure{-webkit-margin-before:0;-webkit-margin-after:0;-webkit-margin-start:0;-webkit-margin-end:0}kbd{border:1px solid #aaa;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;-moz-box-shadow:1px 2px 2px #ddd;-webkit-box-shadow:1px 2px 2px #ddd;box-shadow:1px 2px 2px #ddd;background-color:#f9f9f9;background-image:-moz-linear-gradient(top,#eee,#f9f9f9,#eee);background-image:-o-linear-gradient(top,#eee,#f9f9f9,#eee);background-image:-webkit-linear-gradient(top,#eee,#f9f9f9,#eee);background-image:linear-gradient(top,#eee,#f9f9f9,#eee);padding:1px 3px;font-family:inherit;font-size:.85em}.oembeded .oembed_photo{display:inline-block}img[data-echo]{margin:25px 0;width:100px;height:100px;background:url(../img/ajax.gif) center center no-repeat #fff}.spinner{display:inline-block;width:10px;height:10px;margin-bottom:-.1em;border:2px solid rgba(0,0,0,.5);border-top-color:transparent;border-radius:100%;-webkit-animation:spin 1s infinite linear;animation:spin 1s infinite linear}.spinner:after{content:'';display:block;width:0;height:0;position:absolute;top:-6px;left:0;border:4px solid transparent;border-bottom-color:rgba(0,0,0,.5);-webkit-transform:rotate(45deg);transform:rotate(45deg)}@-webkit-keyframes spin{to{-webkit-transform:rotate(360deg)}}@keyframes spin{to{transform:rotate(360deg)}}p.toc{margin:0!important}p.toc ul{padding-left:10px}p.toc>ul{padding:10px;margin:0 10px;display:inline-block;border:1px solid #ededed;border-radius:5px}p.toc li,p.toc ul{list-style-type:none}p.toc li{width:100%;padding:0;overflow:hidden}p.toc li a::after{content:"."}p.toc li a:before{content:"• "}p.toc h5{text-transform:uppercase}p.toc .title{float:left;padding-right:3px}p.toc .number{margin:0;float:right;padding-left:3px;background:#fff;display:none}input.task-list-item{margin-left:-1.62em}.markdown{font-family:"Hiragino Sans GB","Microsoft YaHei",STHeiti,SimSun,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",'Segoe UI',AppleSDGothicNeo-Medium,'Malgun Gothic',Verdana,Tahoma,sans-serif;padding:20px}.markdown a{text-decoration:none;vertical-align:baseline}.markdown a:hover{text-decoration:underline}.markdown h1{font-size:2.2em;font-weight:700;margin:1.5em 0 1em}.markdown h2{font-size:1.8em;font-weight:700;margin:1.275em 0 .85em}.markdown h3{font-size:1.6em;font-weight:700;margin:1.125em 0 .75em}.markdown h4{font-size:1.4em;font-weight:700;margin:.99em 0 .66em}.markdown h5{font-size:1.2em;font-weight:700;margin:.855em 0 .57em}.markdown h6{font-size:1em;font-weight:700;margin:.75em 0 .5em}.markdown h1+p,.markdown h1:first-child,.markdown h2+p,.markdown h2:first-child,.markdown h3+p,.markdown h3:first-child,.markdown h4+p,.markdown h4:first-child,.markdown h5+p,.markdown h5:first-child,.markdown h6+p,.markdown h6:first-child{margin-top:0}.markdown hr{border:1px solid #ccc}.markdown p{margin:1em 0;word-wrap:break-word}.markdown ol{list-style-type:decimal}.markdown li{display:list-item;line-height:1.4em}.markdown blockquote{margin:1em 20px}.markdown blockquote>:first-child{margin-top:0}.markdown blockquote>:last-child{margin-bottom:0}.markdown blockquote cite:before{content:'\2014 \00A0'}.markdown .code{border-radius:3px;word-wrap:break-word}.markdown pre{border-radius:3px;word-wrap:break-word;border:1px solid #ccc;overflow:auto;padding:.5em}.markdown pre code{border:0;display:block}.markdown pre>code{font-family:Consolas,Inconsolata,Courier,monospace;font-weight:700;white-space:pre;margin:0}.markdown code{border-radius:3px;word-wrap:break-word;border:1px solid #ccc;padding:0 5px;margin:0 2px}.markdown img{max-width:100%}.markdown mark{color:#000;background-color:#fcf8e3}.markdown table{padding:0;border-collapse:collapse;border-spacing:0;margin-bottom:16px}.markdown table tr td,.markdown table tr th{border:1px solid #ccc;margin:0;padding:6px 13px}.markdown table tr th{font-weight:700}.markdown table tr th>:first-child{margin-top:0}.markdown table tr th>:last-child{margin-bottom:0}.markdown table tr td>:first-child{margin-top:0}.markdown table tr td>:last-child{margin-bottom:0}@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700);.haroopad{padding:20px;color:#222;font-size:15px;font-family:"Roboto Condensed",Tauri,"Hiragino Sans GB","Microsoft YaHei",STHeiti,SimSun,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",'Segoe UI',AppleSDGothicNeo-Medium,'Malgun Gothic',Verdana,Tahoma,sans-serif;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}.haroopad a{color:#3269a0}.haroopad a:hover{color:#4183c4}.haroopad h2{border-bottom:1px solid #e6e6e6}.haroopad h6{color:#777}.haroopad hr{border:1px solid #e6e6e6}.haroopad blockquote>code,.haroopad h1>code,.haroopad h2>code,.haroopad h3>code,.haroopad h4>code,.haroopad h5>code,.haroopad h6>code,.haroopad li>code,.haroopad p>code,.haroopad td>code{font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;font-size:85%;background-color:rgba(0,0,0,.02);padding:.2em .5em;border:1px solid #efefef}.haroopad pre>code{font-size:1em;letter-spacing:-1px;font-weight:700}.haroopad blockquote{border-left:4px solid #e6e6e6;padding:0 15px;color:#777}.haroopad table{background-color:#fafafa}.haroopad table tr td,.haroopad table tr th{border:1px solid #e6e6e6}.haroopad table tr:nth-child(2n){background-color:#f2f2f2}.hljs{display:block;overflow-x:auto;padding:.5em;background:#fdf6e3;color:#657b83;-webkit-text-size-adjust:none}.diff .hljs-header,.hljs-comment,.hljs-doctype,.hljs-javadoc,.hljs-pi,.lisp .hljs-string{color:#93a1a1}.css .hljs-tag,.hljs-addition,.hljs-keyword,.hljs-request,.hljs-status,.hljs-winutils,.method,.nginx .hljs-title{color:#859900}.hljs-command,.hljs-dartdoc,.hljs-hexcolor,.hljs-link_url,.hljs-number,.hljs-phpdoc,.hljs-regexp,.hljs-rules .hljs-value,.hljs-string,.hljs-tag .hljs-value,.tex .hljs-formula{color:#2aa198}.css .hljs-function,.hljs-built_in,.hljs-chunk,.hljs-decorator,.hljs-id,.hljs-identifier,.hljs-localvars,.hljs-title,.vhdl .hljs-literal{color:#268bd2}.hljs-attribute,.hljs-class .hljs-title,.hljs-constant,.hljs-link_reference,.hljs-parent,.hljs-type,.hljs-variable,.lisp .hljs-body,.smalltalk .hljs-number{color:#b58900}.css .hljs-pseudo,.diff .hljs-change,.hljs-attr_selector,.hljs-cdata,.hljs-header,.hljs-pragma,.hljs-preprocessor,.hljs-preprocessor .hljs-keyword,.hljs-shebang,.hljs-special,.hljs-subst,.hljs-symbol,.hljs-symbol .hljs-string{color:#cb4b16}.hljs-deletion,.hljs-important{color:#dc322f}.hljs-link_label{color:#6c71c4}.tex .hljs-formula{background:#eee8d5}.MathJax_Hover_Frame{border-radius:.25em;-webkit-border-radius:.25em;-moz-border-radius:.25em;-khtml-border-radius:.25em;box-shadow:0 0 15px #83A;-webkit-box-shadow:0 0 15px #83A;-moz-box-shadow:0 0 15px #83A;-khtml-box-shadow:0 0 15px #83A;border:1px solid #A6D!important;display:inline-block;position:absolute}.MathJax_Hover_Arrow{position:absolute;width:15px;height:11px;cursor:pointer}#MathJax_About{position:fixed;left:50%;width:auto;text-align:center;border:3px outset;padding:1em 2em;background-color:#DDD;color:#000;cursor:default;font-family:message-box;font-size:120%;font-style:normal;text-indent:0;text-transform:none;line-height:normal;letter-spacing:normal;word-spacing:normal;word-wrap:normal;white-space:nowrap;float:none;z-index:201;border-radius:15px;-webkit-border-radius:15px;-moz-border-radius:15px;-khtml-border-radius:15px;box-shadow:0 10px 20px gray;-webkit-box-shadow:0 10px 20px gray;-moz-box-shadow:0 10px 20px gray;-khtml-box-shadow:0 10px 20px gray;filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}.MathJax_Menu{position:absolute;background-color:#fff;color:#000;width:auto;padding:2px;border:1px solid #CCC;margin:0;cursor:default;font:menu;text-align:left;text-indent:0;text-transform:none;line-height:normal;letter-spacing:normal;word-spacing:normal;word-wrap:normal;white-space:nowrap;float:none;z-index:201;box-shadow:0 10px 20px gray;-webkit-box-shadow:0 10px 20px gray;-moz-box-shadow:0 10px 20px gray;-khtml-box-shadow:0 10px 20px gray;filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}.MathJax_MenuItem{padding:2px 2em;background:0 0}.MathJax_MenuArrow{position:absolute;right:.5em;color:#666}.MathJax_MenuActive .MathJax_MenuArrow{color:#fff}.MathJax_MenuArrow.RTL{left:.5em;right:auto}.MathJax_MenuCheck{position:absolute;left:.7em}.MathJax_MenuCheck.RTL{right:.7em;left:auto}.MathJax_MenuRadioCheck{position:absolute;left:1em}.MathJax_MenuRadioCheck.RTL{right:1em;left:auto}.MathJax_MenuLabel{padding:2px 2em 4px 1.33em;font-style:italic}.MathJax_MenuRule{border-top:1px solid #CCC;margin:4px 1px 0}.MathJax_MenuDisabled{color:GrayText}.MathJax_MenuActive{background-color:Highlight;color:HighlightText}.MathJax_Menu_Close{position:absolute;width:31px;height:31px;top:-15px;left:-15px}#MathJax_Zoom{position:absolute;background-color:#F0F0F0;overflow:auto;display:block;z-index:301;padding:.5em;border:1px solid #000;margin:0;font-weight:400;font-style:normal;text-align:left;text-indent:0;text-transform:none;line-height:normal;letter-spacing:normal;word-spacing:normal;word-wrap:normal;white-space:nowrap;float:none;box-shadow:5px 5px 15px #AAA;-webkit-box-shadow:5px 5px 15px #AAA;-moz-box-shadow:5px 5px 15px #AAA;-khtml-box-shadow:5px 5px 15px #AAA;filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}#MathJax_ZoomOverlay{position:absolute;left:0;top:0;z-index:300;display:inline-block;width:100%;height:100%;border:0;padding:0;margin:0;background-color:#fff;opacity:0;filter:alpha(opacity=0)}#MathJax_ZoomFrame{position:relative;display:inline-block;height:0;width:0}#MathJax_ZoomEventTrap{position:absolute;left:0;top:0;z-index:302;display:inline-block;border:0;padding:0;margin:0;background-color:#fff;opacity:0;filter:alpha(opacity=0)}.MathJax_Preview{color:#888}#MathJax_Message{position:fixed;left:1px;bottom:2px;background-color:#E6E6E6;border:1px solid #959595;margin:0;padding:2px 8px;z-index:102;color:#000;font-size:80%;width:auto;white-space:nowrap}#MathJax_MSIE_Frame{position:absolute;top:0;left:0;width:0;z-index:101;border:0;margin:0;padding:0}.MathJax_Error{color:#C00;font-style:italic}footer{position:fixed;font-size:.8em;text-align:right;bottom:0;margin-left:-25px;height:20px;width:100%}</style>
+</head>
+<body class="markdown haroopad">
+<h1 id="nifi实战"><a name="nifi实战" href="#nifi实战"></a>Nifi实战</h1><p class="toc" style="undefined"></p><ul>
+<li><ul>
+<li><span class="title">
+<a href="#1-nifi综述" title="1 NiFi综述">1 NiFi综述</a>
+</span>
+<!--span class="number">
+0
+</span-->
+<ul>
+<li><span class="title">
+<a href="#1.1-nifi的核心概念" title="1.1 NiFi的核心概念">1.1 NiFi的核心概念</a>
+</span>
+<!--span class="number">
+1
+</span-->
+</li>
+<li><span class="title">
+<a href="#1.2-nifi架构" title="1.2 NiFi架构">1.2 NiFi架构</a>
+</span>
+<!--span class="number">
+2
+</span-->
+</li>
+<li><span class="title">
+<a href="#1.3-nifi的性能期望与特性" title="1.3 NiFi的性能期望与特性">1.3 NiFi的性能期望与特性</a>
+</span>
+<!--span class="number">
+3
+</span-->
+</li>
+<li><span class="title">
+<a href="#1.4-总结" title="1.4 总结">1.4 总结</a>
+</span>
+<!--span class="number">
+4
+</span-->
+</li>
+</ul>
+</li>
+<li><span class="title">
+<a href="#2-nifi入门" title="2 NiFi入门">2 NiFi入门</a>
+</span>
+<!--span class="number">
+5
+</span-->
+<ul>
+<li><span class="title">
+<a href="#2.1-术语" title="2.1 术语">2.1 术语</a>
+</span>
+<!--span class="number">
+6
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.2-nifi下载" title="2.2 NiFi下载">2.2 NiFi下载</a>
+</span>
+<!--span class="number">
+7
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3-nifi运行" title="2.3 NiFi运行">2.3 NiFi运行</a>
+</span>
+<!--span class="number">
+8
+</span-->
+<ul>
+<li><span class="title">
+<a href="#2.3.1-windows用户运行nifi" title="2.3.1 Windows用户运行NiFi">2.3.1 Windows用户运行NiFi</a>
+</span>
+<!--span class="number">
+9
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.2-linux/-mac-os用户运行nifi" title="2.3.2 Linux/ Mac OS用户运行NiFi">2.3.2 Linux/ Mac OS用户运行NiFi</a>
+</span>
+<!--span class="number">
+10
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.3-服务化安装" title="2.3.3 服务化安装">2.3.3 服务化安装</a>
+</span>
+<!--span class="number">
+11
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.4-服务验证" title="2.3.4 服务验证">2.3.4 服务验证</a>
+</span>
+<!--span class="number">
+12
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.5-添加处理器（processor）" title="2.3.5 添加处理器（Processor）">2.3.5 添加处理器（Processor）</a>
+</span>
+<!--span class="number">
+13
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.6-配置处理器" title="2.3.6 配置处理器">2.3.6 配置处理器</a>
+</span>
+<!--span class="number">
+14
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.7-连接处理器" title="2.3.7 连接处理器">2.3.7 连接处理器</a>
+</span>
+<!--span class="number">
+15
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.8-启动/停止处理器" title="2.3.8 启动/停止处理器">2.3.8 启动/停止处理器</a>
+</span>
+<!--span class="number">
+16
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.9-获取处理器的更多信息" title="2.3.9 获取处理器的更多信息">2.3.9 获取处理器的更多信息</a>
+</span>
+<!--span class="number">
+17
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.3.10-其他组件" title="2.3.10 其他组件">2.3.10 其他组件</a>
+</span>
+<!--span class="number">
+18
+</span-->
+</li>
+</ul>
+</li>
+<li><span class="title">
+<a href="#2.4-可用的处理器" title="2.4 可用的处理器">2.4 可用的处理器</a>
+</span>
+<!--span class="number">
+19
+</span-->
+<ul>
+<li><span class="title">
+<a href="#2.4.1-数据转换" title="2.4.1 数据转换">2.4.1 数据转换</a>
+</span>
+<!--span class="number">
+20
+</span-->
+</li>
+<li><span class="title">
+<a href="#2.4.2-路由与调解" title="2.4.2 路由与调解">2.4.2 路由与调解</a>
+</span>
+<!--span class="number">
+21
+</span-->
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+
+</ul>
+<p></p><h2 id="1-nifi综述"><a name="1-nifi综述" href="#1-nifi综述"></a>1 NiFi综述</h2><p>Nifi用于构建系统间自动化的数据流。由于有些系统用于生产数据，有些系统用于消费数。为解决数据生产与消费问题，产生很多解决模式，其中最广泛和最简易的消费模式为<strong>企业集成模式（EIP Enterprise Integration Pattern）</strong>。  </p><p>数据流所面临的高级挑战：  </p><ul>
+<li>系统宕机<br>网络故障、磁盘故障、软件故障以及人为错误  </li><li>消费数据超过可访问数据容量的<br>有时一个数据源会超过数据链处理和传输的速度，但它仅仅会若关联到一个发布的问题</li><li>数据重量无法保证（边界条件仅仅是一些建议）<br>数据质量不高，经常会获取到超大、超小、太快、太慢、过期的、错误的以及格式错误的数据  </li><li>数据流变化快（曾经的脏数据变成下一代的信号量）<br>一个组织的优先级变化的非常快。创建新数据流或者在已有的数据流上的修改也必须快  </li><li>系统的进化与发展不在同一速率<br>特定系统所使用的协议与数据结构，往往任意调整，并不考虑周边系统。数据流用于连接大量的分布式系统组件，数据流本身是一种松散的或者独立运行的架构，使各系统能够独立运行而不是在一起工作  </li><li>承诺与安全<br>法律、法规、政策会发生变化，商业协议会发生变化，系统与系统以及系统与用户之间的交互必须保证安全、可信并且可以计算的  </li><li>产品的持续改进<br>产品的改进经常会发生在产品的生产环境  </li></ul><p>多年以来，数据流(dataflow)已经成为架构中必备的罪恶组件。尽管目前通过一系列进化，使数据流获得了一定关注，并帮助一些企业取得了重要的成功。这些技术包括：SOA（Service Oriented Architecture）、API的崛起、物联网（IoT Internet of Things）、大数据技术。对于服务对隐私以及安全有着苛刻的要求。在这些新概念与需要的背景下，数据流的需求同样大幅度的提高。数据流的使用场景发生一定的变化，复杂的范围、适应变化的速度、规模以及边缘的变化变得非常普遍。NiFi的建立是为了帮助解决这些现代的数据流挑战。  </p><h3 id="1.1-nifi的核心概念"><a name="1.1-nifi的核心概念" href="#1.1-nifi的核心概念"></a>1.1 NiFi的核心概念</h3><p>Nifi的核心理念是基于流程的编程（FBP Flow Based Programming）。以下是Nifi的概念，帮助理解FBP：  </p><table>
+<thead>
+<tr>
+<th>Nifi术语</th>
+<th>FBP术语</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>流程文件（FlowFile）</td>
+<td>信息包（Information Packet）</td>
+<td>流程文件代表每个系统间运动的对象，Nifi跟踪一个Key/Value的字符串键值对的map  </td>
+</tr>
+<tr>
+<td>流程文件处理器（FlowFile Processor）</td>
+<td>黑盒（Black Box）</td>
+<td>处理器实际工作的单元。EIP中，处理器进行系统间的数据路由、转换、调解。处理器访问特定FlowFile中的属性以及上下文流。在特定的工作单元，处理器可以操作多个FlowFile，执行commit或rollback操作  </td>
+</tr>
+<tr>
+<td>连接（Connection）</td>
+<td>有界缓冲区（Bounded Buffer）</td>
+<td>连接为两个处理器提供连接。像一个队列一样，协调多个不同速率的处理之间的互动。这些队列可以动态地优先级排序，并且在压力调节时可以在负载上有上界  </td>
+</tr>
+<tr>
+<td>流程控制器（Flow Controller）</td>
+<td>调度器</td>
+<td>流程控制器管理流程连接、处理器的线程数等。流程控制器充当FlowFile与处理器之间的代理，促进两者之间信息交换</td>
+</tr>
+<tr>
+<td>处理组（Process Group）</td>
+<td>子网（subnet）</td>
+<td>处理组是一系列特定的处理以及连接，通过输入端口接收数据通过输出数据发送数据。处理组允许创建新组件简化其他组件的组成  </td>
+</tr>
+</tbody>
+</table><p>这种设计模型与SEDA类似，使Nifi具有很多优势，成为一个高效、有力的、可扩展的数据流构建平台。优势包括：</p><ul>
+<li>处理流程的可视化创建与管理</li><li>内在具有异步性，即使在处理与流量高峰时，仍能确保高生产能力和自然缓冲</li><li>提供一个高度并发的模型，而不需要开发人员考虑并发的复杂性</li><li>高内聚和松散耦合组件的开发模式。组件可以在其他上下文中重用，并提升单元的可测试性</li><li>连接资源的受限使系统的反压力及压力释放非常自然和直观</li><li>与粗粒度的catch-all的方式处理错误与异常不同，异常处理将变得比较愉快</li><li>数据流入与流出系统以及在系统中的流向都能非常容易以及易于理解的方式跟踪</li></ul><h3 id="1.2-nifi架构"><a name="1.2-nifi架构" href="#1.2-nifi架构"></a>1.2 NiFi架构</h3><p><img src="img/architecture.png" alt=""><br>NiFi运行在主机操作系统的Java虚拟机。Java虚拟机中的NiFi主要组件包括：  </p><ul>
+<li>Web Server<br>确能够通过HTTP命令和控制API控制NiFi运行</li><li>流出控制器（Flow Controller）<br>流出控制器是处理的大脑。提供运行时的线程扩展，管理处理器能够按照日程执行并获取足够的资源</li><li>扩展（Extensions）<br>NiFi具有多种类型的扩展。主要是对JVM中的操作和执行进行扩展</li><li>FlowFile库（FlowFile Repository）<br>FlowFile库用于跟踪给定FlowFile在流程中的状态。库的实现采用可插拔式。默认的方法是在指定磁盘分区上的持久写前日志</li><li>上下文库（Content Repository）<br>上下文库是给定FlowFile实际内容字节的位置。存储库的实现是可插拔的。默认的方法是一个相当简单的机制，它将数据块存储在文件系统中。可以指定多个文件系统存储位置，以便获得不同的物理分区，从而减少单个卷的争用</li><li>来源库（Provenance Repository）<br>来源库是存储所有来源事件数据位置。存储库结构是可插拔的，默认的实现是使用一个或多个物理磁盘卷。在每个位置事件数据都被索引和搜索。</li></ul><p><img src="img/cluster.png" alt="">  </p><p>自NiFi 1.0版，NiFi集群就采用无Master并行集群。每个NiFi节点执行相同的数据加工任务，但是每个节点上处理不同的数据集。Apache ZooKeeper选举一个集群协调区（Cluster Coordinator），如果出现故障ZooKeeper自动进行处理。所有集群节点向集群协调器报告心跳及状态。集群协调器负责切断或连接节点。并且，每个集群有唯一的主节点，该节点也由ZooKeeper选举而来。统一通过节点中任意一台机器的UI界面访问NiFi集群，对数据加工流程进行管理。任何操作都将被复制分发到集群中的任意节点，集群运行多个入口点</p><h3 id="1.3-nifi的性能期望与特性"><a name="1.3-nifi的性能期望与特性" href="#1.3-nifi的性能期望与特性"></a>1.3 NiFi的性能期望与特性</h3><p>NiFi在设计上充分利用宿主机的性能，充分利用CPU以及磁盘的性能。在后续的管理手册中有相关的最佳实践与配置</p><ul>
+<li>IO<br>系统的生产性与延迟由于配置而产生很大差异。对于系统中可插拔的方法，其性能由实现方式决定。仍然有一些具体的广泛使用的开箱即用的实现。所有的持久化操作都要保证数据的交付并使用本地磁盘。普通服务器标准磁盘或者RAID磁盘阵列，保守估计读写速率应在50MB/s左右。NiFi在很多数据流程的读写速率将更加高效，能够达到100MB/s甚至更高。NiFi性能的提升主要由于物理分区的增加和上下文库的增加可以使性能得到线性的提升。NiFi的性能瓶颈将会出现在FlowFile库和来源库。NiFi计划提供一个性能测试基准以及性能测试模板，使用户可以便捷的测试他们的系统并识别其中的瓶颈以及影响性能的因素。这个模板也可以帮助管理员更简便的修改数据处理流程并验证修改对性能的影响</li><li>CPU<br>当一个特定的处理器被赋予一个线程来执行时，流程控制器（Flow Controller）充当控制引擎。处理器一旦处理完成将立刻归还线程。流控制器可以为它所维护的各种线程池提供一个配置值，指示可用线程。要使用的线程的理想数量取决于主机系统资源的核心数量，以及该系统是否运行其他服务，以及流程中处理的性质，比如：IO处理繁重的流程，需要多创建线程</li><li>内存<br>NiFi在JVM中运行，因此NiFi的内存限制有JVM决定。JVM的GC机制是约束系统实际内存的重要因素，同时，随着系统的运行也能起到调节系统性能的作用。NiFi任务会由于同时读同样的内容（content）而造成I/O紧张，需要配置足够的磁盘空间优化性能</li></ul><h3 id="1.4-总结"><a name="1.4-总结" href="#1.4-总结"></a>1.4 总结</h3><p>以上宏观的对NiFi基础原理进行了描述，形成了NiFi的鸟瞰视图，介绍了NiFi的特性。NiFi的关键特性分为如下几类：流程管理、易用性、安全性、可扩展性架构、灵活扩展模型。  </p><ul>
+<li>流程控制<ul>
+<li>保证送达（Guarantee Delivery）：NiFi的核心理念是大规模以及保证送达。NiFi通过有效地使用专门构建的持久写日志和内容存储库实现保证送达。NiFi的设计方式是允许非常高的事务率，有效的负载扩展（load-spreading），复制-写(copy-on-write)等机制发挥传统磁盘读/写的优势。</li><li>利用数据缓存回压或释放压力：NiFi对队列数据进行缓存，当队列达到极限时提供回压能力，当数据达到某一时限时，将数据从缓存中清除</li><li>优先化队列（Prioritized Queuing）：NiFi运行设置多种优先级方案以决定如何在队列中检索数据。默认情况下是按时间升序（即最老的先被检索出），也可以按时间降序，也可以按值进行降序。可以通过自定义的方案指定优先级</li><li>处理流程的服务质量（QoS Quality of Service）（延迟、加工性能、运行数据丢失（loss tolerance））：有些特定的加工流程中的数据十分重要，数据丢失不能容忍。也有一些时候，它必须在几秒钟内被处理和交付，被处理到任何值或送达任何地方。NiFi支持这些关注点的细粒度流特定配置。</li></ul>
+</li><li>易用性<ul>
+<li>可视化的命令与控制：数据加工流程可能会非常复杂。对于加工流程的可视化，可以大大降低复杂性，并且可以发现需要简化的领域。NiFi不仅能够对加工流程进行可视化操作还能对运行时进行可视化。比起传统的“设计/部署”模式，NiFi的开发模式更像黏土。对于流程的修改会立即生效。更改是细粒度的，并且与受影响的组件隔离。您不需要停止整个流或一组流，只是为了进行一些特定的修改。</li><li>流程模板（Flow Template）:数据流程高度面向模式，并且解决相同问题可以有不同的解决方案，共享最佳实践可以对解决问题很有帮助。模板允许主题专家构建和发布他们的流设计，并让其他人从中受益和协作。</li><li>数据起源（Data Provenance）：NiFi自动记录、索引，并将源数据作为对象流入系统，甚至在数据扇入、扇出以及转换等更多场景。这些信息对于运维支持、故障定位、性能优化以及其他场景至关重要  <blockquote>
+<p>在软件设计中，扇入和扇出的概念是指应用程序模块之间的层次调用情况。<br>按照结构化设计方法，一个应用程序是由多个功能相对独立的模块所组成。<br>扇入：是指直接调用该模块的上级模块的个数。扇入大表示模块的复用程序高。<br>扇出：是指该模块直接调用的下级模块的个数。扇出大表示模块的复杂度高，需要控制和协调过多的下级模块；但扇出过小（例如总是1）也不好。扇出过大一般是因为缺乏中间层次，应该适当增加中间层次的模块。扇出太小时可以把下级模块进一步分解成若干个子功能模块，或者合并到它的上级模块中去。<br>设计良好的软件结构，通常顶层扇出比较大，中间扇出小，底层模块则有大扇入<br>更加恰当的说法是：描述负载状况的一种描述方式</p>
+</blockquote>
+</li><li>恢复/适当粒度的向回滚缓冲区中记录历史：NiFi的内容库设计了历史回滚缓冲区。数据在存储到达一定时间后会被清除或者在空间不足时被清除。这种特性与数据来源的容量相结合。为实现点击内容、内容下载和重放提供了非常有用的基础，所有这些操作都在数据对象的生命周期中进行记录，甚至可以跨域多个代</li></ul>
+</li><li>安全性<ul>
+<li>系统到系统：数据流程的安全性很高。NiFi使用双向SSL认证模式对数据流程的各个节点实现安全交换。NiFi还可以对交换的内容利用共享密钥的方式进行加密/解密，或者在发送端/接收端使用其他机制完成数据的加解密</li><li>用户到系统：NiFi支持两种方式的SSL认证，并提供可插入的授权，这样它就可以正确地控制用户的访问权限，并在特定的级别（只读、dataflow manager、admin）。如果用户将一个敏感的属性输入到流中，那么它就会立即被加密落盘到服务器端，即使是在其加密的形式中也不会再次暴露在客户端。</li><li>多租户授权（Multi-tenant Authorization）：对数据加工流程上的组件进行多级授权，运行管理员在适当的粒度上进行访问控制。这样NiFi集群可以处理一个或多个组织的请求。与孤立的拓扑相比，多承租者授权可以为dataflow管理提供一个自服务模型，允许每个团队或组织对流进行管理，并充分了解剩余的流，而这些流是他们无法访问的。</li></ul>
+</li><li>可扩展架构（Extensible Architecture）<ul>
+<li>扩展：NiFi核心思想是扩展性，NiFi是一个数据处理的平台，通过一些可预知性、可重复行为与数据加工处理流程进行交互。扩展的要点包括：处理器、控制器服务、报告任务、优先排序器和客户用户界面。</li><li>类加载器隔离（Classloader Isolation）：对于任何基于组件的系统，依赖性问题都会很快发生。NiFi通过提供一个定制的类装入器模型来解决这个问题，确保每个扩展包都暴露在非常有限的依赖集合中。因此，可以构建扩展，而不关心它们是否会与另一个扩展冲突。这些扩展包的概念称为“NiFi档案”，并在【开发人员指南】中更详细地讨论。</li><li>站点到站点通信协议：NiFi实例之间的首选通信协议是NiFi站点到站点（S2S）协议。S2S可以轻松、高效、安全地将数据从一个NiFi实例转移到另一个NiFi实例。NiFi客户端库可以很容易地构建并打包到其他应用程序或设备中，通过S2S与NiFi进行通信。基于Socket的协议和HTTP（S）协议都支持S2S作为底层传输协议，这使得将代理服务器嵌入到S2S通信中成为可能。</li></ul>
+</li><li>灵活扩展模型（Flexible Scaling Model）<ul>
+<li>水平扩展（集群）：按之前所说，NiFi的设计目的是通过将许多节点聚集在一起来进行扩展。如果一个节点被供应并配置为每秒处理数百MB，通过配置集群来处理GB每秒。这就带来了在NiFi和它获取数据的系统之间的负载平衡和故障转移代理挑战。使用基于异步队列的协议，如消息传递服务、卡夫卡等可以提供帮助。NiFi的“站点到站点”特性使NiFi与客户端（包括与其他NiFi集群）通过授权的端口的通信、信息共享、数据交换更高效。</li><li>扩大&amp;下降（Scale-up &amp; down）：NiFi也被设计成以一种非常灵活的方式进行扩容与收缩。从NiFi框架的角度提高吞吐量方面，在配置时，可以在调度选项卡下增加处理器上的并发任务数量。NiFi允许更多的进程同时执行，提供更大的吞吐量。另外，NiFi可以完美收缩规模，在边缘设备上运行，由于硬件资源有限，需要占用少量的内存。要特别解决最后一公里数据收集挑战和边缘的场景，您可以在一下连接找到解决方案：<br><a href="https://cwiki.apache.org/confluence/display/NIFI/MiNiFi">https://cwiki.apache.org/confluence/display/NIFI/MiNiFi</a><br>MiNiFi 是Apache NiFi的子项目  </li></ul>
+</li></ul><h2 id="2-nifi入门"><a name="2-nifi入门" href="#2-nifi入门"></a>2 NiFi入门</h2><h3 id="2.1-术语"><a name="2.1-术语" href="#2.1-术语"></a>2.1 术语</h3><ul>
+<li><strong>流程文件（FlowFile）</strong>：每一块用户数据（用户交给NiFi进行处理或者分发的数据）都是一个流程文件（FlowFile）。一个流程文件由两部分组成：属性（Attribute）和内容（Content），内容是用户数据本身，属性时一个Key/Value的键值对，而这对数据与用户数据密切相关</li><li><strong>处理器（Processor）</strong>：NiFi的处理器组件主要包括：创建、发送、接收、转换、路由、切分、合并以及处理流程文件。处理器是用户创建自己的数据加工流程的重要的部件</li></ul><h3 id="2.2-nifi下载"><a name="2.2-nifi下载" href="#2.2-nifi下载"></a>2.2 NiFi下载</h3><p>在如下路径下载NiFi对应版本：<br><a href="http://nifi.apache.org/download.html"></a><a href="http://nifi.apache.org/download.html">http://nifi.apache.org/download.html</a>  </p><h3 id="2.3-nifi运行"><a name="2.3-nifi运行" href="#2.3-nifi运行"></a>2.3 NiFi运行</h3><h4 id="2.3.1-windows用户运行nifi"><a name="2.3.1-windows用户运行nifi" href="#2.3.1-windows用户运行nifi"></a>2.3.1 Windows用户运行NiFi</h4><p>Windows用户，在bin目录下，以管理员身份运行run-nifi.bat即可启动NiFi<br>出现如下窗口，说明应用已启动<br><img src="img/windows_startup.png" alt="">  </p><h4 id="2.3.2-linux/-mac-os用户运行nifi"><a name="2.3.2-linux/-mac-os用户运行nifi" href="#2.3.2-linux/-mac-os用户运行nifi"></a>2.3.2 Linux/ Mac OS用户运行NiFi</h4><p>Linux用户将需要运行bin/nifi.sh<br>若需要后台运行则需要执行：bin/nifi.sh start<br>查看NiFi运行专科需要执行：bin/nifi.sh status<br>停止NiFi服务需要执行：bin/nifi.sh stop  </p><h4 id="2.3.3-服务化安装"><a name="2.3.3-服务化安装" href="#2.3.3-服务化安装"></a>2.3.3 服务化安装</h4><p>Linux用户可以将NiFi安装成服务。在安装目录中执行如下命令，将服务安装成默认名称nifi：<br>bin/nifi.sh install<br>如果需要指定安装的服务名需要在命令后增加一个服务名（serviceName是服务名称）：<br>bin/nifi.sh install [serviceName]<br>eg. bin/nifi.sh install dataflow<br>服务安装完成后可以通过以下命令启停查看状态：<br>sudo service nifi start<br>sudo service nifi stop<br>sudo service nifi status  </p><h4 id="2.3.4-服务验证"><a name="2.3.4-服务验证" href="#2.3.4-服务验证"></a>2.3.4 服务验证</h4><p>当NiFi服务启动后，通过访问如下路径可以访问控制台：<br>htttp://localhost:8080/nifi/<br>如果NiFi正常启动，将出现如下窗口：<br><img src="img/NiFiMain.png" alt=""><br>NiFi的控制面板的布局如下：<br><img src="img/nifi-toolbar-components.png" alt=""><br>点击页面右上角的菜单按钮【<img src="img/GlobalMenuButton.png" alt="">】<br><img src="img/GlobalMenu.png" alt="">  </p><h4 id="2.3.5-添加处理器（processor）"><a name="2.3.5-添加处理器（processor）" href="#2.3.5-添加处理器（processor）"></a>2.3.5 添加处理器（Processor）</h4><p>可以拖拽【<img src="img/iconProcessor.png" alt="">】将处理器放到画布上，创建数据加工流程<br>将处理器拖到画布上之后，会出现对话框，选择处理器种类<br><img src="img/AddProcessor.png" alt=""><br>对话框左边是一些tags，是开发人员为处理器定义的一些标签，可以理解为关键字。可以帮助开发人员通过标签迅速过滤处理器类型。通过对话框右上角的Filter也可以通过输入关键字对处理器进行过滤<br>例如：我们需要将本地文件传到NiFi，我们可以通过file关键字进行过滤，当然通过local关键字过滤效果更好。<br><img src="img/filter_file.png" alt=""><br><img src="img/filter_local.png" alt=""><br>在对话框下有一个关于处理器的简短介绍<br><img src="img/processorBriefDesc.png" alt=""><br>按描述，GetFile处理器从本地磁盘拉数据到NiFi，然后将本地文件删除。<br>点击【Add】按钮或者双击处理器，将处理器添加到画布上<br><img src="img/AddedProcessor.png" alt="">  </p><h4 id="2.3.6-配置处理器"><a name="2.3.6-配置处理器" href="#2.3.6-配置处理器"></a>2.3.6 配置处理器</h4><p>右键点击处理器选择【Configure】配置处理器。<br><img src="img/ProcessorMenu.png" alt=""><br>处理器的配置页面时多页签页面<br><img src="img/ConfigureProcessor.png" alt=""><br>对于处理器的配置重点关注【Properties】页签。在Properties页签内，是一个属性列表。每个处理器的属性列表都不相同。必填字段为粗体字，在必填属性未被设置的情况下，处理器无法运行<br><img src="img/ConfigureProcessorProperties.png" alt=""><br>在GetFile处理器最关键的属性就是获取文件的本地目录。设置【Input Directory】属性。如果设置该路径，<br><img src="img/SetInputDir.png" alt=""><br>当不知道该属性的用途时，可以将鼠标滑至【<img src="img/iconInfo.png" alt="">】图标，显示该属性的提示信息。提示信息中还包括默认值。有些属性支持表达式语言（Expression Language可以参考如下链接）在提示信息中显示。<br>【<a href="http://nifi.apache.org/docs/nifi-docs/html/getting-started.html#ExpressionLanguage">Expression Language / Using Attributes in Property Values</a>  】<br><img src="img/HintOfProperties.png" alt=""><br>点击【Apply】按钮提交，并关闭对话框  </p><h4 id="2.3.7-连接处理器"><a name="2.3.7-连接处理器" href="#2.3.7-连接处理器"></a>2.3.7 连接处理器</h4><p>每个处理器都有一系列被定义为【关系（Relationship）】的对象，这些对象用于发送数据。当一个处理器完成了自己流程文件（FlowFile）的加工后，它将结果传给其中的一个关系。关系使用户可以配置灵活处置处理后的结果。如，许多处理器定义了两个关系：成功/失败。用户就可以定义条正常路径处理正常处理后的结果以及一条异常处理由于某些原因不能处理的数据。或者，根据用例，可以将两个关系路由到相同的处理流程的路径上。<br>在完成GetFile处理器配置后，在处理器左上角有一个【<img src="img/iconAlert.png" alt="">】图标，表示该处理器仍然不可用。通过这个图标可以看到成功的关系并没定义，鼠标移动到【<img src="img/iconAlert.png" alt="">】图标可以看到提示信息。提示该警告信息意味着NiFi并不知道在处理器成功传输数据后应该相关的关系后续应该有哪些操作<br><img src="img/RelationshipNotDefine.png" alt=""><br>为将流程完整化，需要再追加一个处理器与GetFile处理器连接。与上面的步骤一样，只不过我们追加一个日志在已有的FlowFile上，所以追加一个LogAttributes处理器<br><img src="img/LogAttribute.png" alt=""><br>为连接GetFile与LogAttribute处理器，鼠标移动到GetFile处理器上时会出现一个【<img src="img/iconConnection.png" alt="">】图标，拉一条线从GetFile到LogAttribute将会弹出一个连接两个处理器的关系配置页面。NiFi自带的校验功能可以将不合理的线条拖拽控制住，比如从LogAttribute拉线到GetFile就不能成功<br><img src="img/RelationshipSetting.png" alt=""><br>打开【Setting】选项卡来配置连接的行为<br><img src="img/RelationshipSetting01.png" alt=""><br>可以为连接指定名称，如果不指定名称，连接名将会按照关系命名。还可以为数据指定时限，默认情况下是“0秒”，意味着数据将永不过期，但可以修改改属性值，当连接达到移动时间，NiFi将自动删除过期的文件<br>背压阀（backpressure threshold）在队列达到一定深度时，源处理器将不再运行。这种机制运行管理员处理一个处理器产生数据能力高于另一个处理器的消费数据能力的业务场景。引入了反压力配置，在导入数据的处理遇到反压机制时，将会停止导入新数据，在系统恢复消费能力时又可以重新开始导入数据<br>在对话框的右侧是排序器（Prioritizer），允许管理员指定数据在队列中的顺序。可以将【可用排序器】列表中的排序器拖拽到【已选择排序器】内按顺序激活排序器。如果在指定的排序器内指定多个排序器，第一个排序器先生效，按照第一个排序器判断两个FlowFile都满足，再按照第二个计算<br>完成关系设定后，点击【Add】完成关系设置<br>在完成关系的设置后，处理器就不是感叹号而变成【<img src="img/iconStop.png" alt="">】<br><img src="img/Flow.png" alt=""><br>此时LogAttribute处理器由于没有指定成功后的关系而变成不可用。此时需要声明当LogAttribute执行成功后，将自动终止，这样流程文件在处理结束后数据将丢弃。设置方法：在LogAttribute处理器的【设置】页签中，将Automatically Terminate Relationships下的success勾选框选中，则两个处理器都不再报警告了<br><img src="img/AutomaticTerminate.png" alt=""><br><img src="img/Flow02.png" alt="">  </p><h4 id="2.3.8-启动/停止处理器"><a name="2.3.8-启动/停止处理器" href="#2.3.8-启动/停止处理器"></a>2.3.8 启动/停止处理器</h4><p>右键点击流程上的每个处理器，点击【Start】菜单项。也可以用shift+鼠标左键选中每个处理器，然后再右键点击【Start】同时启动每个处理器<br>同样可以使用Operate面板上的启动停止按钮将处理器组内的处理器全部启动或停止<br><img src="img/OperatePalatte.png" alt=""><br>一旦处理器开始运行，状态图标就由停止变成运行状态。点击上下文菜单（右键点击处理器调出的菜单）【Stop】可以停止处理器<br>一旦处理器运行起来，就不能再配置处理器。右键点击正在运行的处理器只能查看正在运行的处理器的配置情况。如果想要修改处理器，需要停止处理并等待正在执行的流程执行完毕。处理器正在处理的任务应该会在右上角的In属性显示<br><img src="img/Queue.png" alt="">  </p><h4 id="2.3.9-获取处理器的更多信息"><a name="2.3.9-获取处理器的更多信息" href="#2.3.9-获取处理器的更多信息"></a>2.3.9 获取处理器的更多信息</h4><p>右键点击处理器，在上下文菜单中点击【View Usage】查看NiFi的处理器文档查看处理器的用途、关系属性以及与其他处理器的差别<br><img src="img/ViewUsage.png" alt=""><br><img src="img/UsageDoc.png" alt="">  </p><h4 id="2.3.10-其他组件"><a name="2.3.10-其他组件" href="#2.3.10-其他组件"></a>2.3.10 其他组件</h4><p>NiFi有大量数据处理组件，利用这些组件可以构建数据加工流程。这些组件包括输入输出端口、漏斗、处理组、远程处理组。这些组件的详细介绍在后续详细的手册中介绍  </p><h3 id="2.4-可用的处理器"><a name="2.4-可用的处理器" href="#2.4-可用的处理器"></a>2.4 可用的处理器</h3><p>为了创建有效的数据流，用户需要理解可用处理器的类型。Nifi包含众多开箱即用的处理器。这些处理器使不同系统间吸收数据、数据路由、数据转换、数据处理、数据切分、数据聚集、数据分发的能力。<br>NiFi每个版本发布时，都会有更多的处理器投入使用。因此，这里不介绍所有可用的处理器，只重点介绍最常用的处理器，并且根据他们的功能进行分类  </p><h4 id="2.4.1-数据转换"><a name="2.4.1-数据转换" href="#2.4.1-数据转换"></a>2.4.1 数据转换</h4><ol>
+<li>CompressContent：对上下文进行压缩与解压缩</li><li>ConvertCharacterSet：将上下文的字符集进行转换</li><li>EncryptContent：对上下文进行加密与解密</li><li>ReplaceText：通过正则表达式修改文本上下文</li><li>TransformXml：提交一个XSLT转换XML上下文</li><li>JoltTransformJSON：提交一个JOLT规则说明书转换JSON上下文</li></ol><h4 id="2.4.2-路由与调解"><a name="2.4.2-路由与调解" href="#2.4.2-路由与调解"></a>2.4.2 路由与调解</h4><ol>
+<li>ControlRate：</li></ol>
+
+<footer style="position:fixed; font-size:.8em; text-align:right; bottom:0px; margin-left:-25px; height:20px; width:100%;">generated by <a href="http://pad.haroopress.com" target="_blank">haroopad</a></footer>
+</body>
+</html>

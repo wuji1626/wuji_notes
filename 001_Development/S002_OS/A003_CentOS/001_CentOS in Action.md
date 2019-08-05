@@ -1,8 +1,8 @@
-#CentOS实操
-[TOC]
-##CentOS通用
-###1 查看操作系统版本
-cat /etc/redhat-release
+#CentOS实操  
+[TOC]  
+##CentOS通用  
+###1 查看操作系统版本  
+cat /etc/redhat-release  
 ![](img/version.png)  
 
 ##CentOS6.5
@@ -309,4 +309,50 @@ update user set authentication_string = password('root'), password_expired = 'N'
 执行SQL：`update user set host = '%' where user = 'root'`;  
 FLUSH PRIVILEGES; 回车使刚才的修改生效，再次远程连接数据库成功  
 
- 
+###4 firewalld
+####4.1 启停防火墙  
+systemctl start firewalld  
+systemctl stop firewalld
+systemctl restart firewalld  
+systemctl status firewalld  
+通过firewall-cmd工具查看：  
+firewall-cmd --state  
+
+####4.2 设置firewalld开机自启  
+systemctl enable firewalld  
+systemctl disable firewalld  
+systemctl is-enabled firewalld  
+
+####4.3 更新规则
+直接使用firewall-cmd修改的规则是不需要更新就可以直接生效的，但是如果加了--permanent参数，或者直接编辑xml文件之后就需要我们手动reload了，firewall-cmd提供了两个更新规则的参数：--reload和--complete-reload，前者只是更新需要更新规则，而且更新的过程中不会影响现有的连接，而后者在更新时会将所有的规则清除掉然后重建，而且为了安全考虑，在更新之前首先会将策略设置为DROP，等更新完成之后再恢复为ACCEPT，这样就会对现有连接造成影响，所以如果没有特殊需求我们应该尽量使用前者。具体命令如下：  
+firewall-cmd --reload  
+firewall-cmd --complete-reload  
+
+####4.4 开启端口  
+修改防火墙命令后，需要重新加载
+firewall-cmd --zone=public --add-port=80/tcp --permanent  
+--zone #作用域
+--add-port=80/tcp  #添加端口，格式为：端口/通讯协议
+--permanent   #永久生效，没有此参数重启后失效
+开启mysql的3306端口
+firewall-cmd --zone=public --add-port=3306/tcp --permanent
+
+
+###5 网络
+CentOS7 Wired Connection默认总是关闭，需要通过以下命令进行设置
+vi /etc/sysconfig/network-scripts/ifcfg-ens33
+需要将ONBOOT的值改为yes
+其中ifcfg-ens33由网卡名称决定
+
+###6 安装JDK
+1）解压JDK的gz包
+`tar -zxvf jdk-8u201-linux-x64.tar.gz`  
+2）修改环境变量
+`vi /etc/profile`  
+在最后输入如下内容：
+`JAVA_HOME=/usr/local/java/jdk1.8.0_201`  
+`PATH=$JAVA_HOME/bin:$PATH`  
+`CLASSPATH=$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/tools.jar`  
+`export PATH JAVA_HOME CLASSPATH`  
+3）执行source命令，将profile的修改生效。  
+`source /etc/profile`
