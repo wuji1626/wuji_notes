@@ -196,3 +196,16 @@ git pull
 git push origin master
 ~~~
 
+【注】如果在git pull、git clone出现RPC failed; curl 18 transfer closed with outstanding read data 
+原因1：缓存区溢出
+~~~
+gitconfig http.postBuffer 524288000
+~~~
+
+原因2：网络下载速度缓慢
+~~~
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 999999
+~~~
+
+
