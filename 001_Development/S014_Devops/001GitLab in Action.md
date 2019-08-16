@@ -3,7 +3,7 @@
 
 ##1 Ubuntu环境下Gitlab安装  
 
-###1.1 安装Gitlab   
+###1.1 安装Gitlab  
 
 **1)  安装并配置必要的依赖项**  
 升级Ubuntu依赖包：  
@@ -23,7 +23,7 @@ sudo apt-get install -y postfix
 
 在Postfix安装期间，可能会出现配置屏幕。选择“Internet Site”并按Enter键。使用服务器的外部DNS作为“邮件名称”，然后按Enter键。如果出现其他屏幕，请继续按Enter键接受默认值。  
 
-**2）添加GitLab软件包存储库并安装软件包**
+**2）添加GitLab软件包存储库并安装软件包**  
 添加GitLab包存储库:
 ~~~
 curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
@@ -77,7 +77,8 @@ unicorn['worker_timeout'] = 60
 sudo gitlab-ctl reconfigure
 ~~~
 
-##2 Gitlab使用
+##2 Gitlab使用  
+
 打开浏览器输入地址后，系统会默认以root登录，需要重置root用户密码。  
 ###2.1 管理员创建工程
 **1）以root用户身份创建分组（Group）**
