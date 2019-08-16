@@ -2,7 +2,9 @@
 [TOC]  
 
 ##1 Ubuntu环境下Gitlab安装  
+
 ###1.1 安装Gitlab   
+
 **1)  安装并配置必要的依赖项**  
 升级Ubuntu依赖包：  
 ~~~
