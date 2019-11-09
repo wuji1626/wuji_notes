@@ -1,10 +1,11 @@
-#Apache FTP Server实操
-1）下载Apache FTP Server
+# Apache FTP Server实操
+## 1 下载Apache FTP Server
 https://www.apache.org/dyn/closer.lua/mina/ftpserver/1.1.1/dist/apache-ftpserver-1.1.1.zip  
 
-2）FTP Server启动前提需要配置JAVA_HOME。  
+## 2 FTP Server启动前提需要配置JAVA_HOME  
+（略）
 
-3）建表初始化用户数据  
+## 3 建表初始化用户数据  
 在MySQL数据库中创建FTP_USER表。建表语句使用`res/ftp-db.sql`  
 ![](img/ftp_create_table.png)  
 创建测试用户：
@@ -13,7 +14,7 @@ INSERT INTO `ftpserver`.`ftp_user` (`userid`, `userpassword`, `homedirectory`, `
 INSERT INTO `ftpserver`.`ftp_user` (`userid`, `userpassword`, `homedirectory`, `enableflag`, `writepermission`, `idletime`, `uploadrate`, `downloadrate`, `maxloginnumber`, `maxloginperip`) VALUES ('henry', '123456', 'D:/data', '1', '0', '0', '0', '0', '0', '0');
 ~~~
 
-4）创建ftp配置文件
+## 4 创建ftp配置文件
 copy配置文件``
 注释默认的用户管理文件user.properties.
 ~~~xml
@@ -70,18 +71,18 @@ encrypt-passwords表示密码不需要加密。
 xmlns:beans="http://www.springframework.org/schema/beans"
 ~~~
 
-5）将相关jar拷贝到common/lib目录下  
+## 5 将相关jar拷贝到common/lib目录下  
 commons-dbcp-1.4.jar  
 commons-pool-1.6.jar  
 mysql-connector-java-5.1.27.jar  
 ![](img/jar.png)  
 
-6）启动  
+## 6 启动  
 执行：  
 `ftpd.bat res/conf/ftpd-mysql.xml`  
 ![](img/ftp_start.png)  
 
-7)登录验证  
+## 7 登录验证  
 由于普通用户的默认地址为D:/data  
 FTP客户端配置如下：  
 ![](img/ftp_config.png)  
